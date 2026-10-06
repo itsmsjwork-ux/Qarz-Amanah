@@ -161,7 +161,7 @@ let editId=null,currentDetailId=null;
 let session=null,authMode="login",cloudSyncing=false,lastLoadedUserId=null;
 const fmt=n=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:2}).format(Number(n)||0);
 const esc=s=>String(s??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[m]));
-const rid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2);
+const rid=()=> (crypto.randomUUID ? crypto.randomUUID() : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,c=>{const r=Math.random()*16|0,v=c==="x"?r:(r&3)|8;return v.toString(16)}));
 const isoToday=()=>new Date().toISOString().slice(0,10);
 const D=[
 ["Halal rizq aur qarz","اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ","Ya Allah, apne halal ke zariye mujhe apne haram se bacha, aur apne fazl se mujhe apne siwa sab se be-niyaz kar de.","Jami' at-Tirmidhi 3563","https://sunnah.com/tirmidhi:3563"],
@@ -226,7 +226,12 @@ async function loadCloud(user){
   data=cloud;localStorage.setItem(KEY,JSON.stringify(data));lastLoadedUserId=user.id;render();
 }
 async function syncAllToCloud(force=false){
-  if(!session||cloudSyncing)return;
+  if(cloudSyncing)return;
+  if(!session){
+    const {data:authData}=await supabaseClient.auth.getSession();
+    if(authData?.session) session=authData.session;
+  }
+  if(!session)return;
   cloudSyncing=true;
   try{
     const uid=session.user.id;
@@ -248,7 +253,11 @@ async function syncAllToCloud(force=false){
 async function handleSession(next){
   session=next;
   const screen=document.getElementById("authScreen");
-  if(!session){screen.classList.remove("hidden");document.getElementById("accountEmail").textContent="Not signed in";return}
+  if(!session){
+    screen.classList.remove("hidden");
+    document.getElementById("accountEmail").textContent="Not signed in";
+    return;
+  }
   screen.classList.add("hidden");
   document.getElementById("accountEmail").textContent=session.user.email||"Signed in";
   document.getElementById("avatar").textContent=(session.user.email||"QA").slice(0,2).toUpperCase();
@@ -266,7 +275,15 @@ function dueInfo(d){
  const days=Math.round((due-today)/86400000);
  return {state:days<0?"overdue":days===0?"today":"upcoming",days};
 }
-async function save(){localStorage.setItem(KEY,JSON.stringify(data));render();await syncAllToCloud()}
+async function save(){
+  localStorage.setItem(KEY,JSON.stringify(data));
+  render();
+  if(!session){
+    const {data:authData}=await supabaseClient.auth.getSession();
+    if(authData?.session) session=authData.session;
+  }
+  await syncAllToCloud();
+}
 function page(p){
  document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===p));
  document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.p===p));
