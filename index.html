@@ -158,7 +158,7 @@ const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHA
 const KEY="qarz_amanah_public_v2";
 let data=JSON.parse(localStorage.getItem(KEY)||"[]");
 let editId=null,currentDetailId=null;
-let session=null,authMode="login",cloudSyncing=false,lastLoadedUserId=null;
+let session=null,authMode="login",cloudSyncing=false,lastLoadedUserId=null,authBooted=false,userHasSignedIn=false,loggingOut=false;
 const fmt=n=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:2}).format(Number(n)||0);
 const esc=s=>String(s??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[m]));
 const rid=()=> (crypto.randomUUID ? crypto.randomUUID() : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,c=>{const r=Math.random()*16|0,v=c==="x"?r:(r&3)|8;return v.toString(16)}));
@@ -201,7 +201,7 @@ async function submitAuth(){
   }catch(e){authMessage(e.message||"Authentication failed.","error")}
   finally{btn.disabled=false;btn.textContent=authMode==="signup"?"Create Account":"Login to Qarz Amanah"}
 }
-async function logout(){await supabaseClient.auth.signOut()}
+async function logout(){loggingOut=true;await supabaseClient.auth.signOut()}
 async function ensureProfile(user){
   const displayName=user.user_metadata?.display_name||user.email?.split("@")[0]||"";
   await supabaseClient.from("profiles").upsert({user_id:user.id,display_name:displayName},{onConflict:"user_id"});
@@ -253,13 +253,16 @@ async function syncAllToCloud(force=false){
 async function handleSession(next){
   session=next;
   const screen=document.getElementById("authScreen");
-  if(next) screen.classList.add("hidden");
-  const screen=document.getElementById("authScreen");
   if(!session){
+    if(!authBooted && !loggingOut)return;
     screen.classList.remove("hidden");
     document.getElementById("accountEmail").textContent="Not signed in";
+    userHasSignedIn=false;
     return;
   }
+  authBooted=true;
+  userHasSignedIn=true;
+  loggingOut=false;
   screen.classList.add("hidden");
   document.getElementById("accountEmail").textContent=session.user.email||"Signed in";
   document.getElementById("avatar").textContent=(session.user.email||"QA").slice(0,2).toUpperCase();
@@ -267,8 +270,11 @@ async function handleSession(next){
   if(lastLoadedUserId!==session.user.id){try{await loadCloud(session.user)}catch(e){console.error(e);authMessage("Could not load cloud records. Your local data is still available.","error")}}
 }
 setAuthMode("login");
-supabaseClient.auth.getSession().then(({data})=>handleSession(data.session));
-supabaseClient.auth.onAuthStateChange((_event,next)=>setTimeout(()=>handleSession(next),0));
+(async()=>{const {data}=await supabaseClient.auth.getSession();authBooted=true;await handleSession(data.session)})();
+supabaseClient.auth.onAuthStateChange((event,next)=>{
+  if(!authBooted && event==="INITIAL_SESSION")return;
+  setTimeout(()=>handleSession(next),0);
+});
 function paid(d){return d.repayments.reduce((a,p)=>a+Number(p.amount||0),0)}
 function bal(d){return Math.max(0,Number(d.principal)-paid(d))}
 function dueInfo(d){
