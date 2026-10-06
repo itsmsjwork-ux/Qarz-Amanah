@@ -124,7 +124,7 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
       <div><label>Qarz date</label><input id="date" type="date" required></div>
       <div><label>Expected repayment date</label><input id="due" type="date"></div>
       <div class="full"><label>Notes</label><textarea id="note" placeholder="Optional note"></textarea></div>
-    </div></div><div class="modalFoot"><button type="button" class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn primary">Save Record</button></div></form>
+    </div></div><div class="modalFoot"><button type="button" class="btn ghost" onclick="closeModal()">Cancel</button><button type="button" class="btn primary" onclick="submitQarz()">Save Record</button></div></form>
   </div>
 </div>
 
@@ -154,7 +154,7 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
 const SUPABASE_URL="https://wocjtxliicyuuefouvka.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_CAciRzgWpbmGfkegaWgmSQ_njrEEYeo";
 const SITE_URL="https://itsmsjwork-ux.github.io/Qarz-Amanah/";
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const KEY="qarz_amanah_public_v2";
 let data=JSON.parse(localStorage.getItem(KEY)||"[]");
 let editId=null,currentDetailId=null;
@@ -252,6 +252,8 @@ async function syncAllToCloud(force=false){
 }
 async function handleSession(next){
   session=next;
+  const screen=document.getElementById("authScreen");
+  if(next) screen.classList.add("hidden");
   const screen=document.getElementById("authScreen");
   if(!session){
     screen.classList.remove("hidden");
@@ -361,13 +363,22 @@ function openModal(id=null){
  else{document.getElementById("modalTitle").textContent="New Qarz Record";date.value=isoToday()}
 }
 function closeModal(){document.getElementById("modal").classList.remove("show");editId=null}
-document.getElementById("form").addEventListener("submit",e=>{
- e.preventDefault();
- const obj={direction:direction.value,person:person.value.trim(),principal:Number(principal.value),date:date.value,due:due.value,note:note.value};
- if(editId){const d=data.find(x=>x.id===editId);Object.assign(d,obj)}
- else data.push({...obj,id:rid(),createdAt:Date.now(),repayments:[]});
- save();closeModal();if(currentDetailId)openDetail(currentDetailId);
-});
+async function submitQarz(){
+ const personName=document.getElementById("person").value.trim();
+ const amount=Number(document.getElementById("principal").value);
+ if(!personName)return alert("Please enter the person's name.");
+ if(!(amount>0))return alert("Please enter a valid principal amount.");
+ if(editId){
+   const d=data.find(x=>x.id===editId);
+   if(!d)return;
+   Object.assign(d,{direction:document.getElementById("direction").value,person:personName,principal:amount,date:document.getElementById("date").value,due:document.getElementById("due").value,note:document.getElementById("note").value});
+ }else{
+   data.push({id:rid(),createdAt:Date.now(),direction:document.getElementById("direction").value,person:personName,principal:amount,date:document.getElementById("date").value||isoToday(),due:document.getElementById("due").value,note:document.getElementById("note").value,repayments:[]});
+ }
+ closeModal();render();localStorage.setItem(KEY,JSON.stringify(data));
+ await syncAllToCloud();
+}
+document.getElementById("form").addEventListener("submit",e=>e.preventDefault());
 function quickPayment(id){
  const d=data.find(x=>x.id===id);if(!d)return;const remaining=bal(d);
  const value=prompt("Remaining: "+fmt(remaining)+"\nEnter repayment amount:");
