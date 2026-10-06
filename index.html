@@ -3,236 +3,231 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#091b38">
+<meta name="theme-color" content="#08182e">
 <title>Qarz Amanah — Trust • Record • Return</title>
 <style>
 :root{
-  --bg:#06142d;--panel:#0d2144cc;--panel2:#102b55aa;--line:#ffffff22;--text:#f8fbff;--muted:#b6c6e5;
-  --blue:#5d8cff;--blue2:#84a7ff;--green:#19d79b;--red:#ff7080;--gold:#e8b85a;--shadow:0 24px 70px #0007;
+  --bg:#071326;--panel:#0d2340;--panel2:#102b4c;--glass:rgba(20,46,78,.68);--line:rgba(206,226,255,.16);
+  --text:#f4f7ff;--muted:#a9bad2;--blue:#5e8cff;--blue2:#8caeff;--green:#21d29a;--gold:#efbc58;--pink:#ff7891;
+  --shadow:0 24px 70px rgba(0,0,0,.35);--radius:22px
 }
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);background:var(--bg)}
-body{overflow:hidden}.app{display:flex;min-height:100vh;position:relative;background:
-radial-gradient(circle at 70% 12%,#274d94 0,transparent 26%),
-radial-gradient(circle at 90% 88%,#51323b 0,transparent 24%),
-linear-gradient(125deg,#06142d 0%,#0a2047 48%,#081730 100%)}
-svg.scene{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.95}
-.sceneShade{position:fixed;inset:0;background:linear-gradient(90deg,#04112aee 0,#061735b8 34%,#06152d55 70%,#07142ddd 100%);z-index:1;pointer-events:none}
-.side{width:355px;min-width:355px;padding:28px 22px 24px;position:relative;z-index:3;border-right:1px solid var(--line);background:linear-gradient(180deg,#07152ed9,#07152eb8);backdrop-filter:blur(22px);box-shadow:22px 0 70px #0003}
-.brand{display:flex;align-items:center;gap:14px;padding:0 10px 30px}.logo{width:72px;height:72px;border:1px solid #ffffff30;border-radius:50%;display:grid;place-items:center;background:#102c59a8;box-shadow:0 10px 35px #0004}.logo svg{width:42px;height:42px}.brand b{font-family:Georgia,serif;font-size:27px;letter-spacing:.2px}.brand small{display:block;margin-top:4px;color:#cad9f5;font-size:15px}
-.nav{display:grid;gap:7px}.nav button{border:1px solid transparent;background:transparent;color:#dce7ff;text-align:left;padding:15px 18px;border-radius:15px;font-size:16px;cursor:pointer;display:flex;align-items:center;gap:15px;transition:.2s}.nav button:hover{background:#ffffff10;border-color:#ffffff10}.nav button.active{background:linear-gradient(90deg,#557eff,#3555bd);box-shadow:0 13px 30px #2746a855;color:#fff}.ico{width:24px;font-size:20px;text-align:center;opacity:.95}
-.label{margin:15px 10px 9px;color:#aec1e7a8;font-size:10px;letter-spacing:1.8px;text-transform:uppercase}
-.quote{position:absolute;left:22px;right:22px;bottom:25px;padding:22px 18px;border:1px solid #ffffff16;border-radius:20px;background:linear-gradient(135deg,#0a254fc7,#081a37b8);backdrop-filter:blur(14px)}.quote .arabic{font-size:19px;line-height:2;text-align:center}.quote p{margin:12px 0 5px;text-align:center;color:#fff;line-height:1.7;font-size:13px}.quote small{display:block;text-align:center;color:#b8c7e5}
-.main{flex:1;min-width:0;position:relative;z-index:3}.top{height:96px;display:flex;align-items:center;gap:22px;padding:0 34px;border-bottom:1px solid var(--line);background:#0717338e;backdrop-filter:blur(18px)}.search{flex:1;max-width:700px;height:58px;border:1px solid #ffffff23;border-radius:18px;background:#1537659c;color:#fff;padding:0 20px;font-size:16px;outline:none}.search::placeholder{color:#adc0e1}.topActions{margin-left:auto;display:flex;gap:12px;align-items:center}.iconBtn,.avatar,.primary{border:1px solid #ffffff1f;color:#fff;border-radius:17px;background:#173665b0;cursor:pointer}.iconBtn{width:58px;height:58px;font-size:24px}.avatar{height:58px;padding:0 15px;display:flex;align-items:center;gap:10px}.avatarCircle{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#ced9ff;color:#26377a;font-weight:900}.primary{height:58px;padding:0 22px;background:linear-gradient(135deg,#6a79ff,#5271ff);box-shadow:0 14px 30px #4d67ff55;font-size:15px;font-weight:800}
-.content{height:calc(100vh - 96px);overflow:auto;padding:28px 34px 34px}.page{display:none}.page.active{display:block}.welcome{text-align:center;margin:4px 0 23px}.welcome h1{font-family:Georgia,serif;font-size:49px;line-height:1.05;margin:0 0 10px}.welcome p{margin:0;color:#e4ebfb;font-size:18px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.stat{min-height:132px;border-radius:20px;border:1px solid #ffffff24;background:linear-gradient(145deg,#0d2a52b8,#11264a8e);box-shadow:var(--shadow);backdrop-filter:blur(18px);padding:22px;display:flex;gap:16px;align-items:center}.statIcon{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;font-size:27px}.green{background:#16d39c2d;border:1px solid #25e2ad56}.blue{background:#5086ff2e;border:1px solid #7aa0ff65}.gold{background:#e8b85a2b;border:1px solid #f0ca7a58}.red{background:#ff6e7e29;border:1px solid #ff93a15b}.stat small{display:block;color:#d0ddf5;font-size:13px}.stat strong{display:block;font-size:28px;margin-top:6px}.stat span{display:block;margin-top:7px;color:#b7c8e6;font-size:12px}
-.card{margin-top:18px;border:1px solid #ffffff24;border-radius:21px;background:linear-gradient(145deg,#102a55b8,#0b2144a8);backdrop-filter:blur(18px);box-shadow:var(--shadow);overflow:hidden}.cardHead{padding:18px 20px;border-bottom:1px solid #ffffff18;display:flex;align-items:center;justify-content:space-between}.cardHead h3{margin:0;font-size:19px}.linkBtn{border:0;background:transparent;color:#8fb7ff;cursor:pointer;font-weight:800}.tableWrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th{font-size:11px;color:#b6c6e5;text-transform:uppercase;letter-spacing:.8px;text-align:left;background:#16325ca8;padding:12px 14px}.table td{padding:13px 14px;border-top:1px solid #ffffff0d;font-size:13px;color:#eef4ff}.person{display:flex;align-items:center;gap:10px}.personAvatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#4c85ff,#7597ff);font-weight:800}.tag{display:inline-flex;align-items:center;gap:6px;border-radius:10px;padding:6px 10px;font-size:11px;font-weight:900}.tag.receive{background:#1bd59b30;color:#5bf0bf;border:1px solid #2ee5b16b}.tag.return{background:#ff6d7d28;color:#ff9aa5;border:1px solid #ff80906b}.status{background:#e4a73d30;color:#ffd07a;border:1px solid #e4aa4c66}.status.partial{background:#3e88ff38;color:#8fb7ff}.status.done{background:#1bd59b30;color:#65f2c2}
-.bottomGrid{display:grid;grid-template-columns:1.05fr 1.05fr .9fr;gap:16px}.subcard{padding:18px;border-top:1px solid #ffffff10}.rem{display:flex;gap:12px;align-items:center;padding:11px 0}.dateBox{width:48px;text-align:center;border-radius:12px;padding:7px;background:#173a70}.dateBox b{font-size:18px}.dateBox small{display:block;color:#b8c8e8}.remText{flex:1}.remText b{display:block;font-size:13px}.remText small{color:#b4c6e7}.timeTag{font-size:11px;padding:6px 9px;border-radius:10px;background:#7a4a7c4b;color:#ffadf1;border:1px solid #d47ec766}.peopleRow{display:flex;align-items:center;gap:10px;padding:9px 0}.peopleRow .grow{flex:1}.peopleRow strong{font-size:13px}.quickGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick{min-height:78px;border:1px solid #ffffff20;border-radius:15px;background:#16345fa0;color:#fff;text-align:left;padding:13px;cursor:pointer}.quick b{display:block}.quick span{display:block;color:#b7c7e5;font-size:10px;margin-top:4px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.panel{padding:22px}.panel h2{font-size:23px;margin:0 0 8px}.muted{color:#afc1e2;font-size:13px;line-height:1.7}.btn{border:0;border-radius:12px;padding:11px 14px;font-weight:900;cursor:pointer}.btnBlue{background:linear-gradient(135deg,#6381ff,#4f71ff);color:#fff}.btnSoft{background:#183963;color:#dce8ff}.form{display:grid;grid-template-columns:1fr 1fr;gap:0 13px}.full{grid-column:1/-1}label{display:block;margin:11px 0 5px;font-size:11px;color:#cbd8f2;font-weight:800}input,select,textarea{width:100%;padding:12px;border-radius:11px;border:1px solid #ffffff20;background:#0a1d3bcf;color:#fff;outline:none}textarea{min-height:90px;resize:vertical}.modal{position:fixed;inset:0;z-index:20;background:#020a18aa;backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.modalBox{width:min(650px,100%);border:1px solid #ffffff25;border-radius:22px;background:#0c2144f2;box-shadow:0 30px 100px #0008;overflow:hidden}.modalHead,.modalFoot{padding:17px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff18}.modalFoot{border-top:1px solid #ffffff18;border-bottom:0;justify-content:flex-end;gap:8px}.modalBody{padding:20px}.x{background:#ffffff12;color:#fff;border:1px solid #ffffff18;border-radius:10px;padding:7px 10px;cursor:pointer}
-.dua{padding:21px;border:1px solid #ffffff20;border-radius:18px;background:linear-gradient(145deg,#0d2a52c9,#10285bc0)}.dua h3{margin:5px 0 13px;font-size:18px}.dua .arabic{font-size:22px;line-height:2;text-align:right}.dua .meaning{color:#c7d6ee;line-height:1.75;font-size:12px;margin-top:9px}.dua .source{color:#9bb0d6;font-size:11px;margin-top:10px}.dua a{color:#9abcff}
-.toast{position:fixed;right:24px;bottom:24px;z-index:30;background:#102b55;color:#fff;border:1px solid #ffffff20;border-radius:13px;padding:13px 16px;display:none}
-@media(max-width:1200px){.side{width:280px;min-width:280px}.stats{grid-template-columns:repeat(2,1fr)}.bottomGrid{grid-template-columns:1fr 1fr}.quote{position:static;margin-top:20px}.side{overflow:auto}.content{overflow:auto}}
-@media(max-width:800px){body{overflow:auto}.app{min-width:980px}}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:#071326;color:var(--text)}
+body{overflow-x:auto}
+.bg{position:fixed;inset:0;z-index:-3;background:
+radial-gradient(circle at 18% 18%,rgba(54,128,255,.28),transparent 28%),
+radial-gradient(circle at 85% 14%,rgba(240,180,84,.22),transparent 25%),
+radial-gradient(circle at 72% 85%,rgba(36,204,159,.15),transparent 28%),
+linear-gradient(135deg,#071326 0%,#0a1d35 50%,#081326 100%)}
+.sky{position:fixed;inset:0;z-index:-2;opacity:.8;background:
+linear-gradient(90deg,transparent 0 7%,rgba(255,195,98,.08) 7% 7.4%,transparent 7.4% 13%,
+rgba(255,195,98,.08) 13% 13.5%,transparent 13.5% 100%),
+radial-gradient(ellipse at 74% 27%,rgba(255,219,151,.34) 0 5%,transparent 5.3%),
+linear-gradient(to top,rgba(5,15,28,.85),transparent 42%)}
+.mosque{position:fixed;left:255px;right:0;bottom:-2px;height:28%;z-index:-1;opacity:.33;filter:blur(.15px);
+background:
+radial-gradient(ellipse at 26% 80%,rgba(80,105,140,.22),transparent 12%),
+radial-gradient(ellipse at 48% 83%,rgba(80,105,140,.22),transparent 11%),
+radial-gradient(ellipse at 70% 78%,rgba(80,105,140,.24),transparent 12%),
+linear-gradient(to top,rgba(255,255,255,.05),transparent 55%)}
+.moon{position:fixed;right:18%;top:7%;width:76px;height:76px;border-radius:50%;z-index:-1;box-shadow:0 0 40px rgba(255,231,180,.25);
+background:radial-gradient(circle at 37% 35%,#fff6de 0 52%,#d8c79d 56% 100%)}
+.moon:after{content:"";position:absolute;width:66px;height:66px;border-radius:50%;background:#0d2340;left:18px;top:-7px}
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;padding:24px 20px;background:linear-gradient(180deg,rgba(5,17,33,.86),rgba(4,19,33,.72));border-right:1px solid var(--line);backdrop-filter:blur(20px)}
+.brand{display:flex;align-items:center;gap:12px;padding:5px 8px 28px}
+.logo{width:52px;height:52px;border:1px solid rgba(255,255,255,.25);border-radius:18px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.03));font-size:26px;box-shadow:inset 0 0 20px rgba(255,255,255,.04)}
+.brand b{font-family:Georgia,serif;font-size:24px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.nav{display:grid;gap:7px}.nav button{appearance:none;border:0;color:#dbe7f7;background:transparent;padding:12px 14px;border-radius:14px;text-align:left;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:12px}
+.nav button:hover{background:rgba(255,255,255,.06)}.nav button.active{background:linear-gradient(135deg,rgba(80,114,255,.88),rgba(90,71,205,.78));box-shadow:0 12px 30px rgba(80,98,240,.24)}
+.nav button span.ico{width:20px;text-align:center;font-size:17px}.label{color:#7f93ad;font-size:10px;text-transform:uppercase;letter-spacing:1.3px;margin:22px 10px 9px}
+.sideNote{position:absolute;left:20px;right:20px;bottom:20px;padding:15px 15px 14px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.035)}
+.sideNote .arab{font-family:Georgia,serif;text-align:right;line-height:1.9;font-size:19px}.sideNote p{color:#d2deed;font-family:Georgia,serif;font-size:12px;line-height:1.65;text-align:center;margin:7px 0 4px}.sideNote small{display:block;color:#7f93ad;text-align:center}
+.main{min-width:950px}
+.top{height:84px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid var(--line);background:rgba(7,19,38,.48);backdrop-filter:blur(18px);position:sticky;top:0;z-index:4}
+.crumb{font-size:11px;color:#9eb0c8}.top h1{margin:3px 0 0;font-size:22px}
+.topRight{display:flex;align-items:center;gap:10px}.search{width:min(370px,35vw);background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:14px;padding:11px 14px;color:#fff;outline:none}.search::placeholder{color:#8599b4}
+.btn{border:1px solid transparent;border-radius:13px;padding:10px 14px;font-weight:800;cursor:pointer;color:#fff}.primary{background:linear-gradient(135deg,#617cff,#7c5de9);box-shadow:0 10px 24px rgba(100,94,235,.25)}.ghost{background:rgba(255,255,255,.07);border-color:var(--line)}.gold{background:rgba(239,188,88,.14);border-color:rgba(239,188,88,.32);color:#ffd980}.soft{background:rgba(33,210,154,.11);border-color:rgba(33,210,154,.25);color:#75efc1}.danger{background:rgba(255,120,145,.11);border-color:rgba(255,120,145,.25);color:#ff9daf}
+.avatar{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.07);display:grid;place-items:center;font-weight:900;color:#dce7ff}
+.content{padding:28px 34px 40px}.page{display:none}.page.active{display:block}
+.hero{border:1px solid rgba(255,255,255,.18);border-radius:26px;padding:30px 32px;background:
+radial-gradient(circle at 82% 30%,rgba(255,203,103,.18),transparent 20%),
+linear-gradient(135deg,rgba(18,48,83,.80),rgba(31,63,111,.55));box-shadow:var(--shadow);backdrop-filter:blur(16px);position:relative;overflow:hidden}
+.hero:after{content:"☾";position:absolute;right:50px;top:-12px;font-size:120px;opacity:.06;font-family:Georgia,serif}
+.kicker{font-size:10px;letter-spacing:1.8px;color:#a7bad3}.hero h2{font-family:Georgia,serif;font-size:40px;margin:10px 0 8px;letter-spacing:-.5px}.hero p{max-width:700px;color:#c5d3e5;font-size:14px;line-height:1.7;margin:0}.heroRow{display:flex;justify-content:space-between;gap:30px;align-items:flex-end}.heroTotal{text-align:right}.heroTotal small{display:block;color:#a9bad2;font-size:11px}.heroTotal strong{font-size:40px;line-height:1.1}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}.stat{padding:20px;border:1px solid var(--line);border-radius:20px;background:var(--glass);backdrop-filter:blur(16px);box-shadow:0 12px 30px rgba(0,0,0,.16)}.stat .labelx{color:#afc0d6;font-size:11px}.stat strong{display:block;font-size:25px;margin-top:8px}.stat small{color:#7f93ad}
+.grid2{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;margin-top:18px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:18px}
+.card{border:1px solid var(--line);border-radius:20px;background:rgba(13,31,55,.74);box-shadow:var(--shadow);backdrop-filter:blur(18px);overflow:hidden}.head{padding:17px 19px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.head b{font-size:15px}.head small{display:block;color:#8da1bb;margin-top:4px;font-size:10px}.body{padding:17px 19px}
+table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-align:left;font-weight:800;padding:0 7px 10px;text-transform:uppercase}td{border-top:1px solid rgba(255,255,255,.07);padding:12px 7px;color:#dce7f5;font-size:12px}.muted{color:#8297b2;font-size:10px;margin-top:2px}
+.tag{display:inline-block;padding:5px 9px;border-radius:999px;font-size:9px;font-weight:900}.tag.green{background:rgba(33,210,154,.13);color:#65edb9}.tag.blue{background:rgba(94,140,255,.14);color:#a9c2ff}.tag.gold{background:rgba(239,188,88,.15);color:#ffdc8d}.tag.pink{background:rgba(255,120,145,.13);color:#ffb0bd}
+.actions{display:flex;gap:5px}.mini{padding:7px 9px;border-radius:10px;font-size:9px;font-weight:900;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#d7e6fb;cursor:pointer}
+.dua{padding:22px;border:1px solid rgba(255,255,255,.15);border-radius:18px;background:linear-gradient(145deg,rgba(17,63,63,.72),rgba(24,42,78,.72));box-shadow:inset 0 0 40px rgba(255,255,255,.02)}.dua h3{font-family:Georgia,serif;margin:5px 0 12px}.arabic{font-family:Georgia,serif;font-size:24px;line-height:2;text-align:right;color:#fff}.meaning{color:#c7d5e6;font-family:Georgia,serif;font-size:12px;line-height:1.7}.source{color:#8094ae;font-size:10px;margin-top:11px}.duaActions{display:flex;gap:7px;margin-top:12px}
+.reminder{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0;border-top:1px solid rgba(255,255,255,.07)}.reminder:first-child{border-top:0;padding-top:0}.datebox{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.08);display:grid;place-items:center;text-align:center}.datebox b{font-size:17px}.datebox small{font-size:9px;color:#9eb1c8}.people{display:grid;gap:6px}.person{display:flex;align-items:center;gap:9px;padding:9px;border-radius:13px;background:rgba(255,255,255,.035)}.person .pavatar{width:30px;height:30px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,#4074c9,#8062dd);font-size:11px;font-weight:900}.person .grow{flex:1}.person .grow b{display:block;font-size:12px}.person .grow small{color:#8499b4}.quick{display:grid;grid-template-columns:1fr 1fr;gap:9px}.quick button{min-height:76px;text-align:left}.empty{text-align:center;color:#8297b2;padding:28px}
+.toolbar{display:flex;gap:9px;align-items:center}.toolbar input,.toolbar select{background:rgba(255,255,255,.06);border:1px solid var(--line);color:#eaf1fb;border-radius:12px;padding:9px 11px;outline:none}.toolbar select option{background:#10243d}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:15px}.full{grid-column:1/-1}label{display:block;font-size:10px;color:#9ab0c9;font-weight:800;margin:0 0 6px}input,select,textarea{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#f7fbff;outline:none}textarea{min-height:90px;resize:vertical}.modal{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(1,7,17,.74);backdrop-filter:blur(8px);padding:20px}.modal.show{display:flex}.modalBox{width:min(640px,100%);border:1px solid var(--line);border-radius:22px;background:#0e223d;box-shadow:var(--shadow);overflow:hidden}.modalHead,.modalFoot{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.modalFoot{border-bottom:0;border-top:1px solid var(--line);justify-content:flex-end;gap:8px}.modalBody{padding:20px}
+.noteGood{color:#79edc5;font-size:11px}.quote{font-family:Georgia,serif;font-size:22px;line-height:1.6}.aboutGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.feature{padding:24px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.035)}.feature h3{margin:0 0 8px;font-family:Georgia,serif}.feature p{color:#a8bad0;line-height:1.7;font-size:12px}
+@media(max-width:1050px){.app{grid-template-columns:245px 1fr}.side{padding:20px 14px}.main{min-width:900px}.top{padding:0 24px}.content{padding:24px}.stats{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.hero h2{font-size:32px}}
 </style>
 </head>
 <body>
-<svg class="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-  <defs>
-    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#071a3b"/><stop offset=".55" stop-color="#153a71"/><stop offset="1" stop-color="#4a3040"/></linearGradient>
-    <linearGradient id="city" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a2249"/><stop offset="1" stop-color="#030b19"/></linearGradient>
-    <filter id="blur"><feGaussianBlur stdDeviation="10"/></filter>
-  </defs>
-  <rect width="1600" height="900" fill="url(#sky)"/>
-  <circle cx="1210" cy="120" r="38" fill="#ffe7a5" opacity=".95"/>
-  <circle cx="1230" cy="106" r="38" fill="#10254b"/>
-  <g fill="#ffb34d" opacity=".68" filter="url(#blur)">
-    <circle cx="135" cy="200" r="18"/><circle cx="270" cy="260" r="18"/><circle cx="1490" cy="290" r="19"/><circle cx="110" cy="600" r="16"/>
-  </g>
-  <g fill="#091d3c" opacity=".98">
-    <rect x="0" y="590" width="1600" height="310"/>
-    <rect x="370" y="470" width="80" height="430"/><rect x="1160" y="455" width="82" height="445"/>
-    <rect x="520" y="520" width="74" height="380"/><rect x="1010" y="520" width="74" height="380"/>
-    <rect x="690" y="535" width="55" height="365"/><rect x="855" y="535" width="55" height="365"/>
-    <path d="M650 900V555 Q800 335 950 555V900Z"/>
-    <path d="M485 900V635 Q557 520 629 635V900Z"/>
-    <path d="M970 900V620 Q1047 500 1124 620V900Z"/>
-  </g>
-  <g fill="#17385f"><rect x="333" y="425" width="154" height="45" rx="10"/><rect x="1140" y="405" width="165" height="50" rx="10"/></g>
-  <g fill="#06142d">
-    <rect x="413" y="345" width="15" height="125"/><path d="M401 345h39l-19-34z"/><rect x="1204" y="330" width="16" height="130"/><path d="M1191 330h42l-21-35z"/>
-  </g>
-  <g stroke="#fff" stroke-width="2" opacity=".17"><path d="M0 620H1600"/><path d="M0 665H1600"/><path d="M0 710H1600"/></g>
-</svg>
-<div class="sceneShade"></div>
-
+<div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
 <div class="app">
 <aside class="side">
-  <div class="brand">
-    <div class="logo"><svg viewBox="0 0 64 64" fill="none"><path d="M18 50V32L32 18l14 14v18" stroke="#ffd05a" stroke-width="4" stroke-linejoin="round"/><path d="M25 50V37h14v13" stroke="#ffd05a" stroke-width="4"/><path d="M12 29h40" stroke="#ffd05a" stroke-width="3"/><path d="M32 8v9" stroke="#fff" stroke-width="3"/><path d="M28 12h8" stroke="#fff" stroke-width="3"/></svg></div>
-    <div><b>Qarz Amanah</b><small>Trust • Record • Return</small></div>
-  </div>
-
+  <div class="brand"><div class="logo">🕌</div><div><b>Qarz Amanah</b><small>Trust • Record • Return</small></div></div>
   <div class="label">Workspace</div>
   <nav class="nav">
     <button class="active" data-p="dashboard" onclick="page('dashboard')"><span class="ico">⌂</span>Dashboard</button>
-    <button data-p="records" onclick="page('records')"><span class="ico">⊕</span>Add / Manage Qarz</button>
-    <button data-p="reminders" onclick="page('reminders')"><span class="ico">◷</span>Reminders</button>
-    <button data-p="people" onclick="page('people')"><span class="ico">♙</span>People</button>
-  </nav>
-  <div class="label">Insights & Tools</div>
-  <nav class="nav">
-    <button data-p="reports" onclick="page('reports')"><span class="ico">▥</span>Reports</button>
+    <button data-p="records" onclick="page('records')"><span class="ico">⊞</span>Qarz Records</button>
     <button data-p="duas" onclick="page('duas')"><span class="ico">☾</span>Duā Library</button>
-    <button data-p="backup" onclick="page('backup')"><span class="ico">↕</span>Backup & Restore</button>
+  </nav>
+  <div class="label">Tools</div>
+  <nav class="nav">
+    <button data-p="backup" onclick="page('backup')"><span class="ico">⇅</span>Backup & Restore</button>
     <button data-p="about" onclick="page('about')"><span class="ico">ⓘ</span>About</button>
   </nav>
-
-  <div class="quote">
-    <div class="arabic">إِنَّ اللَّهَ يَأْمُرُكُمْ أَنْ تُؤَدُّوا الْأَمَانَاتِ إِلَى أَهْلِهَا</div>
-    <p>"Indeed, Allah commands you to return trusts to their rightful owners."</p>
-    <small>(Qur'an 4:58)</small>
-  </div>
+  <div class="sideNote"><div class="arab">إِنَّ اللَّهَ يَأْمُرُكُمْ أَنْ تُؤَدُّوا الْأَمَانَاتِ إِلَى أَهْلِهَا</div><p>“Indeed, Allah commands you to return trusts to their rightful owners.”</p><small>Qur'an 4:58</small></div>
 </aside>
 
 <section class="main">
-  <header class="top">
-    <input id="globalSearch" class="search" placeholder="Search by name, note, or date..." oninput="globalFilter()">
-    <div class="topActions">
-      <button class="iconBtn" title="Dark mode">☾</button>
-      <button class="primary" onclick="openModal()">＋ Add Record</button>
-      <div class="avatar"><span class="avatarCircle">QA</span><span>Guest</span>⌄</div>
-    </div>
-  </header>
+<header class="top">
+  <div><div class="crumb">Qarz Amanah / <span id="crumb">Dashboard</span></div><h1 id="title">Dashboard</h1></div>
+  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><button class="btn ghost" title="Night mode">☾</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="avatar">QA</div></div>
+</header>
 
-  <main class="content">
-    <section id="dashboard" class="page active">
-      <div class="welcome"><h1>Assalamu Alaikum 👋</h1><p>Keep track of your loans and return every amanah on time.</p></div>
-
-      <div class="stats">
-        <div class="stat"><div class="statIcon green">↧</div><div><small>I Will Receive</small><strong id="recv">₹0</strong><span id="recvPeople">0 people</span></div></div>
-        <div class="stat"><div class="statIcon blue">↥</div><div><small>I Will Return</small><strong id="owed">₹0</strong><span id="owedPeople">0 people</span></div></div>
-        <div class="stat"><div class="statIcon gold">▤</div><div><small>Total Records</small><strong id="total">0</strong><span>Transactions</span></div></div>
-        <div class="stat"><div class="statIcon red">◷</div><div><small>Pending</small><strong id="pending">0</strong><span>To be settled</span></div></div>
-      </div>
-
-      <div class="card">
-        <div class="cardHead"><h3>Recent Records</h3><button class="linkBtn" onclick="page('records')">View All →</button></div>
-        <div class="tableWrap"><div id="recentTable"></div></div>
-      </div>
-
-      <div class="bottomGrid">
-        <div class="card">
-          <div class="cardHead"><h3>Upcoming Reminders</h3><button class="linkBtn" onclick="page('reminders')">View All →</button></div>
-          <div class="subcard" id="reminderList"></div>
-        </div>
-        <div class="card">
-          <div class="cardHead"><h3>People Summary</h3><button class="linkBtn" onclick="page('people')">View All →</button></div>
-          <div class="subcard" id="peopleList"></div>
-        </div>
-        <div class="card">
-          <div class="cardHead"><h3>Quick Actions</h3></div>
-          <div class="subcard quickGrid">
-            <button class="quick" onclick="openModal()"><b>⊕ Add Record</b><span>Add new qarz record</span></button>
-            <button class="quick" onclick="page('records')"><b>→ View Borrowed</b><span>Mujhe dena hai</span></button>
-            <button class="quick" onclick="page('records')"><b>← View Lent</b><span>Maine dena hai</span></button>
-            <button class="quick" onclick="page('reports')"><b>▥ Generate Report</b><span>See your summary</span></button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="records" class="page">
-      <div class="card">
-        <div class="cardHead">
-          <div><h3>Qarz Records</h3><div class="muted">Principal, repayments and remaining balance</div></div>
-          <div style="display:flex;gap:8px"><input id="recordSearch" placeholder="Search..." oninput="renderRecords()"><select id="recordFilter" onchange="renderRecords()"><option value="all">All</option><option value="recv">I will receive</option><option value="owed">I will return</option><option value="open">Pending</option><option value="done">Completed</option></select></div>
-        </div>
-        <div class="tableWrap"><div id="recordTable"></div></div>
-      </div>
-    </section>
-
-    <section id="reminders" class="page"><div class="card"><div class="cardHead"><h3>Upcoming Reminders</h3></div><div class="subcard" id="allReminders"></div></div></section>
-    <section id="people" class="page"><div class="card"><div class="cardHead"><h3>People</h3></div><div class="subcard" id="allPeople"></div></div></section>
-    <section id="reports" class="page"><div class="grid2"><div class="card panel"><h2>Balance Overview</h2><p class="muted">This report shows only principal and repayment balances. No interest, APR or late-interest calculations are included.</p><div style="margin-top:18px" id="reportText"></div></div><div class="card panel"><h2>Simple Summary</h2><div id="reportStats"></div></div></div></section>
-    <section id="duas" class="page"><div class="card"><div class="cardHead"><div><h3>Duā Library</h3><div class="muted">Arabic • Roman Urdu • meaning • reference</div></div></div><div class="subcard grid2" id="duaGrid"></div></div></section>
-    <section id="backup" class="page"><div class="grid2"><div class="card panel"><h2>Backup</h2><p class="muted">Export your local records to a JSON file and keep it somewhere safe.</p><button class="btn btnBlue" onclick="backup()">↓ Create Backup</button></div><div class="card panel"><h2>Restore</h2><p class="muted">Import a Qarz Amanah backup file on this device.</p><button class="btn btnSoft" onclick="fileInput.click()">↑ Restore Backup</button><input id="fileInput" type="file" accept="application/json" hidden onchange="restore(event)"></div></div></section>
-    <section id="about" class="page"><div class="grid2"><div class="card panel"><h2>Qarz Amanah</h2><p class="muted">A public, desktop-first qarz bookkeeping workspace for individuals, families, communities and small businesses.</p></div><div class="card panel"><h2>Deeni scope</h2><p class="muted">The app records principal and repayments and intentionally avoids riba/interest calculations. Religious wording and references should be reviewed by a qualified scholar before final public release.</p></div></div></section>
-  </main>
+<main class="content">
+<section id="dashboard" class="page active">
+  <div class="hero"><div class="heroRow"><div><div class="kicker">QARZ MANAGEMENT FOR EVERYONE</div><h2>Assalamu Alaikum 👋</h2><p>Keep track of your loans and return every amanah on time. Principal and repayments only — no interest, APR, late-interest or compounding.</p></div><div class="heroTotal"><small>Total Outstanding</small><strong id="hero">₹0</strong></div></div></div>
+  <div class="stats">
+    <div class="stat"><div class="labelx">I Will Receive</div><strong id="recv">₹0</strong><small id="recvPeople">0 people</small></div>
+    <div class="stat"><div class="labelx">I Will Return</div><strong id="owed">₹0</strong><small id="owedPeople">0 people</small></div>
+    <div class="stat"><div class="labelx">Total Records</div><strong id="totalRec">0</strong><small>Transactions</small></div>
+    <div class="stat"><div class="labelx">Pending</div><strong id="active">0</strong><small>To be settled</small></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><div class="head"><div><b>Recent Records</b><small>Latest qarz activity</small></div><button class="btn ghost" onclick="page('records')">View All →</button></div><div class="body" id="recent"></div></div>
+    <div class="card"><div class="head"><div><b>Featured Duā</b><small>Daily reminder</small></div><button class="btn ghost" onclick="page('duas')">Library →</button></div><div class="body" id="featured"></div></div>
+  </div>
+  <div class="grid3">
+    <div class="card"><div class="head"><b>Upcoming Reminders</b><span class="noteGood">3 upcoming</span></div><div class="body" id="reminders"></div></div>
+    <div class="card"><div class="head"><b>People Summary</b><button class="btn ghost" onclick="page('records')">View All →</button></div><div class="body" id="people"></div></div>
+    <div class="card"><div class="head"><b>Quick Actions</b></div><div class="body quick">
+      <button class="btn ghost" onclick="openModal()">＋ Add Qarz<small style="display:block;color:#8297b2;margin-top:6px">New loan or return</small></button>
+      <button class="btn ghost" onclick="page('records')">➜ View Records<small style="display:block;color:#8297b2;margin-top:6px">Mujhe dena/lena</small></button>
+      <button class="btn ghost" onclick="page('duas')">☾ Duā Library<small style="display:block;color:#8297b2;margin-top:6px">Dua aur reference</small></button>
+      <button class="btn ghost" onclick="backup()">⇩ Generate Backup<small style="display:block;color:#8297b2;margin-top:6px">Save your data</small></button>
+    </div></div>
+  </div>
 </section>
-</div>
+
+<section id="records" class="page">
+  <div class="card"><div class="head"><div><b>Qarz Records</b><small>Principal • repayment • remaining balance</small></div><div class="toolbar"><input id="search" placeholder="Search name..." oninput="renderRecords()"><select id="filter" onchange="renderRecords()"><option value="all">All</option><option value="owed">I will return</option><option value="recv">I will receive</option><option value="open">Pending</option><option value="done">Completed</option></select><button class="btn primary" onclick="openModal()">＋ Add</button></div></div><div class="body" id="recordBody"></div></div>
+</section>
+
+<section id="duas" class="page">
+  <div class="card"><div class="head"><div><b>Duā Library</b><small>Arabic • Roman Urdu meaning • reference</small></div></div><div class="body grid2" id="duaBody"></div></div>
+</section>
+
+<section id="backup" class="page">
+  <div class="aboutGrid">
+    <div class="feature"><h3>Backup your records</h3><p>Export all Qarz Amanah records into a JSON backup and keep it somewhere safe. Your current browser data stays on this device.</p><button class="btn gold" onclick="backup()">↓ Create Backup</button></div>
+    <div class="feature"><h3>Restore a backup</h3><p>Bring back records from a saved Qarz Amanah backup file. Existing records are kept and restored records are added.</p><button class="btn soft" onclick="file.click()">↑ Restore Backup</button><input id="file" type="file" accept="application/json" style="display:none" onchange="restore(event)"></div>
+  </div>
+</section>
+
+<section id="about" class="page">
+  <div class="aboutGrid">
+    <div class="feature"><h3>Qarz Amanah</h3><p>A desktop-first Qarz bookkeeping tool designed for individuals, families, community work and small businesses. Simple, private and easy to understand.</p></div>
+    <div class="feature"><h3>Deeni scope</h3><p class="noteGood">Interest-free by design</p><p>Only principal and repayments are recorded. The app intentionally avoids riba-related calculations such as interest, APR, late-interest and compounding.</p></div>
+    <div class="feature"><div class="quote">“The one who gives respite to a debtor in difficulty receives reward for each day.”</div><p>Use the app as a bookkeeping aid; verify religious wording and references with a qualified scholar before public publication.</p></div>
+    <div class="feature"><h3>Privacy</h3><p>Current edition stores records locally in your browser by default. No account is required for the basic tracker.</p></div>
+  </div>
+</section>
+</main></section></div>
 
 <div class="modal" id="modal">
   <div class="modalBox">
-    <div class="modalHead"><b>New Qarz Record</b><button class="x" onclick="closeModal()">×</button></div>
-    <form id="form">
-      <div class="modalBody">
-        <div class="form">
-          <div><label>Record type</label><select id="direction"><option value="recv">I will receive (Mujhe lena hai)</option><option value="owed">I will return (Mujhe dena hai)</option></select></div>
-          <div><label>Person</label><input id="person" required placeholder="Name"></div>
-          <div><label>Original principal (₹)</label><input id="principal" type="number" min=".01" step=".01" required></div>
-          <div><label>Qarz date</label><input id="date" type="date" required></div>
-          <div><label>Expected return date</label><input id="due" type="date"></div>
-          <div class="full"><label>Note</label><textarea id="note" placeholder="Optional note"></textarea></div>
-        </div>
-      </div>
-      <div class="modalFoot"><button type="button" class="btn btnSoft" onclick="closeModal()">Cancel</button><button class="btn btnBlue">Save Record</button></div>
-    </form>
+    <div class="modalHead"><b>New Qarz Record</b><button class="mini" onclick="closeModal()">✕</button></div>
+    <form id="form"><div class="modalBody"><div class="form">
+      <div><label>Qarz type</label><select id="direction"><option value="recv">I will receive</option><option value="owed">I will return</option></select></div>
+      <div><label>Person name</label><input id="person" required placeholder="e.g. Imran"></div>
+      <div><label>Original principal (₹)</label><input id="principal" type="number" min="0.01" step="0.01" required></div>
+      <div><label>Qarz date</label><input id="date" type="date" required></div>
+      <div><label>Expected repayment date</label><input id="due" type="date"></div>
+      <div class="full"><label>Notes</label><textarea id="note" placeholder="Optional note"></textarea></div>
+    </div></div><div class="modalFoot"><button type="button" class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn primary">Save Record</button></div></form>
   </div>
 </div>
-<div class="toast" id="toast"></div>
 
 <script>
-const KEY="qa_glass_v2";
-const demo=[
-{id:"d1",demo:true,createdAt:6,date:"2026-10-10",due:"2026-10-15",person:"Imran",direction:"recv",principal:2000,note:"For home expense",repayments:[]},
-{id:"d2",demo:true,createdAt:5,date:"2026-10-08",due:"2026-10-20",person:"Sameer",direction:"owed",principal:1500,note:"Return next week",repayments:[]},
-{id:"d3",demo:true,createdAt:4,date:"2026-10-05",due:"2026-10-25",person:"Rahman",direction:"recv",principal:5000,note:"Paid 2,000",repayments:[{amount:2000,date:"2026-10-06"}]},
-{id:"d4",demo:true,createdAt:3,date:"2026-10-01",due:"2026-10-04",person:"Asif",direction:"owed",principal:2000,note:"Returned",repayments:[{amount:2000,date:"2026-10-04"}]}
-];
-let data=JSON.parse(localStorage.getItem(KEY)||"null");
-if(!Array.isArray(data)) data=demo.map(x=>({...x,repayments:x.repayments.map(p=>({...p}))}));
-const fmt=n=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:2}).format(n);
-const esc=s=>String(s??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
-const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2);
-const balance=d=>Math.max(0,d.principal-d.repayments.reduce((a,p)=>a+p.amount,0));
-function persist(){localStorage.setItem(KEY,JSON.stringify(data));renderAll();toast("Saved");}
-function stats(){let recv=0,owed=0,pending=0,recvPeople=0,owedPeople=0;data.forEach(d=>{const b=balance(d);if(b>0){pending++;if(d.direction==="recv"){recv+=b;recvPeople++}else{owed+=b;owedPeople++}}});return {recv,owed,pending,recvPeople,owedPeople};}
-function personMap(){const m=new Map();data.forEach(d=>{const b=balance(d);const old=m.get(d.person)||{person:d.person,amount:0,receive:0,return:0};old.amount+=b;if(d.direction==="recv")old.receive+=b;else old.return+=b;m.set(d.person,old)});return [...m.values()].sort((a,b)=>b.amount-a.amount);}
-function page(p){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===p));document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.p===p));renderAll();}
-function table(ds){if(!ds.length)return '<div class="subcard muted">No records match your search.</div>';return '<table class="table"><thead><tr><th>Date</th><th>Person</th><th>Type</th><th>Amount</th><th>Status</th><th>Note</th><th>Actions</th></tr></thead><tbody>'+ds.map(d=>{const r=balance(d),paid=d.principal-r;return '<tr><td>'+esc(d.date)+'</td><td><div class="person"><div class="personAvatar">'+esc(d.person[0]||"?").toUpperCase()+'</div><div>'+esc(d.person)+'</div></div></td><td><span class="tag '+(d.direction==="recv"?"receive":"return")+'">'+(d.direction==="recv"?"↧ Receive":"↥ Return")+'</span></td><td><b>'+fmt(d.principal)+'</b><div style="color:#9fb2d5;font-size:10px">'+fmt(paid)+' paid</div></td><td><span class="tag status '+(r===0?"done":paid>0?"partial":"")+'">'+(r===0?"Completed":paid>0?"Partial":"Pending")+'</span></td><td>'+esc(d.note||"—")+'</td><td><div style="display:flex;gap:6px">'+(r?'<button class="btn btnSoft" style="padding:7px 9px;font-size:10px" onclick="payment(\''+d.id+'\')">＋ Repay</button>':"")+'<button class="btn" style="padding:7px 9px;font-size:10px;background:#6b263944;color:#ff9ba6" onclick="removeRec(\''+d.id+'\')">Delete</button></div></td></tr>'}).join("")+'</tbody></table>'}
-function reminders(){return data.filter(d=>d.due&&balance(d)>0).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,6)}
-function reminderHTML(ds){if(!ds.length)return '<div class="muted">No upcoming reminders.</div>';const today=new Date("2026-10-10T00:00:00");return ds.map(d=>{const dt=new Date(d.due+"T00:00:00"),days=Math.max(0,Math.round((dt-today)/86400000));return '<div class="rem"><div class="dateBox"><b>'+esc(d.due.slice(8,10))+'</b><small>'+esc(d.due.slice(5,7))+' Oct</small></div><div class="remText"><b>'+(d.direction==="recv"?"Receive from ":"Return to ")+esc(d.person)+'</b><small>'+fmt(balance(d))+'</small></div><span class="timeTag">'+(days===0?"Today":"In "+days+" days")+'</span></div>'}).join("")}
-function peopleHTML(){const ps=personMap();if(!ps.length)return '<div class="muted">No people yet.</div>';return ps.map(p=>'<div class="peopleRow"><div class="personAvatar">'+esc(p.person[0]||"?").toUpperCase()+'</div><div class="grow"><strong>'+esc(p.person)+'</strong><div class="muted" style="font-size:11px">'+(p.receive?fmt(p.receive)+" receive ":"")+(p.return?fmt(p.return)+" return":"")+'</div></div><strong>'+fmt(p.amount)+'</strong></div>').join("")}
+const KEY="qarz_amanah_public_v2";
+let data=JSON.parse(localStorage.getItem(KEY)||"[]");
+const fmt=n=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:2}).format(n||0);
+const esc=s=>String(s??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[m]));
+const rid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2);
 const D=[
-["Halal rizq aur qarz","اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ","Allahumma akfini bihalalika 'an haramika, wa aghnini bifadlika 'amman siwak.","Jami' at-Tirmidhi 3563","https://sunnah.com/tirmidhi:3563"],
-["Qarz ke ghalbe se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ، وَغَلَبَةِ الْعَدُوِّ، وَشَمَاتَةِ الْأَعْدَاءِ","Allahumma inni a'udhu bika min ghalabatid-dayn, wa ghalabatil-'aduwwi, wa shamatatil-a'da'.","Sunan an-Nasa'i 5475","https://sunnah.com/nasai:5475"],
-["Gham aur qarz se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ","Allahumma inni a'udhu bika minal-hammi wal-hazan, wal-'ajzi wal-kasal, wal-jubni wal-bukhl, wa dala'id-dayn, wa ghalabatir-rijal.","Sahih al-Bukhari 6369","https://sunnah.com/bukhari:6369"],
-["Gunah aur qarz se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسَلِ وَالْهَرَمِ وَالْمَأْثَمِ وَالْمَغْرَمِ","Allahumma inni a'udhu bika minal-kasali wal-harami wal-ma'thami wal-maghram.","Sahih al-Bukhari 6375","https://sunnah.com/bukhari:6375"]
+["Halal rizq aur qarz","اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ","Ya Allah, apne halal ke zariye mujhe apne haram se bacha, aur apne fazl se mujhe apne siwa sab se be-niyaz kar de.","Jami' at-Tirmidhi 3563","https://sunnah.com/tirmidhi:3563"],
+["Qarz ke ghalbe se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ، وَغَلَبَةِ الْعَدُوِّ، وَشَمَاتَةِ الْأَعْدَاءِ","Ya Allah, main qarz ke ghalbe, dushman ke ghalbe aur dushmanon ke khush hone se Teri panah maangta hoon.","Sunan an-Nasa'i 5475","https://sunnah.com/nasai:5475"],
+["Mushkil qarz se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ","Ya Allah, main gham-o-fikr, bebasi, susti, buzdili, bukhl, mushkil qarz aur logon ke ghalbe se Teri panah maangta hoon.","Sahih al-Bukhari 6369","https://sunnah.com/bukhari:6369"],
+["Gunah aur qarz se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسَلِ وَالْهَرَمِ وَالْمَأْثَمِ وَالْمَغْرَمِ","Ya Allah, main susti, budhape, gunah aur qarz se Teri panah maangta hoon.","Sahih al-Bukhari 6375","https://sunnah.com/bukhari:6375"]
 ];
-function duaHTML(d,i){return '<div class="dua"><div style="color:#96b2de;font-size:10px;letter-spacing:1.4px">MASNOON DUĀ</div><h3>'+esc(d[0])+'</h3><div class="arabic">'+d[1]+'</div><div class="meaning">'+esc(d[2])+'</div><div class="source">'+esc(d[3])+'</div><div style="display:flex;gap:7px;margin-top:13px"><button class="btn btnSoft" onclick="speak('+i+')">🔊 Suno</button><a class="btn btnBlue" href="'+d[4]+'" target="_blank" style="text-decoration:none">Reference</a></div></div>'}
-function renderAll(){
- const s=stats();
- recv.textContent=fmt(s.recv);owed.textContent=fmt(s.owed);total.textContent=data.length;pending.textContent=s.pending;recvPeople.textContent=s.recvPeople+" people";owedPeople.textContent=s.owedPeople+" people";
- recentTable.innerHTML=table(data.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,5));
- reminderList.innerHTML=reminderHTML(reminders());allReminders.innerHTML=reminderHTML(reminders());
- peopleList.innerHTML=peopleHTML();allPeople.innerHTML=peopleHTML();
- recordTable.innerHTML=table(filterRecords());
- duaGrid.innerHTML=D.map(duaHTML).join("");
- reportText.innerHTML='<div class="stat" style="box-shadow:none;margin-top:8px"><div><small>To Receive</small><strong>'+fmt(s.recv)+'</strong></div></div><div class="stat" style="box-shadow:none;margin-top:10px"><div><small>To Return</small><strong>'+fmt(s.owed)+'</strong></div></div>';
- reportStats.innerHTML='<div class="muted">Total records: <b style="color:#fff">'+data.length+'</b><br>Pending records: <b style="color:#fff">'+s.pending+'</b><br>Completed: <b style="color:#fff">'+(data.length-s.pending)+'</b></div>';
+function bal(d){return Math.max(0,Number(d.principal)-d.repayments.reduce((a,p)=>a+Number(p.amount),0))}
+function paid(d){return d.repayments.reduce((a,p)=>a+Number(p.amount),0)}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function page(p){
+ document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===p));
+ document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.p===p));
+ const n={dashboard:"Dashboard",records:"Qarz Records",duas:"Duā Library",backup:"Backup & Restore",about:"About"}[p]||"Dashboard";
+ document.getElementById("title").textContent=n;document.getElementById("crumb").textContent=n;render();
 }
-function filterRecords(){const q=(recordSearch?.value||"").toLowerCase();const f=recordFilter?.value||"all";return data.filter(d=>(!q||[d.person,d.note,d.date].join(" ").toLowerCase().includes(q))&&(f==="all"||f===d.direction||(f==="open"&&balance(d)>0)||(f==="done"&&balance(d)===0))).sort((a,b)=>b.createdAt-a.createdAt)}
-function renderRecords(){recordTable.innerHTML=table(filterRecords())}
-function globalFilter(){if(document.getElementById("dashboard").classList.contains("active"))return;page("records");recordSearch.value=globalSearch.value;renderRecords()}
-function openModal(){modal.classList.add("show");form.reset();date.value=new Date().toISOString().slice(0,10)}
-function closeModal(){modal.classList.remove("show")}
-form.addEventListener("submit",e=>{e.preventDefault();data.unshift({id:uid(),createdAt:Date.now(),direction:direction.value,person:person.value.trim(),principal:Number(principal.value),date:date.value,due:due.value,note:note.value.trim(),repayments:[]});persist();closeModal();page("dashboard")});
-function payment(x){const d=data.find(v=>v.id===x),r=balance(d),a=Number(prompt("Remaining: "+fmt(r)+"\nEnter repayment amount:"));if(!(a>0)||a>r){if(a!==0)toast("Invalid amount");return}d.repayments.push({amount:a,date:new Date().toISOString().slice(0,10)});persist()}
-function removeRec(x){const d=data.find(v=>v.id===x);if(confirm("Delete this Qarz record for "+d.person+"?")){data=data.filter(v=>v.id!==x);persist()}}
-function backup(){const blob=new Blob([JSON.stringify({app:"Qarz Amanah",version:2,records:data},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="qarz-amanah-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast("Backup created")}
-function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!Array.isArray(x.records))throw 0;data=x.records;persist();toast("Backup restored")}catch{toast("Invalid backup file")}};r.readAsText(f)}
+function rows(ds,compact=false){
+ if(!ds.length)return '<div class="empty">No Qarz records yet.</div>';
+ return '<table><thead><tr><th>Person</th><th>Type</th><th>Original</th><th>Paid</th><th>Remaining</th><th>Status</th><th></th></tr></thead><tbody>'+
+ ds.map(d=>{const p=paid(d),r=bal(d);return '<tr><td><b>'+esc(d.person)+'</b><div class="muted">'+esc(d.date||"")+'</div></td><td><span class="tag '+(d.direction==="recv"?"green":"pink")+'">'+(d.direction==="recv"?"Receive":"Return")+'</span></td><td>'+fmt(d.principal)+'</td><td>'+fmt(p)+'</td><td><b>'+fmt(r)+'</b></td><td><span class="tag '+(r?"gold":"green")+'">'+(r?"Pending":"Completed")+'</span></td><td><div class="actions">'+(r?'<button class="mini soft" onclick="payment(\''+d.id+'\')">＋ Repay</button>':"")+'<button class="mini danger" onclick="removeRec(\''+d.id+'\')">Delete</button></div></td></tr>'}).join("")+'</tbody></table>';
+}
+function duaHTML(d,i){
+ return '<div class="dua"><div class="kicker">MASNOON DUĀ</div><h3>'+esc(d[0])+'</h3><div class="arabic">'+d[1]+'</div><div class="meaning">'+esc(d[2])+'</div><div class="source">'+esc(d[3])+'</div><div class="duaActions"><button class="btn gold" onclick="speak('+i+')">🔊 Suno</button><a class="btn ghost" target="_blank" href="'+d[4]+'" style="text-decoration:none">Reference ↗</a></div></div>';
+}
+function render(){
+ let recv=0,owed=0,allPaid=0,open=0,recvPeople=0,owedPeople=0;
+ data.forEach(d=>{const b=bal(d);allPaid+=paid(d);if(b){open++;if(d.direction==="recv"){recv+=b;recvPeople++}else{owed+=b;owedPeople++}}});
+ document.getElementById("hero").textContent=fmt(recv+owed);
+ document.getElementById("recv").textContent=fmt(recv);
+ document.getElementById("owed").textContent=fmt(owed);
+ document.getElementById("totalRec").textContent=data.length;
+ document.getElementById("active").textContent=open;
+ document.getElementById("recvPeople").textContent=recvPeople+" people";
+ document.getElementById("owedPeople").textContent=owedPeople+" people";
+ const latest=data.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
+ document.getElementById("recent").innerHTML=rows(latest);
+ document.getElementById("featured").innerHTML=duaHTML(D[0],0);
+ renderReminders();renderPeople();
+ document.getElementById("recordBody").innerHTML=rows(data.slice().sort((a,b)=>b.createdAt-a.createdAt));
+ document.getElementById("duaBody").innerHTML='<div></div>'+D.map((x,i)=>duaHTML(x,i)).join("");
+}
+function renderRecords(){
+ const q=(document.getElementById("search").value||"").toLowerCase(),f=document.getElementById("filter").value;
+ document.getElementById("recordBody").innerHTML=rows(data.filter(d=>(!q||d.person.toLowerCase().includes(q))&&(f==="all"||f===d.direction||(f==="open"&&bal(d)>0)||(f==="done"&&bal(d)===0))).sort((a,b)=>b.createdAt-a.createdAt));
+}
+function globalFind(q){if(q.trim())page("records");document.getElementById("search").value=q;renderRecords()}
+function renderReminders(){
+ const items=data.filter(d=>d.due&&bal(d)>0).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,4);
+ const el=document.getElementById("reminders");
+ if(!items.length){el.innerHTML='<div class="empty">No upcoming reminders.</div>';return}
+ el.innerHTML=items.map(d=>{const dt=new Date(d.due+"T00:00:00"),mon=dt.toLocaleString("en",{month:"short"}),day=dt.getDate();return '<div class="reminder"><div style="display:flex;gap:10px;align-items:center"><div class="datebox"><b>'+day+'</b><small>'+mon+'</small></div><div><b>'+esc((d.direction==="recv"?"Receive from ":"Return to ")+d.person)+'</b><div class="muted">'+fmt(bal(d))+'</div></div></div><span class="tag blue">'+mon+' '+day+'</span></div>'}).join("");
+}
+function renderPeople(){
+ const map={};data.forEach(d=>{const b=bal(d);if(b)(map[d.person]??={recv:0,owed:0})[d.direction]+=b});
+ const arr=Object.entries(map).sort((a,b)=>(b[1].recv+b[1].owed)-(a[1].recv+a[1].owed)).slice(0,5);
+ document.getElementById("people").innerHTML=arr.length?'<div class="people">'+arr.map(([n,v])=>'<div class="person"><div class="pavatar">'+esc(n[0]?.toUpperCase()||"?")+'</div><div class="grow"><b>'+esc(n)+'</b><small>'+((v.recv?fmt(v.recv)+" receive":"")+(v.recv&&v.owed?" • ":"")+(v.owed?fmt(v.owed)+" return":""))+'</small></div></div>').join("")+'</div>':'<div class="empty">No people yet.</div>';
+}
+function openModal(){document.getElementById("modal").classList.add("show");document.getElementById("form").reset();document.getElementById("date").value=new Date().toISOString().slice(0,10)}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+document.getElementById("form").addEventListener("submit",e=>{e.preventDefault();data.push({id:rid(),createdAt:Date.now(),direction:document.getElementById("direction").value,person:document.getElementById("person").value.trim(),principal:Number(document.getElementById("principal").value),date:document.getElementById("date").value,due:document.getElementById("due").value,note:document.getElementById("note").value,repayments:[]});save();closeModal()})
+function payment(x){const d=data.find(v=>v.id===x),r=bal(d),a=Number(prompt("Remaining: "+fmt(r)+"\nRepayment amount:"));if(!(a>0)||a>r){if(a)alert("Invalid amount.");return}d.repayments.push({amount:a,date:new Date().toISOString().slice(0,10)});save()}
+function removeRec(x){if(confirm("Delete this record?")){data=data.filter(d=>d.id!==x);save()}}
+function backup(){const b=new Blob([JSON.stringify({app:"Qarz Amanah",version:2,records:data},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="qarz-amanah-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!Array.isArray(x.records))throw 0;data.push(...x.records.map(v=>({...v,repayments:Array.isArray(v.repayments)?v.repayments:[]})));save();alert("Backup restored.")}catch{alert("Invalid backup file.")}};r.readAsText(f)}
 function speak(i){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(D[i][1]);u.lang="ar-SA";u.rate=.8;speechSynthesis.speak(u)}
-function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.style.display="none",2200)}
-renderAll();
+render();
 </script>
 </body>
 </html>
