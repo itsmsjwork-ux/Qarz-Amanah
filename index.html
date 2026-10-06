@@ -3,69 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#08182e">
+<meta name="theme-color" content="#071326">
 <title>Qarz Amanah — Trust • Record • Return</title>
 <style>
-:root{
-  --bg:#071326;--panel:#0d2340;--panel2:#102b4c;--glass:rgba(20,46,78,.68);--line:rgba(206,226,255,.16);
-  --text:#f4f7ff;--muted:#a9bad2;--blue:#5e8cff;--blue2:#8caeff;--green:#21d29a;--gold:#efbc58;--pink:#ff7891;
-  --shadow:0 24px 70px rgba(0,0,0,.35);--radius:22px
-}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:#071326;color:var(--text)}
-body{overflow-x:auto}
-.bg{position:fixed;inset:0;z-index:-3;background:
-radial-gradient(circle at 18% 18%,rgba(54,128,255,.28),transparent 28%),
-radial-gradient(circle at 85% 14%,rgba(240,180,84,.22),transparent 25%),
-radial-gradient(circle at 72% 85%,rgba(36,204,159,.15),transparent 28%),
-linear-gradient(135deg,#071326 0%,#0a1d35 50%,#081326 100%)}
-.sky{position:fixed;inset:0;z-index:-2;opacity:.8;background:
-linear-gradient(90deg,transparent 0 7%,rgba(255,195,98,.08) 7% 7.4%,transparent 7.4% 13%,
-rgba(255,195,98,.08) 13% 13.5%,transparent 13.5% 100%),
-radial-gradient(ellipse at 74% 27%,rgba(255,219,151,.34) 0 5%,transparent 5.3%),
-linear-gradient(to top,rgba(5,15,28,.85),transparent 42%)}
-.mosque{position:fixed;left:255px;right:0;bottom:-2px;height:28%;z-index:-1;opacity:.33;filter:blur(.15px);
-background:
-radial-gradient(ellipse at 26% 80%,rgba(80,105,140,.22),transparent 12%),
-radial-gradient(ellipse at 48% 83%,rgba(80,105,140,.22),transparent 11%),
-radial-gradient(ellipse at 70% 78%,rgba(80,105,140,.24),transparent 12%),
-linear-gradient(to top,rgba(255,255,255,.05),transparent 55%)}
-.moon{position:fixed;right:18%;top:7%;width:76px;height:76px;border-radius:50%;z-index:-1;box-shadow:0 0 40px rgba(255,231,180,.25);
-background:radial-gradient(circle at 37% 35%,#fff6de 0 52%,#d8c79d 56% 100%)}
-.moon:after{content:"";position:absolute;width:66px;height:66px;border-radius:50%;background:#0d2340;left:18px;top:-7px}
-.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
-.side{position:sticky;top:0;height:100vh;padding:24px 20px;background:linear-gradient(180deg,rgba(5,17,33,.86),rgba(4,19,33,.72));border-right:1px solid var(--line);backdrop-filter:blur(20px)}
-.brand{display:flex;align-items:center;gap:12px;padding:5px 8px 28px}
-.logo{width:52px;height:52px;border:1px solid rgba(255,255,255,.25);border-radius:18px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.03));font-size:26px;box-shadow:inset 0 0 20px rgba(255,255,255,.04)}
-.brand b{font-family:Georgia,serif;font-size:24px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
-.nav{display:grid;gap:7px}.nav button{appearance:none;border:0;color:#dbe7f7;background:transparent;padding:12px 14px;border-radius:14px;text-align:left;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:12px}
-.nav button:hover{background:rgba(255,255,255,.06)}.nav button.active{background:linear-gradient(135deg,rgba(80,114,255,.88),rgba(90,71,205,.78));box-shadow:0 12px 30px rgba(80,98,240,.24)}
-.nav button span.ico{width:20px;text-align:center;font-size:17px}.label{color:#7f93ad;font-size:10px;text-transform:uppercase;letter-spacing:1.3px;margin:22px 10px 9px}
-.sideNote{position:absolute;left:20px;right:20px;bottom:20px;padding:15px 15px 14px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.035)}
-.sideNote .arab{font-family:Georgia,serif;text-align:right;line-height:1.9;font-size:19px}.sideNote p{color:#d2deed;font-family:Georgia,serif;font-size:12px;line-height:1.65;text-align:center;margin:7px 0 4px}.sideNote small{display:block;color:#7f93ad;text-align:center}
-.main{min-width:950px}
-.top{height:84px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid var(--line);background:rgba(7,19,38,.48);backdrop-filter:blur(18px);position:sticky;top:0;z-index:4}
-.crumb{font-size:11px;color:#9eb0c8}.top h1{margin:3px 0 0;font-size:22px}
-.topRight{display:flex;align-items:center;gap:10px}.search{width:min(370px,35vw);background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:14px;padding:11px 14px;color:#fff;outline:none}.search::placeholder{color:#8599b4}
-.btn{border:1px solid transparent;border-radius:13px;padding:10px 14px;font-weight:800;cursor:pointer;color:#fff}.primary{background:linear-gradient(135deg,#617cff,#7c5de9);box-shadow:0 10px 24px rgba(100,94,235,.25)}.ghost{background:rgba(255,255,255,.07);border-color:var(--line)}.gold{background:rgba(239,188,88,.14);border-color:rgba(239,188,88,.32);color:#ffd980}.soft{background:rgba(33,210,154,.11);border-color:rgba(33,210,154,.25);color:#75efc1}.danger{background:rgba(255,120,145,.11);border-color:rgba(255,120,145,.25);color:#ff9daf}
-.avatar{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.07);display:grid;place-items:center;font-weight:900;color:#dce7ff}
-.content{padding:28px 34px 40px}.page{display:none}.page.active{display:block}
-.hero{border:1px solid rgba(255,255,255,.18);border-radius:26px;padding:30px 32px;background:
-radial-gradient(circle at 82% 30%,rgba(255,203,103,.18),transparent 20%),
-linear-gradient(135deg,rgba(18,48,83,.80),rgba(31,63,111,.55));box-shadow:var(--shadow);backdrop-filter:blur(16px);position:relative;overflow:hidden}
-.hero:after{content:"☾";position:absolute;right:50px;top:-12px;font-size:120px;opacity:.06;font-family:Georgia,serif}
-.kicker{font-size:10px;letter-spacing:1.8px;color:#a7bad3}.hero h2{font-family:Georgia,serif;font-size:40px;margin:10px 0 8px;letter-spacing:-.5px}.hero p{max-width:700px;color:#c5d3e5;font-size:14px;line-height:1.7;margin:0}.heroRow{display:flex;justify-content:space-between;gap:30px;align-items:flex-end}.heroTotal{text-align:right}.heroTotal small{display:block;color:#a9bad2;font-size:11px}.heroTotal strong{font-size:40px;line-height:1.1}
+:root{--bg:#071326;--glass:rgba(13,31,55,.76);--glass2:rgba(20,46,78,.72);--line:rgba(206,226,255,.16);--text:#f4f7ff;--muted:#a9bad2;--blue:#617cff;--blue2:#7d5ce8;--green:#21d29a;--gold:#efbc58;--pink:#ff7891;--shadow:0 24px 70px rgba(0,0,0,.34)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}body{overflow-x:auto}
+.bg{position:fixed;inset:0;z-index:-3;background:radial-gradient(circle at 18% 18%,rgba(54,128,255,.28),transparent 28%),radial-gradient(circle at 85% 14%,rgba(240,180,84,.20),transparent 25%),radial-gradient(circle at 72% 85%,rgba(36,204,159,.14),transparent 28%),linear-gradient(135deg,#071326,#0a1d35 55%,#081326)}
+.sky{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 74% 27%,rgba(255,219,151,.30) 0 5%,transparent 5.3%),linear-gradient(to top,rgba(5,15,28,.84),transparent 44%)}
+.mosque{position:fixed;left:250px;right:0;bottom:0;height:30%;z-index:-1;opacity:.28;background:radial-gradient(ellipse at 28% 82%,rgba(110,140,175,.30),transparent 13%),radial-gradient(ellipse at 50% 86%,rgba(110,140,175,.27),transparent 12%),radial-gradient(ellipse at 72% 80%,rgba(110,140,175,.28),transparent 13%),linear-gradient(to top,rgba(255,255,255,.06),transparent 60%)}
+.moon{position:fixed;right:18%;top:7%;width:76px;height:76px;border-radius:50%;z-index:-1;background:#fff4d8;box-shadow:0 0 42px rgba(255,231,180,.24)}.moon:after{content:"";position:absolute;width:67px;height:67px;border-radius:50%;background:#0d2340;left:19px;top:-7px}
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}.side{position:sticky;top:0;height:100vh;padding:24px 20px;background:linear-gradient(180deg,rgba(5,17,33,.87),rgba(4,19,33,.73));border-right:1px solid var(--line);backdrop-filter:blur(20px)}
+.brand{display:flex;align-items:center;gap:12px;padding:5px 8px 28px}.logo{width:52px;height:52px;border:1px solid rgba(255,255,255,.25);border-radius:18px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.03));font-size:26px}.brand b{font-family:Georgia,serif;font-size:24px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.label{color:#7f93ad;font-size:10px;text-transform:uppercase;letter-spacing:1.3px;margin:22px 10px 9px}.nav{display:grid;gap:7px}.nav button{border:0;color:#dbe7f7;background:transparent;padding:12px 14px;border-radius:14px;text-align:left;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:12px}.nav button:hover{background:rgba(255,255,255,.06)}.nav button.active{background:linear-gradient(135deg,rgba(97,124,255,.92),rgba(125,92,232,.80));box-shadow:0 12px 30px rgba(80,98,240,.23)}.ico{width:20px;text-align:center;font-size:17px}
+.sideNote{position:absolute;left:20px;right:20px;bottom:20px;padding:15px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.035)}.sideNote .arab{font-family:Georgia,serif;text-align:right;line-height:1.9;font-size:19px}.sideNote p{color:#d2deed;font-family:Georgia,serif;font-size:12px;line-height:1.65;text-align:center;margin:7px 0 4px}.sideNote small{display:block;color:#7f93ad;text-align:center}
+.main{min-width:980px}.top{height:84px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid var(--line);background:rgba(7,19,38,.48);backdrop-filter:blur(18px);position:sticky;top:0;z-index:4}.crumb{font-size:11px;color:#9eb0c8}.top h1{margin:3px 0 0;font-size:22px}.topRight{display:flex;align-items:center;gap:9px}.search{width:min(370px,32vw);background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:14px;padding:11px 14px;color:#fff;outline:none}.search::placeholder{color:#8599b4}.avatar{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.07);display:grid;place-items:center;font-weight:900;color:#dce7ff}
+.btn{border:1px solid transparent;border-radius:13px;padding:10px 14px;font-weight:800;cursor:pointer;color:#fff}.primary{background:linear-gradient(135deg,var(--blue),var(--blue2));box-shadow:0 10px 24px rgba(100,94,235,.25)}.ghost{background:rgba(255,255,255,.07);border-color:var(--line)}.gold{background:rgba(239,188,88,.14);border-color:rgba(239,188,88,.32);color:#ffd980}.soft{background:rgba(33,210,154,.11);border-color:rgba(33,210,154,.25);color:#75efc1}.danger{background:rgba(255,120,145,.11);border-color:rgba(255,120,145,.25);color:#ff9daf}
+.content{padding:28px 34px 40px}.page{display:none}.page.active{display:block}.hero{border:1px solid rgba(255,255,255,.18);border-radius:26px;padding:30px 32px;background:radial-gradient(circle at 82% 30%,rgba(255,203,103,.18),transparent 20%),linear-gradient(135deg,rgba(18,48,83,.80),rgba(31,63,111,.55));box-shadow:var(--shadow);backdrop-filter:blur(16px);position:relative;overflow:hidden}.hero:after{content:"☾";position:absolute;right:50px;top:-12px;font-size:120px;opacity:.06;font-family:Georgia,serif}.heroRow{display:flex;justify-content:space-between;gap:30px;align-items:flex-end}.kicker{font-size:10px;letter-spacing:1.8px;color:#a7bad3}.hero h2{font-family:Georgia,serif;font-size:40px;margin:10px 0 8px}.hero p{max-width:720px;color:#c5d3e5;font-size:14px;line-height:1.7;margin:0}.heroTotal{text-align:right}.heroTotal small{display:block;color:#a9bad2;font-size:11px}.heroTotal strong{font-size:40px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}.stat{padding:20px;border:1px solid var(--line);border-radius:20px;background:var(--glass);backdrop-filter:blur(16px);box-shadow:0 12px 30px rgba(0,0,0,.16)}.stat .labelx{color:#afc0d6;font-size:11px}.stat strong{display:block;font-size:25px;margin-top:8px}.stat small{color:#7f93ad}
-.grid2{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;margin-top:18px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:18px}
-.card{border:1px solid var(--line);border-radius:20px;background:rgba(13,31,55,.74);box-shadow:var(--shadow);backdrop-filter:blur(18px);overflow:hidden}.head{padding:17px 19px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.head b{font-size:15px}.head small{display:block;color:#8da1bb;margin-top:4px;font-size:10px}.body{padding:17px 19px}
-table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-align:left;font-weight:800;padding:0 7px 10px;text-transform:uppercase}td{border-top:1px solid rgba(255,255,255,.07);padding:12px 7px;color:#dce7f5;font-size:12px}.muted{color:#8297b2;font-size:10px;margin-top:2px}
-.tag{display:inline-block;padding:5px 9px;border-radius:999px;font-size:9px;font-weight:900}.tag.green{background:rgba(33,210,154,.13);color:#65edb9}.tag.blue{background:rgba(94,140,255,.14);color:#a9c2ff}.tag.gold{background:rgba(239,188,88,.15);color:#ffdc8d}.tag.pink{background:rgba(255,120,145,.13);color:#ffb0bd}
-.actions{display:flex;gap:5px}.mini{padding:7px 9px;border-radius:10px;font-size:9px;font-weight:900;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#d7e6fb;cursor:pointer}
-.dua{padding:22px;border:1px solid rgba(255,255,255,.15);border-radius:18px;background:linear-gradient(145deg,rgba(17,63,63,.72),rgba(24,42,78,.72));box-shadow:inset 0 0 40px rgba(255,255,255,.02)}.dua h3{font-family:Georgia,serif;margin:5px 0 12px}.arabic{font-family:Georgia,serif;font-size:24px;line-height:2;text-align:right;color:#fff}.meaning{color:#c7d5e6;font-family:Georgia,serif;font-size:12px;line-height:1.7}.source{color:#8094ae;font-size:10px;margin-top:11px}.duaActions{display:flex;gap:7px;margin-top:12px}
-.reminder{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0;border-top:1px solid rgba(255,255,255,.07)}.reminder:first-child{border-top:0;padding-top:0}.datebox{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.08);display:grid;place-items:center;text-align:center}.datebox b{font-size:17px}.datebox small{font-size:9px;color:#9eb1c8}.people{display:grid;gap:6px}.person{display:flex;align-items:center;gap:9px;padding:9px;border-radius:13px;background:rgba(255,255,255,.035)}.person .pavatar{width:30px;height:30px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,#4074c9,#8062dd);font-size:11px;font-weight:900}.person .grow{flex:1}.person .grow b{display:block;font-size:12px}.person .grow small{color:#8499b4}.quick{display:grid;grid-template-columns:1fr 1fr;gap:9px}.quick button{min-height:76px;text-align:left}.empty{text-align:center;color:#8297b2;padding:28px}
-.toolbar{display:flex;gap:9px;align-items:center}.toolbar input,.toolbar select{background:rgba(255,255,255,.06);border:1px solid var(--line);color:#eaf1fb;border-radius:12px;padding:9px 11px;outline:none}.toolbar select option{background:#10243d}
-.form{display:grid;grid-template-columns:1fr 1fr;gap:15px}.full{grid-column:1/-1}label{display:block;font-size:10px;color:#9ab0c9;font-weight:800;margin:0 0 6px}input,select,textarea{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#f7fbff;outline:none}textarea{min-height:90px;resize:vertical}.modal{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(1,7,17,.74);backdrop-filter:blur(8px);padding:20px}.modal.show{display:flex}.modalBox{width:min(640px,100%);border:1px solid var(--line);border-radius:22px;background:#0e223d;box-shadow:var(--shadow);overflow:hidden}.modalHead,.modalFoot{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.modalFoot{border-bottom:0;border-top:1px solid var(--line);justify-content:flex-end;gap:8px}.modalBody{padding:20px}
-.noteGood{color:#79edc5;font-size:11px}.quote{font-family:Georgia,serif;font-size:22px;line-height:1.6}.aboutGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.feature{padding:24px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.035)}.feature h3{margin:0 0 8px;font-family:Georgia,serif}.feature p{color:#a8bad0;line-height:1.7;font-size:12px}
-@media(max-width:1050px){.app{grid-template-columns:245px 1fr}.side{padding:20px 14px}.main{min-width:900px}.top{padding:0 24px}.content{padding:24px}.stats{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.hero h2{font-size:32px}}
+.grid2{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;margin-top:18px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:18px}.card{border:1px solid var(--line);border-radius:20px;background:rgba(13,31,55,.74);box-shadow:var(--shadow);backdrop-filter:blur(18px);overflow:hidden}.head{padding:17px 19px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}.head b{font-size:15px}.head small{display:block;color:#8da1bb;margin-top:4px;font-size:10px}.body{padding:17px 19px}
+table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-align:left;font-weight:800;padding:0 7px 10px;text-transform:uppercase}td{border-top:1px solid rgba(255,255,255,.07);padding:12px 7px;color:#dce7f5;font-size:12px}.muted{color:#8297b2;font-size:10px;margin-top:2px}.tag{display:inline-block;padding:5px 9px;border-radius:999px;font-size:9px;font-weight:900}.tag.green{background:rgba(33,210,154,.13);color:#65edb9}.tag.blue{background:rgba(94,140,255,.14);color:#a9c2ff}.tag.gold{background:rgba(239,188,88,.15);color:#ffdc8d}.tag.pink{background:rgba(255,120,145,.13);color:#ffb0bd}.actions{display:flex;gap:5px;flex-wrap:wrap}.mini{padding:7px 9px;border-radius:10px;font-size:9px;font-weight:900;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#d7e6fb;cursor:pointer}.empty{text-align:center;color:#8297b2;padding:28px}
+.dua{padding:22px;border:1px solid rgba(255,255,255,.15);border-radius:18px;background:linear-gradient(145deg,rgba(17,63,63,.72),rgba(24,42,78,.72));box-shadow:inset 0 0 40px rgba(255,255,255,.02)}.dua h3{font-family:Georgia,serif;margin:5px 0 12px}.arabic{font-family:Georgia,serif;font-size:24px;line-height:2;text-align:right}.meaning{color:#c7d5e6;font-family:Georgia,serif;font-size:12px;line-height:1.7}.source{color:#8094ae;font-size:10px;margin-top:11px}.duaActions{display:flex;gap:7px;margin-top:12px}
+.reminder{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0;border-top:1px solid rgba(255,255,255,.07)}.reminder:first-child{border-top:0;padding-top:0}.datebox{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.08);display:grid;place-items:center;text-align:center}.datebox b{font-size:17px}.datebox small{font-size:9px;color:#9eb1c8}.people{display:grid;gap:6px}.person{display:flex;align-items:center;gap:9px;padding:10px;border-radius:13px;background:rgba(255,255,255,.035);cursor:pointer}.person:hover{background:rgba(255,255,255,.07)}.pavatar{width:30px;height:30px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,#4074c9,#8062dd);font-size:11px;font-weight:900}.grow{flex:1}.grow b{display:block;font-size:12px}.grow small{color:#8499b4}.quick{display:grid;grid-template-columns:1fr 1fr;gap:9px}.quick button{min-height:76px;text-align:left}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.toolbar input,.toolbar select,.toolbar button{background:rgba(255,255,255,.06);border:1px solid var(--line);color:#eaf1fb;border-radius:12px;padding:9px 11px;outline:none}.toolbar select option{background:#10243d}.toolbar .primary{padding:9px 12px}
+.peopleGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.personCard{padding:18px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.035);cursor:pointer}.personCard:hover{background:rgba(255,255,255,.07)}.personTop{display:flex;gap:10px;align-items:center}.bigAvatar{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,#4074c9,#8062dd);font-weight:900}.personCard h3{margin:0;font-size:15px}.personCard .metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.metric{padding:10px;border-radius:12px;background:rgba(255,255,255,.04)}.metric small{display:block;color:#8297b2;font-size:9px}.metric strong{display:block;margin-top:4px;font-size:14px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:15px}.full{grid-column:1/-1}label{display:block;font-size:10px;color:#9ab0c9;font-weight:800;margin:0 0 6px}input,select,textarea{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#f7fbff;outline:none}textarea{min-height:90px;resize:vertical}
+.modal{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(1,7,17,.74);backdrop-filter:blur(8px);padding:20px}.modal.show{display:flex}.modalBox{width:min(700px,100%);max-height:88vh;border:1px solid var(--line);border-radius:22px;background:#0e223d;box-shadow:var(--shadow);overflow:hidden}.modalHead,.modalFoot{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.modalFoot{border-bottom:0;border-top:1px solid var(--line);justify-content:flex-end;gap:8px}.modalBody{padding:20px;overflow:auto;max-height:68vh}.modalBox .subhead{font-size:11px;color:#91a5bf;margin:18px 0 8px}.history{border:1px solid var(--line);border-radius:14px;overflow:hidden}.historyRow{display:grid;grid-template-columns:1fr 1fr 90px;gap:10px;padding:10px 12px;border-top:1px solid rgba(255,255,255,.07);font-size:11px}.historyRow:first-child{border-top:0}.historyHead{display:grid;grid-template-columns:1fr 1fr 90px;gap:10px;padding:9px 12px;color:#8297b2;font-size:9px;text-transform:uppercase;background:rgba(255,255,255,.04)}
+.detailHero{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.detailStat{padding:13px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}.detailStat small{display:block;color:#8297b2;font-size:9px}.detailStat strong{display:block;margin-top:5px;font-size:17px}
+.aboutGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.feature{padding:24px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.035)}.feature h3{margin:0 0 8px;font-family:Georgia,serif}.feature p{color:#a8bad0;line-height:1.7;font-size:12px}.quote{font-family:Georgia,serif;font-size:22px;line-height:1.6}.noteGood{color:#79edc5;font-size:11px}
+@media(max-width:1100px){.app{grid-template-columns:245px 1fr}.side{padding:20px 14px}.main{min-width:900px}.top{padding:0 24px}.content{padding:24px}.stats{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.peopleGrid,.aboutGrid{grid-template-columns:1fr 1fr}.hero h2{font-size:32px}}
 </style>
 </head>
 <body>
@@ -77,6 +42,7 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
   <nav class="nav">
     <button class="active" data-p="dashboard" onclick="page('dashboard')"><span class="ico">⌂</span>Dashboard</button>
     <button data-p="records" onclick="page('records')"><span class="ico">⊞</span>Qarz Records</button>
+    <button data-p="people" onclick="page('people')"><span class="ico">♙</span>People</button>
     <button data-p="duas" onclick="page('duas')"><span class="ico">☾</span>Duā Library</button>
   </nav>
   <div class="label">Tools</div>
@@ -90,7 +56,7 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
 <section class="main">
 <header class="top">
   <div><div class="crumb">Qarz Amanah / <span id="crumb">Dashboard</span></div><h1 id="title">Dashboard</h1></div>
-  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><button class="btn ghost" title="Night mode">☾</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="avatar">QA</div></div>
+  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><button class="btn ghost" title="Visual theme">☾</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="avatar">QA</div></div>
 </header>
 
 <main class="content">
@@ -99,16 +65,16 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
   <div class="stats">
     <div class="stat"><div class="labelx">I Will Receive</div><strong id="recv">₹0</strong><small id="recvPeople">0 people</small></div>
     <div class="stat"><div class="labelx">I Will Return</div><strong id="owed">₹0</strong><small id="owedPeople">0 people</small></div>
-    <div class="stat"><div class="labelx">Total Records</div><strong id="totalRec">0</strong><small>Transactions</small></div>
-    <div class="stat"><div class="labelx">Pending</div><strong id="active">0</strong><small>To be settled</small></div>
+    <div class="stat"><div class="labelx">Total Records</div><strong id="totalRec">0</strong><small>Qarz records</small></div>
+    <div class="stat"><div class="labelx">Pending</div><strong id="active">0</strong><small id="overdueSmall">To be settled</small></div>
   </div>
   <div class="grid2">
     <div class="card"><div class="head"><div><b>Recent Records</b><small>Latest qarz activity</small></div><button class="btn ghost" onclick="page('records')">View All →</button></div><div class="body" id="recent"></div></div>
     <div class="card"><div class="head"><div><b>Featured Duā</b><small>Daily reminder</small></div><button class="btn ghost" onclick="page('duas')">Library →</button></div><div class="body" id="featured"></div></div>
   </div>
   <div class="grid3">
-    <div class="card"><div class="head"><b>Upcoming Reminders</b><span class="noteGood">3 upcoming</span></div><div class="body" id="reminders"></div></div>
-    <div class="card"><div class="head"><b>People Summary</b><button class="btn ghost" onclick="page('records')">View All →</button></div><div class="body" id="people"></div></div>
+    <div class="card"><div class="head"><b>Upcoming Reminders</b><span class="noteGood" id="reminderCount">0 upcoming</span></div><div class="body" id="reminders"></div></div>
+    <div class="card"><div class="head"><b>People Summary</b><button class="btn ghost" onclick="page('people')">View All →</button></div><div class="body" id="peopleSummary"></div></div>
     <div class="card"><div class="head"><b>Quick Actions</b></div><div class="body quick">
       <button class="btn ghost" onclick="openModal()">＋ Add Qarz<small style="display:block;color:#8297b2;margin-top:6px">New loan or return</small></button>
       <button class="btn ghost" onclick="page('records')">➜ View Records<small style="display:block;color:#8297b2;margin-top:6px">Mujhe dena/lena</small></button>
@@ -119,7 +85,11 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
 </section>
 
 <section id="records" class="page">
-  <div class="card"><div class="head"><div><b>Qarz Records</b><small>Principal • repayment • remaining balance</small></div><div class="toolbar"><input id="search" placeholder="Search name..." oninput="renderRecords()"><select id="filter" onchange="renderRecords()"><option value="all">All</option><option value="owed">I will return</option><option value="recv">I will receive</option><option value="open">Pending</option><option value="done">Completed</option></select><button class="btn primary" onclick="openModal()">＋ Add</button></div></div><div class="body" id="recordBody"></div></div>
+  <div class="card"><div class="head"><div><b>Qarz Records</b><small>Principal • repayment • remaining balance</small></div><div class="toolbar"><input id="search" placeholder="Search name..." oninput="renderRecords()"><select id="filter" onchange="renderRecords()"><option value="all">All</option><option value="owed">I will return</option><option value="recv">I will receive</option><option value="open">Pending</option><option value="done">Completed</option><option value="overdue">Overdue</option></select><button class="btn primary" onclick="openModal()">＋ Add</button></div></div><div class="body" id="recordBody"></div></div>
+</section>
+
+<section id="people" class="page">
+  <div class="card"><div class="head"><div><b>People</b><small>People connected to your open and completed Qarz</small></div><div class="toolbar"><input id="peopleSearch" placeholder="Search people..." oninput="renderPeoplePage()"></div></div><div class="body"><div class="peopleGrid" id="peopleGrid"></div></div></div>
 </section>
 
 <section id="duas" class="page">
@@ -145,7 +115,7 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
 
 <div class="modal" id="modal">
   <div class="modalBox">
-    <div class="modalHead"><b>New Qarz Record</b><button class="mini" onclick="closeModal()">✕</button></div>
+    <div class="modalHead"><b id="modalTitle">New Qarz Record</b><button class="mini" onclick="closeModal()">✕</button></div>
     <form id="form"><div class="modalBody"><div class="form">
       <div><label>Qarz type</label><select id="direction"><option value="recv">I will receive</option><option value="owed">I will return</option></select></div>
       <div><label>Person name</label><input id="person" required placeholder="e.g. Imran"></div>
@@ -157,38 +127,76 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
   </div>
 </div>
 
+<div class="modal" id="detailModal">
+  <div class="modalBox">
+    <div class="modalHead"><div><b id="detailName">Qarz Details</b><div class="muted" id="detailMeta"></div></div><button class="mini" onclick="closeDetail()">✕</button></div>
+    <div class="modalBody">
+      <div class="detailHero">
+        <div class="detailStat"><small>Original</small><strong id="detailOriginal">₹0</strong></div>
+        <div class="detailStat"><small>Total Repaid</small><strong id="detailPaid">₹0</strong></div>
+        <div class="detailStat"><small>Remaining</small><strong id="detailRemaining">₹0</strong></div>
+      </div>
+      <div class="subhead">Record details</div>
+      <div id="detailText" class="feature" style="padding:15px"></div>
+      <div class="subhead">Repayment history</div>
+      <div class="history">
+        <div class="historyHead"><span>Date</span><span>Amount</span><span>Action</span></div>
+        <div id="historyBody"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px"><button id="detailRepayBtn" class="btn soft">＋ Add Repayment</button><button id="detailEditBtn" class="btn ghost">✎ Edit Record</button><button id="detailDeleteBtn" class="btn danger">Delete</button></div>
+    </div>
+  </div>
+</div>
+
 <script>
 const KEY="qarz_amanah_public_v2";
 let data=JSON.parse(localStorage.getItem(KEY)||"[]");
-const fmt=n=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:2}).format(n||0);
+let editId=null,currentDetailId=null;
+const fmt=n=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:2}).format(Number(n)||0);
 const esc=s=>String(s??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[m]));
 const rid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2);
+const isoToday=()=>new Date().toISOString().slice(0,10);
 const D=[
 ["Halal rizq aur qarz","اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ","Ya Allah, apne halal ke zariye mujhe apne haram se bacha, aur apne fazl se mujhe apne siwa sab se be-niyaz kar de.","Jami' at-Tirmidhi 3563","https://sunnah.com/tirmidhi:3563"],
 ["Qarz ke ghalbe se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ، وَغَلَبَةِ الْعَدُوِّ، وَشَمَاتَةِ الْأَعْدَاءِ","Ya Allah, main qarz ke ghalbe, dushman ke ghalbe aur dushmanon ke khush hone se Teri panah maangta hoon.","Sunan an-Nasa'i 5475","https://sunnah.com/nasai:5475"],
 ["Mushkil qarz se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ","Ya Allah, main gham-o-fikr, bebasi, susti, buzdili, bukhl, mushkil qarz aur logon ke ghalbe se Teri panah maangta hoon.","Sahih al-Bukhari 6369","https://sunnah.com/bukhari:6369"],
 ["Gunah aur qarz se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسَلِ وَالْهَرَمِ وَالْمَأْثَمِ وَالْمَغْرَمِ","Ya Allah, main susti, budhape, gunah aur qarz se Teri panah maangta hoon.","Sahih al-Bukhari 6375","https://sunnah.com/bukhari:6375"]
 ];
-function bal(d){return Math.max(0,Number(d.principal)-d.repayments.reduce((a,p)=>a+Number(p.amount),0))}
-function paid(d){return d.repayments.reduce((a,p)=>a+Number(p.amount),0)}
+function ensureRecord(d){return {...d,principal:Number(d.principal)||0,repayments:Array.isArray(d.repayments)?d.repayments.map(p=>({...p,amount:Number(p.amount)||0})):[]}}
+data=data.map(ensureRecord);
+function paid(d){return d.repayments.reduce((a,p)=>a+Number(p.amount||0),0)}
+function bal(d){return Math.max(0,Number(d.principal)-paid(d))}
+function dueInfo(d){
+ if(!d.due||!bal(d))return {state:"none",days:null};
+ const today=new Date(isoToday()+"T00:00:00"),due=new Date(d.due+"T00:00:00");
+ const days=Math.round((due-today)/86400000);
+ return {state:days<0?"overdue":days===0?"today":"upcoming",days};
+}
 function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
 function page(p){
  document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===p));
  document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.p===p));
- const n={dashboard:"Dashboard",records:"Qarz Records",duas:"Duā Library",backup:"Backup & Restore",about:"About"}[p]||"Dashboard";
- document.getElementById("title").textContent=n;document.getElementById("crumb").textContent=n;render();
+ const n={dashboard:"Dashboard",records:"Qarz Records",people:"People",duas:"Duā Library",backup:"Backup & Restore",about:"About"}[p]||"Dashboard";
+ document.getElementById("title").textContent=n;document.getElementById("crumb").textContent=n;
+ if(p!=="records")document.getElementById("globalSearch").value="";
+ render();
+}
+function statusTag(d){
+ const r=bal(d),info=dueInfo(d);
+ if(!r)return '<span class="tag green">Completed</span>';
+ if(info.state==="overdue")return '<span class="tag pink">Overdue</span>';
+ if(info.state==="today")return '<span class="tag gold">Due today</span>';
+ return '<span class="tag gold">Pending</span>';
 }
 function rows(ds,compact=false){
  if(!ds.length)return '<div class="empty">No Qarz records yet.</div>';
  return '<table><thead><tr><th>Person</th><th>Type</th><th>Original</th><th>Paid</th><th>Remaining</th><th>Status</th><th></th></tr></thead><tbody>'+
- ds.map(d=>{const p=paid(d),r=bal(d);return '<tr><td><b>'+esc(d.person)+'</b><div class="muted">'+esc(d.date||"")+'</div></td><td><span class="tag '+(d.direction==="recv"?"green":"pink")+'">'+(d.direction==="recv"?"Receive":"Return")+'</span></td><td>'+fmt(d.principal)+'</td><td>'+fmt(p)+'</td><td><b>'+fmt(r)+'</b></td><td><span class="tag '+(r?"gold":"green")+'">'+(r?"Pending":"Completed")+'</span></td><td><div class="actions">'+(r?'<button class="mini soft" onclick="payment(\''+d.id+'\')">＋ Repay</button>':"")+'<button class="mini danger" onclick="removeRec(\''+d.id+'\')">Delete</button></div></td></tr>'}).join("")+'</tbody></table>';
-}
-function duaHTML(d,i){
- return '<div class="dua"><div class="kicker">MASNOON DUĀ</div><h3>'+esc(d[0])+'</h3><div class="arabic">'+d[1]+'</div><div class="meaning">'+esc(d[2])+'</div><div class="source">'+esc(d[3])+'</div><div class="duaActions"><button class="btn gold" onclick="speak('+i+')">🔊 Suno</button><a class="btn ghost" target="_blank" href="'+d[4]+'" style="text-decoration:none">Reference ↗</a></div></div>';
+ ds.map(d=>'<tr><td><b>'+esc(d.person)+'</b><div class="muted">'+esc(d.date||"")+(d.due?' • Due '+esc(d.due):"")+'</div></td><td><span class="tag '+(d.direction==="recv"?"green":"pink")+'">'+(d.direction==="recv"?"Receive":"Return")+'</span></td><td>'+fmt(d.principal)+'</td><td>'+fmt(paid(d))+'</td><td><b>'+fmt(bal(d))+'</b></td><td>'+statusTag(d)+'</td><td><div class="actions"><button class="mini" onclick="openDetail(\''+d.id+'\')">View</button>'+(bal(d)?'<button class="mini soft" onclick="quickPayment(\''+d.id+'\')">＋ Repay</button>':"")+'</div></td></tr>').join("")+
+ '</tbody></table>';
 }
 function render(){
- let recv=0,owed=0,allPaid=0,open=0,recvPeople=0,owedPeople=0;
- data.forEach(d=>{const b=bal(d);allPaid+=paid(d);if(b){open++;if(d.direction==="recv"){recv+=b;recvPeople++}else{owed+=b;owedPeople++}}});
+ let recv=0,owed=0,allPaid=0,open=0,recvPeople=0,owedPeople=0,overdue=0;
+ data.forEach(d=>{const b=bal(d);allPaid+=paid(d);if(b){open++;if(d.direction==="recv"){recv+=b;recvPeople++}else{owed+=b;owedPeople++}if(dueInfo(d).state==="overdue")overdue++}});
  document.getElementById("hero").textContent=fmt(recv+owed);
  document.getElementById("recv").textContent=fmt(recv);
  document.getElementById("owed").textContent=fmt(owed);
@@ -196,37 +204,85 @@ function render(){
  document.getElementById("active").textContent=open;
  document.getElementById("recvPeople").textContent=recvPeople+" people";
  document.getElementById("owedPeople").textContent=owedPeople+" people";
+ document.getElementById("overdueSmall").textContent=overdue?overdue+" overdue":"To be settled";
  const latest=data.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
  document.getElementById("recent").innerHTML=rows(latest);
  document.getElementById("featured").innerHTML=duaHTML(D[0],0);
- renderReminders();renderPeople();
  document.getElementById("recordBody").innerHTML=rows(data.slice().sort((a,b)=>b.createdAt-a.createdAt));
- document.getElementById("duaBody").innerHTML='<div></div>'+D.map((x,i)=>duaHTML(x,i)).join("");
+ renderReminders();renderPeopleSummary();renderPeoplePage();document.getElementById("duaBody").innerHTML=D.map((x,i)=>duaHTML(x,i)).join("");
 }
 function renderRecords(){
- const q=(document.getElementById("search").value||"").toLowerCase(),f=document.getElementById("filter").value;
- document.getElementById("recordBody").innerHTML=rows(data.filter(d=>(!q||d.person.toLowerCase().includes(q))&&(f==="all"||f===d.direction||(f==="open"&&bal(d)>0)||(f==="done"&&bal(d)===0))).sort((a,b)=>b.createdAt-a.createdAt));
+ const q=(document.getElementById("search").value||"").toLowerCase().trim(),f=document.getElementById("filter").value;
+ document.getElementById("recordBody").innerHTML=rows(data.filter(d=>{
+  const hay=[d.person,d.note,d.date,d.due].join(" ").toLowerCase();
+  const match=!q||hay.includes(q);const info=dueInfo(d);
+  const type=f==="all"||f===d.direction||(f==="open"&&bal(d)>0)||(f==="done"&&!bal(d))||(f==="overdue"&&info.state==="overdue");
+  return match&&type;
+ }).sort((a,b)=>b.createdAt-a.createdAt));
 }
-function globalFind(q){if(q.trim())page("records");document.getElementById("search").value=q;renderRecords()}
+function globalFind(q){if(q.trim()){page("records");document.getElementById("search").value=q;renderRecords()}else if(document.getElementById("title").textContent==="Qarz Records"){renderRecords()}}
 function renderReminders(){
- const items=data.filter(d=>d.due&&bal(d)>0).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,4);
- const el=document.getElementById("reminders");
+ const items=data.filter(d=>d.due&&bal(d)).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,4),el=document.getElementById("reminders");
+ document.getElementById("reminderCount").textContent=items.length+" upcoming";
  if(!items.length){el.innerHTML='<div class="empty">No upcoming reminders.</div>';return}
- el.innerHTML=items.map(d=>{const dt=new Date(d.due+"T00:00:00"),mon=dt.toLocaleString("en",{month:"short"}),day=dt.getDate();return '<div class="reminder"><div style="display:flex;gap:10px;align-items:center"><div class="datebox"><b>'+day+'</b><small>'+mon+'</small></div><div><b>'+esc((d.direction==="recv"?"Receive from ":"Return to ")+d.person)+'</b><div class="muted">'+fmt(bal(d))+'</div></div></div><span class="tag blue">'+mon+' '+day+'</span></div>'}).join("");
+ el.innerHTML=items.map(d=>{const dt=new Date(d.due+"T00:00:00"),mon=dt.toLocaleString("en",{month:"short"}),day=dt.getDate(),info=dueInfo(d),label=info.state==="overdue"?Math.abs(info.days)+" days overdue":info.state==="today"?"Due today":"In "+info.days+" days";return '<div class="reminder" onclick="openDetail(\''+d.id+'\')"><div style="display:flex;gap:10px;align-items:center;cursor:pointer"><div class="datebox"><b>'+day+'</b><small>'+mon+'</small></div><div><b>'+esc((d.direction==="recv"?"Receive from ":"Return to ")+d.person)+'</b><div class="muted">'+fmt(bal(d))+'</div></div></div><span class="tag '+(info.state==="overdue"?"pink":"blue")+'">'+label+'</span></div>'}).join("");
 }
-function renderPeople(){
- const map={};data.forEach(d=>{const b=bal(d);if(b)(map[d.person]??={recv:0,owed:0})[d.direction]+=b});
- const arr=Object.entries(map).sort((a,b)=>(b[1].recv+b[1].owed)-(a[1].recv+a[1].owed)).slice(0,5);
- document.getElementById("people").innerHTML=arr.length?'<div class="people">'+arr.map(([n,v])=>'<div class="person"><div class="pavatar">'+esc(n[0]?.toUpperCase()||"?")+'</div><div class="grow"><b>'+esc(n)+'</b><small>'+((v.recv?fmt(v.recv)+" receive":"")+(v.recv&&v.owed?" • ":"")+(v.owed?fmt(v.owed)+" return":""))+'</small></div></div>').join("")+'</div>':'<div class="empty">No people yet.</div>';
+function peopleMap(){
+ const map={};
+ data.forEach(d=>{const b=bal(d);const n=d.person?.trim();if(!n)return;const k=n.toLowerCase();if(!map[k])map[k]={name:n,recv:0,owed:0,open:0,records:[]};if(d.direction==="recv")map[k].recv+=b;else map[k].owed+=b;if(b)map[k].open++;map[k].records.push(d)});
+ return map;
 }
-function openModal(){document.getElementById("modal").classList.add("show");document.getElementById("form").reset();document.getElementById("date").value=new Date().toISOString().slice(0,10)}
-function closeModal(){document.getElementById("modal").classList.remove("show")}
-document.getElementById("form").addEventListener("submit",e=>{e.preventDefault();data.push({id:rid(),createdAt:Date.now(),direction:document.getElementById("direction").value,person:document.getElementById("person").value.trim(),principal:Number(document.getElementById("principal").value),date:document.getElementById("date").value,due:document.getElementById("due").value,note:document.getElementById("note").value,repayments:[]});save();closeModal()})
-function payment(x){const d=data.find(v=>v.id===x),r=bal(d),a=Number(prompt("Remaining: "+fmt(r)+"\nRepayment amount:"));if(!(a>0)||a>r){if(a)alert("Invalid amount.");return}d.repayments.push({amount:a,date:new Date().toISOString().slice(0,10)});save()}
-function removeRec(x){if(confirm("Delete this record?")){data=data.filter(d=>d.id!==x);save()}}
-function backup(){const b=new Blob([JSON.stringify({app:"Qarz Amanah",version:2,records:data},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="qarz-amanah-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!Array.isArray(x.records))throw 0;data.push(...x.records.map(v=>({...v,repayments:Array.isArray(v.repayments)?v.repayments:[]})));save();alert("Backup restored.")}catch{alert("Invalid backup file.")}};r.readAsText(f)}
+function renderPeopleSummary(){
+ const arr=Object.values(peopleMap()).filter(x=>x.open).sort((a,b)=>(b.recv+b.owed)-(a.recv+a.owed)).slice(0,5),el=document.getElementById("peopleSummary");
+ el.innerHTML=arr.length?'<div class="people">'+arr.map(x=>'<div class="person" onclick="showPerson(\''+esc(x.name).replace(/'/g,"\\'")+'\')"><div class="pavatar">'+esc(x.name[0].toUpperCase())+'</div><div class="grow"><b>'+esc(x.name)+'</b><small>'+(x.recv?fmt(x.recv)+" receive":"")+(x.recv&&x.owed?" • ":"")+(x.owed?fmt(x.owed)+" return":"")+'</small></div></div>').join("")+'</div>':'<div class="empty">No people yet.</div>';
+}
+function renderPeoplePage(){
+ const q=(document.getElementById("peopleSearch")?.value||"").toLowerCase().trim(),arr=Object.values(peopleMap()).filter(x=>!q||x.name.toLowerCase().includes(q)).sort((a,b)=>a.name.localeCompare(b.name)),el=document.getElementById("peopleGrid");
+ el.innerHTML=arr.length?arr.map(x=>'<div class="personCard" onclick="showPerson(\''+esc(x.name).replace(/'/g,"\\'")+'\')"><div class="personTop"><div class="bigAvatar">'+esc(x.name[0].toUpperCase())+'</div><div><h3>'+esc(x.name)+'</h3><div class="muted">'+x.records.length+' record'+(x.records.length===1?"":"s")+' • '+x.open+' open</div></div></div><div class="metrics"><div class="metric"><small>I will receive</small><strong>'+fmt(x.recv)+'</strong></div><div class="metric"><small>I will return</small><strong>'+fmt(x.owed)+'</strong></div></div></div>').join(""):'<div class="empty" style="grid-column:1/-1">No people found.</div>';
+}
+function showPerson(name){
+ page("records");document.getElementById("search").value=name;document.getElementById("filter").value="all";renderRecords();
+}
+function duaHTML(d,i){return '<div class="dua"><div class="kicker">MASNOON DUĀ</div><h3>'+esc(d[0])+'</h3><div class="arabic">'+d[1]+'</div><div class="meaning">'+esc(d[2])+'</div><div class="source">'+esc(d[3])+'</div><div class="duaActions"><button class="btn gold" onclick="speak('+i+')">🔊 Suno</button><a class="btn ghost" target="_blank" rel="noopener" href="'+d[4]+'" style="text-decoration:none">Reference ↗</a></div></div>'}
+function openModal(id=null){
+ editId=id;document.getElementById("form").reset();document.getElementById("modal").classList.add("show");
+ if(id){const d=data.find(x=>x.id===id);if(!d)return;document.getElementById("modalTitle").textContent="Edit Qarz Record";direction.value=d.direction;person.value=d.person;principal.value=d.principal;date.value=d.date||isoToday();due.value=d.due||"";note.value=d.note||""}
+ else{document.getElementById("modalTitle").textContent="New Qarz Record";date.value=isoToday()}
+}
+function closeModal(){document.getElementById("modal").classList.remove("show");editId=null}
+document.getElementById("form").addEventListener("submit",e=>{
+ e.preventDefault();
+ const obj={direction:direction.value,person:person.value.trim(),principal:Number(principal.value),date:date.value,due:due.value,note:note.value};
+ if(editId){const d=data.find(x=>x.id===editId);Object.assign(d,obj)}
+ else data.push({...obj,id:rid(),createdAt:Date.now(),repayments:[]});
+ save();closeModal();if(currentDetailId)openDetail(currentDetailId);
+});
+function quickPayment(id){
+ const d=data.find(x=>x.id===id);if(!d)return;const remaining=bal(d);
+ const value=prompt("Remaining: "+fmt(remaining)+"\nEnter repayment amount:");
+ if(value===null)return;const amount=Number(value);if(!(amount>0)||amount>remaining){alert("Please enter an amount between 0 and "+fmt(remaining)+".");return}
+ const dateVal=prompt("Repayment date (YYYY-MM-DD):",isoToday())||isoToday();
+ if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(dateVal))return alert("Invalid date.");
+ d.repayments.push({id:rid(),amount,date:dateVal});save();openDetail(id);
+}
+function openDetail(id){
+ const d=data.find(x=>x.id===id);if(!d)return;currentDetailId=id;document.getElementById("detailModal").classList.add("show");
+ document.getElementById("detailName").textContent=d.person+" — Qarz Details";
+ document.getElementById("detailMeta").textContent=(d.direction==="recv"?"I will receive":"I will return")+" • "+(d.date||"");
+ document.getElementById("detailOriginal").textContent=fmt(d.principal);document.getElementById("detailPaid").textContent=fmt(paid(d));document.getElementById("detailRemaining").textContent=fmt(bal(d));
+ const info=dueInfo(d);
+ document.getElementById("detailText").innerHTML='<div><span class="tag '+(d.direction==="recv"?"green":"pink")+'">'+(d.direction==="recv"?"I will receive":"I will return")+'</span> '+statusTag(d)+'</div><p style="margin:12px 0 5px;color:#dce7f5;font-size:12px"><b>Qarz date:</b> '+esc(d.date||"—")+'</p><p style="margin:5px 0;color:#dce7f5;font-size:12px"><b>Due date:</b> '+esc(d.due||"—")+(info.state==="overdue"?' <span class="tag pink">'+Math.abs(info.days)+' days overdue</span>':"")+'</p><p style="margin:5px 0;color:#dce7f5;font-size:12px"><b>Notes:</b> '+(esc(d.note)||"—")+'</p>';
+ document.getElementById("historyBody").innerHTML=d.repayments.length?d.repayments.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")).map(p=>'<div class="historyRow"><span>'+esc(p.date||"—")+'</span><span>'+fmt(p.amount)+'</span><span><button class="mini danger" onclick="removePayment(\''+d.id+'\',\''+p.id+'\')">Delete</button></span></div>').join(""):'<div class="empty">No repayments yet.</div>';
+ document.getElementById("detailRepayBtn").onclick=()=>quickPayment(d.id);document.getElementById("detailEditBtn").onclick=()=>{closeDetail();openModal(d.id)};document.getElementById("detailDeleteBtn").onclick=()=>removeRec(d.id,true);
+ document.getElementById("detailRepayBtn").style.display=bal(d)?"inline-block":"none";
+}
+function closeDetail(){document.getElementById("detailModal").classList.remove("show");currentDetailId=null}
+function removePayment(recId,pid){const d=data.find(x=>x.id===recId);if(!d)return;if(confirm("Delete this repayment?")){d.repayments=d.repayments.filter(p=>p.id!==pid);save();openDetail(recId)}}
+function removeRec(id,fromDetail=false){const d=data.find(x=>x.id===id);if(!d)return;if(confirm("Delete this Qarz record?")){data=data.filter(x=>x.id!==id);save();if(fromDetail)closeDetail()}}
+function backup(){const b=new Blob([JSON.stringify({app:"Qarz Amanah",version:2,exportedAt:new Date().toISOString(),records:data},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="qarz-amanah-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!Array.isArray(x.records))throw 0;const existing=new Set(data.map(d=>d.id));const incoming=x.records.map(ensureRecord).filter(d=>!existing.has(d.id));data.push(...incoming);save();alert(incoming.length+" records restored.")}catch{alert("Invalid backup file.")}};r.readAsText(f)}
 function speak(i){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(D[i][1]);u.lang="ar-SA";u.rate=.8;speechSynthesis.speak(u)}
+window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail()}});
 render();
 </script>
 </body>
