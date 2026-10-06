@@ -153,6 +153,7 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
 <script>
 const SUPABASE_URL="https://wocjtxliicyuuefouvka.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_CAciRzgWpbmGfkegaWgmSQ_njrEEYeo";
+const SITE_URL="https://itsmsjwork-ux.github.io/Qarz-Amanah/";
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
 const KEY="qarz_amanah_public_v2";
 let data=JSON.parse(localStorage.getItem(KEY)||"[]");
@@ -188,7 +189,7 @@ async function submitAuth(){
   const btn=document.getElementById("authSubmit");btn.disabled=true;btn.textContent=authMode==="signup"?"Creating account…":"Signing in…";
   try{
     const result=authMode==="signup"
-      ?await supabaseClient.auth.signUp({email,password,options:{data:{display_name:name||null}}})
+      ?await supabaseClient.auth.signUp({email,password,options:{data:{display_name:name||null},emailRedirectTo:SITE_URL}})
       :await supabaseClient.auth.signInWithPassword({email,password});
     if(result.error)throw result.error;
     if(authMode==="signup"&&!result.data.session){authMessage("Account created. Check your email to confirm, then come back and log in.","ok")}
