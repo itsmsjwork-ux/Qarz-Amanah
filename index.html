@@ -192,8 +192,12 @@ async function submitAuth(){
       ?await supabaseClient.auth.signUp({email,password,options:{data:{display_name:name||null},emailRedirectTo:SITE_URL}})
       :await supabaseClient.auth.signInWithPassword({email,password});
     if(result.error)throw result.error;
-    if(authMode==="signup"&&!result.data.session){authMessage("Account created. Check your email to confirm, then come back and log in.","ok")}
-    else{authMessage("Signed in.","ok");}
+    if(result.data.session){
+      await handleSession(result.data.session);
+      authMessage("Signed in.","ok");
+    }else if(authMode==="signup"){
+      authMessage("Account created. Please log in once to continue.","ok");
+    }
   }catch(e){authMessage(e.message||"Authentication failed.","error")}
   finally{btn.disabled=false;btn.textContent=authMode==="signup"?"Create Account":"Login to Qarz Amanah"}
 }
