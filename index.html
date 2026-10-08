@@ -159,7 +159,7 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
     </div>
     <div class="body">
       <div class="reminderHero">
-        <div><span class="rIcon">⏰</span><div><b id="reminderStatusTitle">Reminder Center</b><small id="reminderStatusText">Browser notifications are off.</small></div></div>
+        <div><span class="rIcon">⏰</span><div><b id="reminderStatusTitle">Reminder Center</b><small id="reminderStatusText">Browser notifications are off.</small><small style="margin-top:6px;color:#6f839f">Browser alerts run while Qarz Amanah is open.</small></div></div>
         <div class="reminderCounts">
           <span><b id="rOverdue">0</b><small>Overdue</small></span>
           <span><b id="rToday">0</b><small>Due today</small></span>
@@ -632,7 +632,9 @@ function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReade
 function speak(i){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(D[i][1]);u.lang="ar-SA";u.rate=.8;speechSynthesis.speak(u)}
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail()}});
 render();
+setTimeout(()=>{if(session){checkReminders(false);renderReminderPage();}},1200);
 setInterval(()=>{if(session){checkReminders(false);renderReminderPage();}},60*60*1000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&session){checkReminders(false);renderReminderPage()}});
 </script>
 <div id="toast" class="toast"></div>
 <div class="authScreen" id="authScreen">
