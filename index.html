@@ -655,33 +655,33 @@ function pickVoice(voices,langs){
 }
 function speak(i){
  const arabic=D[i]?.[1],roman=D[i]?.[5]||arabic;
- if(!("speechSynthesis" in window)){alert("Is browser mein voice support available nahi hai.");return}
+ if(!arabic)return;
+ try{
+   if(window.__duaAudio){window.__duaAudio.pause();window.__duaAudio.currentTime=0}
+   const audioUrl="https://translate.google.com/translate_tts?ie=UTF-8&q="+encodeURIComponent(arabic)+"&tl=ar&client=tw-ob";
+   const audio=new Audio(audioUrl);window.__duaAudio=audio;
+   audio.volume=1;
+   audio.onplay=()=>showToast("🔊 Dua chal rahi hai…");
+   audio.onerror=()=>fallbackSpeech(arabic,roman);
+   const playPromise=audio.play();
+   if(playPromise)playPromise.catch(()=>fallbackSpeech(arabic,roman));
+ }catch(e){fallbackSpeech(arabic,roman)}
+}
+function fallbackSpeech(arabic,roman){
+ if(!("speechSynthesis" in window)){alert("Voice play nahi ho rahi. Browser mein audio/voice permission check karein.");return}
  speechSynthesis.cancel();speechSynthesis.resume();
  const voices=loadSpeechVoices();
- const arabicVoice=pickVoice(voices,["ar","fa"]);
+ const arabicVoice=pickVoice(voices,["ar"]);
  const fallbackVoice=pickVoice(voices,["hi-in","hi","en-in","en"]);
- const useArabic=!!arabicVoice;
- const spoken=useArabic?arabic:roman;
+ const spoken=arabicVoice?arabic:roman;
  const u=new SpeechSynthesisUtterance(spoken);
- u.lang=(useArabic?arabicVoice.lang:(fallbackVoice?.lang||"hi-IN"));
- if(useArabic)u.voice=arabicVoice;else if(fallbackVoice)u.voice=fallbackVoice;
- u.rate=useArabic?.72:.78;u.pitch=1;u.volume=1;
- u.onstart=()=>showToast(useArabic?"🔊 Arabic voice":"🔊 Qarz Dua voice");
- u.onerror=(e)=>{
-   console.error("Speech error",e);
-   if(useArabic){
-     setTimeout(()=>{
-       const fallback=new SpeechSynthesisUtterance(roman);
-       fallback.lang=fallbackVoice?.lang||"hi-IN";
-       if(fallbackVoice)fallback.voice=fallbackVoice;
-       fallback.rate=.78;fallback.volume=1;
-       speechSynthesis.cancel();speechSynthesis.speak(fallback);
-     },80);
-   }else{
-     showToast("Voice start nahi ho payi. Chrome/Windows mein speech voice enable karein.");
-   }
- };
- setTimeout(()=>speechSynthesis.speak(u),60);
+ u.lang=arabicVoice?.lang||fallbackVoice?.lang||"hi-IN";
+ if(arabicVoice)u.voice=arabicVoice;else if(fallbackVoice)u.voice=fallbackVoice;
+ u.rate=arabicVoice?.lang?.toLowerCase().startsWith("ar")?.72:.78;
+ u.volume=1;
+ u.onstart=()=>showToast("🔊 Voice started");
+ u.onerror=()=>showToast("Voice play nahi ho payi. Ek baar page refresh karke phir Suno dabao.");
+ speechSynthesis.speak(u);
 }
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail()}});
 render();
