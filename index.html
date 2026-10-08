@@ -69,6 +69,127 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
 .authScreen{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 20%,rgba(76,108,255,.18),transparent 28%),rgba(3,10,20,.86);backdrop-filter:blur(18px)}.authScreen.hidden{display:none}.authBox{width:min(460px,100%);border:1px solid rgba(255,255,255,.16);border-radius:26px;background:linear-gradient(145deg,rgba(15,37,64,.96),rgba(8,24,43,.96));box-shadow:0 35px 100px rgba(0,0,0,.45);overflow:hidden}.authBrand{padding:28px 28px 12px;text-align:center}.authLogo{width:64px;height:64px;margin:0 auto 14px;border-radius:22px;display:grid;place-items:center;font-size:31px;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.18)}.authBrand h2{font-family:Georgia,serif;font-size:29px;margin:0}.authBrand p{color:#98abc4;font-size:11px;margin:7px 0 0}.authTabs{display:grid;grid-template-columns:1fr 1fr;margin:18px 22px 0;padding:4px;border-radius:13px;background:rgba(255,255,255,.05)}.authTabs button{border:0;border-radius:10px;padding:10px;background:transparent;color:#9eb0c8;font-weight:800;cursor:pointer}.authTabs button.active{background:rgba(97,124,255,.22);color:#fff}.authBody{padding:20px 26px 26px}.authBody .field{margin-bottom:13px}.authBody label{display:block;color:#a4b6cd;font-size:10px;font-weight:800;margin-bottom:6px}.authBody input{background:rgba(255,255,255,.06)}.authSubmit{width:100%;margin-top:6px}.authMsg{min-height:18px;text-align:center;color:#9fb2ca;font-size:11px;line-height:1.5;margin-top:12px}.authMsg.error{color:#ff9faf}.authMsg.ok{color:#76eec1}.authFoot{text-align:center;color:#7388a3;font-size:10px;padding:0 26px 22px}.account{display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.045)}.accountText{max-width:150px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#b3c3d7;font-size:10px}.logout{padding:8px 10px!important}.sync{color:#79edc5;font-size:10px}.noteGood{color:#79edc5;font-size:11px}
 @media(max-height:720px){.side{min-height:100vh;padding-top:18px;padding-bottom:14px}.sideNote{max-height:168px;padding:10px 11px}.sideNote .arab{font-size:14px;line-height:1.45}.sideNote p{font-size:10px;line-height:1.35;margin:4px 0}.sideNote small{font-size:9px}}
 @media(max-width:1100px){.app{grid-template-columns:245px 1fr}.side{padding:20px 14px}.main{min-width:0}.top{padding:0 18px}.content{padding:24px}.stats{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.peopleGrid,.aboutGrid{grid-template-columns:1fr 1fr}.reportGrid{grid-template-columns:1fr}.reportWide{grid-column:span 1}.reportOverview{grid-template-columns:1fr 1fr}.hero h2{font-size:32px}}
+
+/* Cross-device responsive layout: desktop, tablet, iPhone/Android */
+@media (max-width: 900px){
+  html,body{width:100%;overflow-x:hidden}
+  body{overflow-x:hidden}
+  .app{display:block;min-height:100vh;width:100%}
+  .side{
+    position:sticky;top:0;z-index:8;width:100%;height:auto;min-height:0;
+    padding:10px 12px;border-right:0;border-bottom:1px solid var(--line);
+    flex-direction:row;align-items:center;gap:8px;overflow-x:auto;overflow-y:hidden;
+    background:rgba(5,17,33,.95)
+  }
+  .brand{padding:0 10px 0 2px;flex:0 0 auto;gap:8px}
+  .brand .logo{width:38px;height:38px;border-radius:13px;font-size:20px}
+  .brand b{font-size:17px;white-space:nowrap}
+  .brand small{font-size:8px;white-space:nowrap}
+  .side .label,.sideNote{display:none}
+  .side .nav{display:flex;gap:6px;flex:0 0 auto}
+  .side .nav button{
+    flex:0 0 auto;white-space:nowrap;padding:9px 11px;border-radius:11px;
+    font-size:11px;gap:6px
+  }
+  .ico{width:auto;font-size:14px}
+  .main{width:100%;min-width:0}
+  .top{
+    height:auto;min-height:74px;flex-wrap:wrap;align-items:center;
+    padding:12px 14px;gap:10px
+  }
+  .top>div:first-child{flex:1 1 120px;min-width:120px}
+  .top h1{font-size:19px}
+  .crumb{font-size:9px}
+  .topRight{
+    flex:1 1 100%;width:100%;display:flex;flex-wrap:wrap;
+    justify-content:stretch;gap:7px
+  }
+  .search{order:1;flex:1 1 100%;width:100%;min-width:0}
+  .topRight>.btn.primary{order:2;flex:1 1 120px}
+  .account{order:3;flex:1 1 230px;min-width:0;justify-content:flex-start}
+  .accountText{max-width:none;flex:1 1 auto}
+  .topRight>.btn.ghost{order:4;flex:0 0 auto}
+  .content{padding:16px 14px 28px;width:100%}
+  .hero{padding:22px 18px;border-radius:20px}
+  .heroRow{flex-direction:column;align-items:flex-start;gap:20px}
+  .hero h2{font-size:30px;line-height:1.15}
+  .hero p{font-size:12px;line-height:1.6}
+  .heroTotal{text-align:left}
+  .heroTotal strong{font-size:32px}
+  .stats{grid-template-columns:1fr;gap:10px}
+  .grid2,.grid3,.reportGrid,.aboutGrid{grid-template-columns:1fr;gap:12px}
+  .reportWide{grid-column:span 1}
+  .reportOverview{grid-template-columns:1fr 1fr}
+  .peopleGrid{grid-template-columns:1fr}
+  .reminderSections{grid-template-columns:1fr}
+  .reminderHero{flex-direction:column;align-items:stretch}
+  .reminderCounts{justify-content:space-between}
+  .reminderCounts span{flex:1;min-width:0}
+  .monthRow{grid-template-columns:62px minmax(0,1fr);gap:8px}
+  .monthNums{grid-column:1/-1;text-align:left}
+  .toolbar{width:100%}
+  .toolbar input,.toolbar select{flex:1 1 150px;min-width:0}
+  .tableWrap,table{max-width:100%;overflow-x:auto}
+  table{display:block;white-space:nowrap}
+  th,td{font-size:10px}
+  .form{grid-template-columns:1fr}
+  .full{grid-column:auto}
+  .modal{padding:10px}
+  .modalBox{width:100%;max-height:94vh;border-radius:18px}
+  .modalBody{padding:15px;max-height:72vh}
+  .detailHero{grid-template-columns:1fr}
+  .history{overflow-x:auto}
+  .historyHead,.historyRow{min-width:470px}
+  .duaActions{flex-wrap:wrap}
+  .duaActions .btn{flex:1 1 120px}
+  .arabic{font-size:20px}
+  .authScreen{padding:10px;overflow-y:auto}
+  .authBox{width:100%;max-width:460px;max-height:96vh;overflow-y:auto;border-radius:20px}
+}
+@media (max-width: 600px){
+  .side{padding:8px 9px}
+  .brand{display:none}
+  .side .nav{gap:5px}
+  .side .nav button{padding:8px 10px;font-size:10px}
+  .top{padding:10px}
+  .topRight>.btn.primary{flex:1 1 145px}
+  .account{flex:1 1 100%;width:100%}
+  .avatar{width:42px;height:42px;flex-basis:42px}
+  .content{padding:12px 10px 24px}
+  .hero{padding:18px 15px}
+  .hero h2{font-size:25px}
+  .hero p{font-size:11px}
+  .stat{padding:16px}
+  .stat strong{font-size:22px}
+  .head{padding:13px 14px;align-items:flex-start;flex-wrap:wrap}
+  .body{padding:14px}
+  .reportOverview{grid-template-columns:1fr}
+  .reportOverview strong{font-size:18px}
+  .healthValue{align-items:flex-start;flex-direction:column}
+  .healthValue span{text-align:left}
+  .quick{grid-template-columns:1fr}
+  .reminderCounts{gap:6px}
+  .reminderCounts span{padding:8px 6px}
+  .reminderCounts b{font-size:16px}
+  .modalFoot{padding:12px 14px;flex-wrap:wrap}
+  .modalFoot .btn{flex:1 1 130px}
+  .authBrand{padding:22px 20px 10px}
+  .authBody{padding:16px 18px 20px}
+  .authFoot{padding:0 18px 18px}
+}
+@media (min-width: 601px) and (max-width: 900px){
+  .side{padding-left:14px;padding-right:14px}
+  .side .nav button{font-size:11px}
+  .stats{grid-template-columns:1fr 1fr}
+  .peopleGrid{grid-template-columns:1fr 1fr}
+  .aboutGrid{grid-template-columns:1fr 1fr}
+  .reportOverview{grid-template-columns:1fr 1fr}
+}
+@media (hover:none) and (pointer:coarse){
+  button,.btn,.mini,.nav button{min-height:40px}
+  input,select,textarea{font-size:16px}
+}
+
 </style>
 </head>
 <body>
