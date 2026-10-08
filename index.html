@@ -1578,14 +1578,25 @@ function stopDuaAudio(){
 }
 function playDuaAudio(file,onFail){
  stopDuaAudio();
- try{
-   const audio=new Audio(file);window.__duaAudio=audio;audio.preload="auto";audio.volume=1;
-   audio.onplay=()=>showToast("🔊 Audio chal rahi hai…");
-   audio.onended=()=>showToast("✓ Audio complete");
-   audio.onerror=()=>onFail();
-   const p=audio.play();
-   if(p)p.catch(()=>onFail());
- }catch(e){onFail()}
+ const sources=[file,"https://itsmsjwork-ux.github.io/Qarz-Amanah/"+file];
+ let idx=0,failed=false;
+ const tryNext=()=>{
+   if(failed)return;
+   if(idx>=sources.length){failed=true;onFail();return}
+   const src=sources[idx++];
+   try{
+     const audio=new Audio(src);
+     window.__duaAudio=audio;
+     audio.preload="auto";
+     audio.volume=1;
+     audio.onplay=()=>showToast("🔊 Audio chal rahi hai…");
+     audio.onended=()=>showToast("✓ Audio complete");
+     audio.onerror=()=>{ tryNext(); };
+     const p=audio.play();
+     if(p)p.catch(()=>tryNext());
+   }catch(e){tryNext()}
+ };
+ tryNext();
 }
 function speak(i){
  playDuaAudio("audio/dua"+(i+1)+".mp3",()=>showToast("Dua audio load nahi ho payi. Page refresh karke dobara Suno dabao."));
