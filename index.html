@@ -260,10 +260,10 @@ const esc=s=>String(s??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&g
 const rid=()=> (crypto.randomUUID ? crypto.randomUUID() : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,c=>{const r=Math.random()*16|0,v=c==="x"?r:(r&3)|8;return v.toString(16)}));
 const isoToday=()=>new Date().toISOString().slice(0,10);
 const D=[
-["Halal rizq aur qarz","اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ","Ya Allah, apne halal ke zariye mujhe apne haram se bacha, aur apne fazl se mujhe apne siwa sab se be-niyaz kar de.","Jami' at-Tirmidhi 3563","https://sunnah.com/tirmidhi:3563"],
-["Qarz ke ghalbe se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ، وَغَلَبَةِ الْعَدُوِّ، وَشَمَاتَةِ الْأَعْدَاءِ","Ya Allah, main qarz ke ghalbe, dushman ke ghalbe aur dushmanon ke khush hone se Teri panah maangta hoon.","Sunan an-Nasa'i 5475","https://sunnah.com/nasai:5475"],
-["Mushkil qarz se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ","Ya Allah, main gham-o-fikr, bebasi, susti, buzdili, bukhl, mushkil qarz aur logon ke ghalbe se Teri panah maangta hoon.","Sahih al-Bukhari 6369","https://sunnah.com/bukhari:6369"],
-["Gunah aur qarz se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسَلِ وَالْهَرَمِ وَالْمَأْثَمِ وَالْمَغْرَمِ","Ya Allah, main susti, budhape, gunah aur qarz se Teri panah maangta hoon.","Sahih al-Bukhari 6375","https://sunnah.com/bukhari:6375"]
+["Halal rizq aur qarz","اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ","Ya Allah, apne halal ke zariye mujhe apne haram se bacha, aur apne fazl se mujhe apne siwa sab se be-niyaz kar de.","Jami' at-Tirmidhi 3563","https://sunnah.com/tirmidhi:3563","Allahummakfini bihalalika an haramika, wa aghnini bifadlika amman siwak."],
+["Qarz ke ghalbe se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ، وَغَلَبَةِ الْعَدُوِّ، وَشَمَاتَةِ الْأَعْدَاءِ","Ya Allah, main qarz ke ghalbe, dushman ke ghalbe aur dushmanon ke khush hone se Teri panah maangta hoon.","Sunan an-Nasa'i 5475","https://sunnah.com/nasai:5475","Allahumma inni a'udhu bika min ghalabatid dayn, wa ghalabatil aduwwi, wa shamatatil a'da."],
+["Mushkil qarz se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ","Ya Allah, main gham-o-fikr, bebasi, susti, buzdili, bukhl, mushkil qarz aur logon ke ghalbe se Teri panah maangta hoon.","Sahih al-Bukhari 6369","https://sunnah.com/bukhari:6369","Allahumma inni a'udhu bika minal hammi wal hazan, wal ajzi wal kasal, wal jubni wal bukhl, wa dala'id dayn, wa ghalabatir rijal."],
+["Gunah aur qarz se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسَلِ وَالْهَرَمِ وَالْمَأْثَمِ وَالْمَغْرَمِ","Ya Allah, main susti, budhape, gunah aur qarz se Teri panah maangta hoon.","Sahih al-Bukhari 6375","https://sunnah.com/bukhari:6375","Allahumma inni a'udhu bika minal kasali wal harami wal ma'thami wal maghram."]
 ];
 function ensureRecord(d){return {...d,principal:Number(d.principal)||0,repayments:Array.isArray(d.repayments)?d.repayments.map(p=>({...p,id:p.id||rid(),amount:Number(p.amount)||0})):[]}}
 data=data.map(ensureRecord);
@@ -632,23 +632,38 @@ function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReade
 let speechVoices=[];
 function loadSpeechVoices(){speechVoices=window.speechSynthesis?window.speechSynthesis.getVoices():[];return speechVoices}
 if("speechSynthesis" in window){loadSpeechVoices();speechSynthesis.onvoiceschanged=loadSpeechVoices}
+function pickVoice(voices,langs){
+ return voices.find(v=>langs.some(l=>v.lang.toLowerCase().startsWith(l)))||null;
+}
 function speak(i){
- const textToSpeak=D[i]?.[1];
- if(!textToSpeak)return;
+ const arabic=D[i]?.[1],roman=D[i]?.[5]||arabic;
  if(!("speechSynthesis" in window)){alert("Is browser mein voice support available nahi hai.");return}
- speechSynthesis.cancel();
- speechSynthesis.resume();
+ speechSynthesis.cancel();speechSynthesis.resume();
  const voices=loadSpeechVoices();
- const arabicVoice=voices.find(v=>/^ar([_-]|$)/i.test(v.lang)||/arabic|arabi/i.test(v.name));
- const u=new SpeechSynthesisUtterance(textToSpeak);
- u.lang=arabicVoice?.lang||"ar-SA";
- if(arabicVoice)u.voice=arabicVoice;
- u.rate=.72;
- u.pitch=1;
- u.volume=1;
- u.onstart=()=>showToast(arabicVoice?"🔊 Arabic voice started":"🔊 Voice started");
- u.onerror=(e)=>{console.error("Speech error",e);showToast("Voice start nahi ho payi. Browser mein Arabic voice enabled hai ya nahi check karein.")};
- speechSynthesis.speak(u);
+ const arabicVoice=pickVoice(voices,["ar","fa"]);
+ const fallbackVoice=pickVoice(voices,["hi-in","hi","en-in","en"]);
+ const useArabic=!!arabicVoice;
+ const spoken=useArabic?arabic:roman;
+ const u=new SpeechSynthesisUtterance(spoken);
+ u.lang=(useArabic?arabicVoice.lang:(fallbackVoice?.lang||"hi-IN"));
+ if(useArabic)u.voice=arabicVoice;else if(fallbackVoice)u.voice=fallbackVoice;
+ u.rate=useArabic?.72:.78;u.pitch=1;u.volume=1;
+ u.onstart=()=>showToast(useArabic?"🔊 Arabic voice":"🔊 Qarz Dua voice");
+ u.onerror=(e)=>{
+   console.error("Speech error",e);
+   if(useArabic){
+     setTimeout(()=>{
+       const fallback=new SpeechSynthesisUtterance(roman);
+       fallback.lang=fallbackVoice?.lang||"hi-IN";
+       if(fallbackVoice)fallback.voice=fallbackVoice;
+       fallback.rate=.78;fallback.volume=1;
+       speechSynthesis.cancel();speechSynthesis.speak(fallback);
+     },80);
+   }else{
+     showToast("Voice start nahi ho payi. Chrome/Windows mein speech voice enable karein.");
+   }
+ };
+ setTimeout(()=>speechSynthesis.speak(u),60);
 }
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail()}});
 render();
