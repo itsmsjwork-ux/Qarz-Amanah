@@ -38,10 +38,19 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
 .monthChart{display:grid;gap:11px}.monthRow{display:grid;grid-template-columns:78px 1fr 118px;gap:12px;align-items:center}.monthLabel{font-size:10px;color:#9db0c8}.monthTrack{height:30px;border-radius:10px;background:rgba(255,255,255,.045);overflow:hidden;display:flex}.monthPrincipal{background:linear-gradient(90deg,rgba(94,140,255,.8),rgba(97,124,255,.55))}.monthPaid{background:linear-gradient(90deg,rgba(33,210,154,.85),rgba(33,210,154,.55))}.monthNums{font-size:9px;color:#8297b2;text-align:right}
 .splitBar{height:11px;border-radius:999px;overflow:hidden;display:flex;background:rgba(255,255,255,.05);margin:14px 0 8px}.splitReceive{background:linear-gradient(90deg,#21d29a,#62eab8)}.splitReturn{background:linear-gradient(90deg,#ff7891,#c56cff)}.splitLegend{display:grid;gap:7px}.splitLegend div{display:flex;justify-content:space-between;color:#a9bad2;font-size:10px}.splitLegend b{color:#eef4ff}
 .reportList{display:grid;gap:8px}.reportItem{display:flex;justify-content:space-between;gap:10px;padding:10px;border-radius:12px;background:rgba(255,255,255,.035)}.reportItem b{font-size:11px}.reportItem small{display:block;color:#8297b2;margin-top:3px;font-size:9px}.reportItem strong{font-size:11px}
+.reminderHero{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px;border-radius:16px;background:linear-gradient(135deg,rgba(97,124,255,.12),rgba(33,210,154,.08));border:1px solid rgba(255,255,255,.08)}
+.reminderHero>div:first-child{display:flex;align-items:center;gap:12px}.rIcon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:rgba(239,188,88,.14);font-size:20px}
+.reminderHero b{font-size:14px}.reminderHero small{display:block;color:#8297b2;font-size:10px;margin-top:4px}
+.reminderCounts{display:flex;gap:10px}.reminderCounts span{min-width:70px;padding:9px 11px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);text-align:center}.reminderCounts b{display:block;font-size:18px}.reminderCounts small{margin-top:3px}
+.reminderSections{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:16px}.sectionTitle{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#8297b2;margin:0 0 8px 2px}.reminderListEmpty{padding:18px;border:1px dashed rgba(255,255,255,.09);border-radius:14px;color:#71849e;font-size:11px;text-align:center}
+.reminderLarge{padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035);margin-bottom:8px;cursor:pointer}.reminderLarge:hover{background:rgba(255,255,255,.06)}
+.reminderLargeTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.reminderLarge b{font-size:12px}.reminderLarge small{display:block;color:#8297b2;font-size:9px;margin-top:4px}.reminderLarge .amount{font-weight:900;font-size:12px}
+@media(max-width:1100px){.reminderSections{grid-template-columns:1fr}.reminderHero{align-items:flex-start;flex-direction:column}}
 .form{display:grid;grid-template-columns:1fr 1fr;gap:15px}.full{grid-column:1/-1}label{display:block;font-size:10px;color:#9ab0c9;font-weight:800;margin:0 0 6px}input,select,textarea{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#f7fbff;outline:none}textarea{min-height:90px;resize:vertical}
 .modal{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(1,7,17,.74);backdrop-filter:blur(8px);padding:20px}.modal.show{display:flex}.modalBox{width:min(700px,100%);max-height:88vh;border:1px solid var(--line);border-radius:22px;background:#0e223d;box-shadow:var(--shadow);overflow:hidden}.modalHead,.modalFoot{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.modalFoot{border-bottom:0;border-top:1px solid var(--line);justify-content:flex-end;gap:8px}.modalBody{padding:20px;overflow:auto;max-height:68vh}.modalBox .subhead{font-size:11px;color:#91a5bf;margin:18px 0 8px}.history{border:1px solid var(--line);border-radius:14px;overflow:hidden}.historyRow{display:grid;grid-template-columns:1fr 1fr 90px;gap:10px;padding:10px 12px;border-top:1px solid rgba(255,255,255,.07);font-size:11px}.historyRow:first-child{border-top:0}.historyHead{display:grid;grid-template-columns:1fr 1fr 90px;gap:10px;padding:9px 12px;color:#8297b2;font-size:9px;text-transform:uppercase;background:rgba(255,255,255,.04)}
 .detailHero{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.detailStat{padding:13px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}.detailStat small{display:block;color:#8297b2;font-size:9px}.detailStat strong{display:block;margin-top:5px;font-size:17px}
-.aboutGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.feature{padding:24px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.035)}.feature h3{margin:0 0 8px;font-family:Georgia,serif}.feature p{color:#a8bad0;line-height:1.7;font-size:12px}.quote{font-family:Georgia,serif;font-size:22px;line-height:1.6}.authScreen{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 20%,rgba(76,108,255,.18),transparent 28%),rgba(3,10,20,.86);backdrop-filter:blur(18px)}.authScreen.hidden{display:none}.authBox{width:min(460px,100%);border:1px solid rgba(255,255,255,.16);border-radius:26px;background:linear-gradient(145deg,rgba(15,37,64,.96),rgba(8,24,43,.96));box-shadow:0 35px 100px rgba(0,0,0,.45);overflow:hidden}.authBrand{padding:28px 28px 12px;text-align:center}.authLogo{width:64px;height:64px;margin:0 auto 14px;border-radius:22px;display:grid;place-items:center;font-size:31px;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.18)}.authBrand h2{font-family:Georgia,serif;font-size:29px;margin:0}.authBrand p{color:#98abc4;font-size:11px;margin:7px 0 0}.authTabs{display:grid;grid-template-columns:1fr 1fr;margin:18px 22px 0;padding:4px;border-radius:13px;background:rgba(255,255,255,.05)}.authTabs button{border:0;border-radius:10px;padding:10px;background:transparent;color:#9eb0c8;font-weight:800;cursor:pointer}.authTabs button.active{background:rgba(97,124,255,.22);color:#fff}.authBody{padding:20px 26px 26px}.authBody .field{margin-bottom:13px}.authBody label{display:block;color:#a4b6cd;font-size:10px;font-weight:800;margin-bottom:6px}.authBody input{background:rgba(255,255,255,.06)}.authSubmit{width:100%;margin-top:6px}.authMsg{min-height:18px;text-align:center;color:#9fb2ca;font-size:11px;line-height:1.5;margin-top:12px}.authMsg.error{color:#ff9faf}.authMsg.ok{color:#76eec1}.authFoot{text-align:center;color:#7388a3;font-size:10px;padding:0 26px 22px}.account{display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.045)}.accountText{max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#b3c3d7;font-size:10px}.logout{padding:8px 10px!important}.sync{color:#79edc5;font-size:10px}.noteGood{color:#79edc5;font-size:11px}
+.aboutGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.feature{padding:24px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.035)}.feature h3{margin:0 0 8px;font-family:Georgia,serif}.feature p{color:#a8bad0;line-height:1.7;font-size:12px}.quote{font-family:Georgia,serif;font-size:22px;line-height:1.6}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);z-index:60;opacity:0;pointer-events:none;padding:10px 15px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(11,29,50,.94);color:#eaf2ff;font-size:11px;box-shadow:0 18px 40px rgba(0,0,0,.35);transition:.22s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.authScreen{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 20%,rgba(76,108,255,.18),transparent 28%),rgba(3,10,20,.86);backdrop-filter:blur(18px)}.authScreen.hidden{display:none}.authBox{width:min(460px,100%);border:1px solid rgba(255,255,255,.16);border-radius:26px;background:linear-gradient(145deg,rgba(15,37,64,.96),rgba(8,24,43,.96));box-shadow:0 35px 100px rgba(0,0,0,.45);overflow:hidden}.authBrand{padding:28px 28px 12px;text-align:center}.authLogo{width:64px;height:64px;margin:0 auto 14px;border-radius:22px;display:grid;place-items:center;font-size:31px;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.18)}.authBrand h2{font-family:Georgia,serif;font-size:29px;margin:0}.authBrand p{color:#98abc4;font-size:11px;margin:7px 0 0}.authTabs{display:grid;grid-template-columns:1fr 1fr;margin:18px 22px 0;padding:4px;border-radius:13px;background:rgba(255,255,255,.05)}.authTabs button{border:0;border-radius:10px;padding:10px;background:transparent;color:#9eb0c8;font-weight:800;cursor:pointer}.authTabs button.active{background:rgba(97,124,255,.22);color:#fff}.authBody{padding:20px 26px 26px}.authBody .field{margin-bottom:13px}.authBody label{display:block;color:#a4b6cd;font-size:10px;font-weight:800;margin-bottom:6px}.authBody input{background:rgba(255,255,255,.06)}.authSubmit{width:100%;margin-top:6px}.authMsg{min-height:18px;text-align:center;color:#9fb2ca;font-size:11px;line-height:1.5;margin-top:12px}.authMsg.error{color:#ff9faf}.authMsg.ok{color:#76eec1}.authFoot{text-align:center;color:#7388a3;font-size:10px;padding:0 26px 22px}.account{display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.045)}.accountText{max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#b3c3d7;font-size:10px}.logout{padding:8px 10px!important}.sync{color:#79edc5;font-size:10px}.noteGood{color:#79edc5;font-size:11px}
 @media(max-height:720px){.side{min-height:100vh;padding-top:18px;padding-bottom:14px}.sideNote{max-height:168px;padding:10px 11px}.sideNote .arab{font-size:14px;line-height:1.45}.sideNote p{font-size:10px;line-height:1.35;margin:4px 0}.sideNote small{font-size:9px}}
 @media(max-width:1100px){.app{grid-template-columns:245px 1fr}.side{padding:20px 14px}.main{min-width:900px}.top{padding:0 24px}.content{padding:24px}.stats{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.peopleGrid,.aboutGrid{grid-template-columns:1fr 1fr}.reportGrid{grid-template-columns:1fr}.reportWide{grid-column:span 1}.reportOverview{grid-template-columns:1fr 1fr}.hero h2{font-size:32px}}
 </style>
@@ -56,6 +65,7 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
     <button class="active" data-p="dashboard" onclick="page('dashboard')"><span class="ico">⌂</span>Dashboard</button>
     <button data-p="records" onclick="page('records')"><span class="ico">⊞</span>Qarz Records</button>
     <button data-p="reports" onclick="page('reports')"><span class="ico">▤</span>Reports</button>
+    <button data-p="reminders" onclick="page('reminders')"><span class="ico">⏰</span>Reminders</button>
     <button data-p="people" onclick="page('people')"><span class="ico">♙</span>People</button>
     <button data-p="duas" onclick="page('duas')"><span class="ico">☾</span>Duā Library</button>
   </nav>
@@ -134,6 +144,42 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
     <div class="reportCard">
       <div class="head"><div><b>Direction Split</b><small>Outstanding amount by direction</small></div></div>
       <div class="body" id="directionSplit"></div>
+    </div>
+  </div>
+</section>
+
+<section id="reminders" class="page">
+  <div class="card">
+    <div class="head">
+      <div><b>Reminders</b><small>Stay on top of due dates and overdue Qarz</small></div>
+      <div class="toolbar">
+        <button class="btn gold" id="notifyBtn" onclick="enableNotifications()">🔔 Enable Notifications</button>
+        <button class="btn ghost" onclick="checkReminders(true)">↻ Check Now</button>
+      </div>
+    </div>
+    <div class="body">
+      <div class="reminderHero">
+        <div><span class="rIcon">⏰</span><div><b id="reminderStatusTitle">Reminder Center</b><small id="reminderStatusText">Browser notifications are off.</small></div></div>
+        <div class="reminderCounts">
+          <span><b id="rOverdue">0</b><small>Overdue</small></span>
+          <span><b id="rToday">0</b><small>Due today</small></span>
+          <span><b id="rUpcoming">0</b><small>Upcoming</small></span>
+        </div>
+      </div>
+      <div class="reminderSections">
+        <div>
+          <div class="sectionTitle">Needs Attention</div>
+          <div id="reminderOverdueList"></div>
+        </div>
+        <div>
+          <div class="sectionTitle">Due Today</div>
+          <div id="reminderTodayList"></div>
+        </div>
+        <div>
+          <div class="sectionTitle">Upcoming</div>
+          <div id="reminderUpcomingList"></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -345,7 +391,7 @@ async function save(){
 function page(p){
  document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===p));
  document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.p===p));
- const n={dashboard:"Dashboard",records:"Qarz Records",reports:"Reports",people:"People",duas:"Duā Library",backup:"Backup & Restore",about:"About"}[p]||"Dashboard";
+ const n={dashboard:"Dashboard",records:"Qarz Records",reports:"Reports",reminders:"Reminders",people:"People",duas:"Duā Library",backup:"Backup & Restore",about:"About"}[p]||"Dashboard";
  document.getElementById("title").textContent=n;document.getElementById("crumb").textContent=n;
  if(p!=="records")document.getElementById("globalSearch").value="";
  render();
@@ -381,8 +427,76 @@ function render(){
  document.getElementById("recent").innerHTML=rows(latest);
  document.getElementById("featured").innerHTML=duaHTML(D[0],0);
  document.getElementById("recordBody").innerHTML=rows(data.slice().sort((a,b)=>b.createdAt-a.createdAt));
- renderReminders();renderPeopleSummary();renderPeoplePage();renderReports();
+ renderReminders();renderPeopleSummary();renderPeoplePage();renderReports();renderReminderPage();
  document.getElementById("duaBody").innerHTML=D.map((x,i)=>duaHTML(x,i)).join("");
+}
+function reminderBuckets(){
+ const overdue=[],today=[],upcoming=[];
+ data.forEach(d=>{
+   if(!d.due||!bal(d))return;
+   const info=dueInfo(d);
+   if(info.state==="overdue")overdue.push(d);
+   else if(info.state==="today")today.push(d);
+   else upcoming.push(d);
+ });
+ const sortDue=(a,b)=>(a.due||"").localeCompare(b.due||"");
+ overdue.sort(sortDue);today.sort(sortDue);upcoming.sort(sortDue);
+ return {overdue,today,upcoming};
+}
+function reminderCard(d,labelClass){
+ const info=dueInfo(d),label=info.state==="overdue"?Math.abs(info.days)+" days overdue":info.state==="today"?"Due today":"In "+info.days+" days";
+ const dir=d.direction==="recv"?"Receive from":"Return to";
+ return '<div class="reminderLarge" onclick="openDetail(\''+d.id+'\')"><div class="reminderLargeTop"><div><b>'+esc(dir+" "+d.person)+'</b><small>Due '+esc(d.due)+'</small></div><div class="amount">'+fmt(bal(d))+'</div></div><div style="margin-top:8px"><span class="tag '+labelClass+'">'+label+'</span></div></div>';
+}
+function renderReminderPage(){
+ const b=reminderBuckets();
+ document.getElementById("rOverdue").textContent=b.overdue.length;
+ document.getElementById("rToday").textContent=b.today.length;
+ document.getElementById("rUpcoming").textContent=b.upcoming.length;
+ document.getElementById("reminderOverdueList").innerHTML=b.overdue.length?b.overdue.map(d=>reminderCard(d,"pink")).join(""):'<div class="reminderListEmpty">No overdue Qarz. Alhamdulillah.</div>';
+ document.getElementById("reminderTodayList").innerHTML=b.today.length?b.today.map(d=>reminderCard(d,"gold")).join(""):'<div class="reminderListEmpty">Nothing is due today.</div>';
+ document.getElementById("reminderUpcomingList").innerHTML=b.upcoming.length?b.upcoming.slice(0,8).map(d=>reminderCard(d,"blue")).join(""):'<div class="reminderListEmpty">No upcoming due dates.</div>';
+ updateNotificationUI();
+}
+function updateNotificationUI(){
+ const btn=document.getElementById("notifyBtn"),title=document.getElementById("reminderStatusTitle"),txt=document.getElementById("reminderStatusText");
+ if(!btn||!title||!txt)return;
+ if(!("Notification" in window)){btn.textContent="🔕 Notifications Unavailable";btn.disabled=true;title.textContent="Browser notifications unavailable";txt.textContent="Use the Reminders page to check due dates.";return;}
+ const p=Notification.permission;
+ if(p==="granted"){btn.textContent="✓ Notifications Enabled";title.textContent="Notifications are enabled";txt.textContent="Qarz Amanah will check reminders while this app is open.";btn.classList.add("soft");}
+ else if(p==="denied"){btn.textContent="🔕 Notifications Blocked";title.textContent="Notifications are blocked";txt.textContent="Allow notifications for this site in your browser settings.";btn.classList.add("danger");}
+ else{btn.textContent="🔔 Enable Notifications";title.textContent="Reminder Center";txt.textContent="Turn on browser notifications for due-date alerts.";btn.classList.remove("soft","danger");}
+}
+async function enableNotifications(){
+ if(!("Notification" in window))return alert("This browser does not support notifications.");
+ try{
+   const p=await Notification.requestPermission();
+   updateNotificationUI();
+   if(p==="granted"){checkReminders(true);showToast("Notifications enabled.");}
+ }catch(e){console.error(e);}
+}
+function reminderSignature(d){
+ return d.id+"|"+d.due+"|"+bal(d);
+}
+function checkReminders(manual=false){
+ const b=reminderBuckets();
+ const targets=[...b.overdue,...b.today];
+ if("Notification" in window&&Notification.permission==="granted"){
+   const seen=JSON.parse(localStorage.getItem("qarz_reminder_seen")||"{}"),now=Date.now();
+   targets.forEach(d=>{
+     const sig=reminderSignature(d),last=Number(seen[sig]||0);
+     if(manual||now-last>12*60*60*1000){
+       const info=dueInfo(d),title=info.state==="overdue"?"Qarz overdue":info.state==="today"?"Qarz due today":"Qarz reminder";
+       const textMsg=(d.direction==="recv"?"Receive from ":"Return to ")+d.person+" • "+fmt(bal(d));
+       try{new Notification(title,{body:textMsg,tag:"qarz-"+d.id});seen[sig]=now;}catch(e){}
+     }
+   });
+   localStorage.setItem("qarz_reminder_seen",JSON.stringify(seen));
+ }
+ if(manual)renderReminderPage();
+}
+function showToast(msg){
+ const t=document.getElementById("toast");if(!t)return;t.textContent=msg;t.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),2200);
 }
 function renderReports(){
  const principalTotal=data.reduce((a,d)=>a+(Number(d.principal)||0),0);
@@ -518,7 +632,9 @@ function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReade
 function speak(i){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(D[i][1]);u.lang="ar-SA";u.rate=.8;speechSynthesis.speak(u)}
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail()}});
 render();
+setInterval(()=>{if(session){checkReminders(false);renderReminderPage();}},60*60*1000);
 </script>
+<div id="toast" class="toast"></div>
 <div class="authScreen" id="authScreen">
   <div class="authBox">
     <div class="authBrand"><div class="authLogo">🕌</div><h2>Qarz Amanah</h2><p>Trust • Record • Return</p></div>
