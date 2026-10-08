@@ -741,7 +741,7 @@ body{background:#040d1c;color:var(--text);overflow-x:hidden}
 </section>
 
 <section id="duas" class="page">
-  <div class="card"><div class="head"><div><b>Duā Library</b><small>Arabic • Roman Urdu meaning • reference</small></div></div><div class="body grid2" id="duaBody"></div></div>
+  <div class="card"><div class="head"><div><b>Duā Library</b><small>Arabic • English meaning • reference</small></div></div><div class="body grid2" id="duaBody"></div></div>
 </section>
 
 <section id="backup" class="page">
@@ -754,7 +754,7 @@ body{background:#040d1c;color:var(--text);overflow-x:hidden}
 <section id="about" class="page">
   <div class="aboutGrid">
     <div class="feature"><h3>Qarz Amanah</h3><p>A desktop-first Qarz bookkeeping tool designed for individuals, families, community work and small businesses. Simple, private and easy to understand.</p></div>
-    <div class="feature"><h3>Deeni scope</h3><p class="noteGood">Interest-free by design</p><p>Only principal and repayments are recorded. The app intentionally avoids riba-related calculations such as interest, APR, late-interest and compounding.</p></div>
+    <div class="feature"><h3>Religious scope</h3><p class="noteGood">Interest-free by design</p><p>Only principal and repayments are recorded. The app intentionally avoids riba-related calculations such as interest, APR, late-interest and compounding.</p></div>
     <div class="feature"><div class="quote">“The one who gives respite to a debtor in difficulty receives reward for each day.”</div><p>Use the app as a bookkeeping aid; verify religious wording and references with a qualified scholar before public publication.</p></div>
     <div class="feature"><h3>Privacy</h3><p>Records sync to your Qarz Amanah account when signed in. A local backup remains available for safety.</p></div>
   </div>
@@ -771,7 +771,7 @@ body{background:#040d1c;color:var(--text);overflow-x:hidden}
       <div><label>Original principal (₹)</label><input id="principal" type="number" min="0.01" step="0.01" required></div>
       <div><label>Qarz date</label><input id="date" type="date" required></div>
       <div><label>Expected repayment date</label><input id="due" type="date"></div>
-      <div class="full"><label>Reason for this Qarz</label><textarea id="note" required placeholder="e.g. Khane ke liye diya tha"></textarea></div>
+      <div class="full"><label>Reason for this Qarz</label><textarea id="note" required placeholder="e.g. Food support"></textarea></div>
     </div></div><div class="modalFoot"><button type="button" class="btn ghost" onclick="closeModal()">Cancel</button><button type="button" class="btn primary" onclick="submitQarz()">Save Record</button></div></form>
   </div>
 </div>
@@ -812,10 +812,10 @@ const fmt=n=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maxi
 const rid=()=> (crypto.randomUUID ? crypto.randomUUID() : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,c=>{const r=Math.random()*16|0,v=c==="x"?r:(r&3)|8;return v.toString(16)}));
 const isoToday=()=>new Date().toISOString().slice(0,10);
 const D=[
-["Halal rizq aur qarz","اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ","Ya Allah, apne halal ke zariye mujhe apne haram se bacha, aur apne fazl se mujhe apne siwa sab se be-niyaz kar de.","Jami' at-Tirmidhi 3563","https://sunnah.com/tirmidhi:3563","Allahummakfini bihalalika an haramika, wa aghnini bifadlika amman siwak.","یا اللہ، اپنے حلال کے ذریعے مجھے اپنے حرام سے بچا، اور اپنے فضل سے مجھے اپنے سوا سب سے بے نیاز کر دے۔"],
-["Qarz ke ghalbe se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ، وَغَلَبَةِ الْعَدُوِّ، وَشَمَاتَةِ الْأَعْدَاءِ","Ya Allah, main qarz ke ghalbe, dushman ke ghalbe aur dushmanon ke khush hone se Teri panah maangta hoon.","Sunan an-Nasa'i 5475","https://sunnah.com/nasai:5475","Allahumma inni a'udhu bika min ghalabatid dayn, wa ghalabatil aduwwi, wa shamatatil a'da.","یا اللہ، میں قرض کے غلبے، دشمن کے غلبے اور دشمنوں کے خوش ہونے سے تیری پناہ مانگتا ہوں۔"],
-["Mushkil qarz se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ","Ya Allah, main gham-o-fikr, bebasi, susti, buzdili, bukhl, mushkil qarz aur logon ke ghalbe se Teri panah maangta hoon.","Sahih al-Bukhari 6369","https://sunnah.com/bukhari:6369","Allahumma inni a'udhu bika minal hammi wal hazan, wal ajzi wal kasal, wal jubni wal bukhl, wa dala'id dayn, wa ghalabatir rijal.","یا اللہ، میں غم و فکر، بے بسی، سستی، بزدلی، بخل، قرض کے بوجھ اور لوگوں کے غلبے سے تیری پناہ مانگتا ہوں۔"],
-["Gunah aur qarz se panah","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسَلِ وَالْهَرَمِ وَالْمَأْثَمِ وَالْمَغْرَمِ","Ya Allah, main susti, budhape, gunah aur qarz se Teri panah maangta hoon.","Sahih al-Bukhari 6375","https://sunnah.com/bukhari:6375","Allahumma inni a'udhu bika minal kasali wal harami wal ma'thami wal maghram.","یا اللہ، میں سستی، بڑھاپے، گناہ اور قرض سے تیری پناہ مانگتا ہوں۔"]
+["Seeking Sufficiency Through Halal Provision","اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ","O Allah, suffice me with what You have made lawful instead of what You have made unlawful, and enrich me by Your grace so that I need none besides You.","Jami' at-Tirmidhi 3563","https://sunnah.com/tirmidhi:3563","Allahummakfini bihalalika an haramika, wa aghnini bifadlika amman siwak.","یا اللہ، اپنے حلال کے ذریعے مجھے اپنے حرام سے بچا، اور اپنے فضل سے مجھے اپنے سوا سب سے بے نیاز کر دے۔"],
+["Seeking Protection From Overwhelming Debt","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ، وَغَلَبَةِ الْعَدُوِّ، وَشَمَاتَةِ الْأَعْدَاءِ","O Allah, I seek refuge in You from being overcome by debt, from being overcome by the enemy, and from the rejoicing of enemies.","Sunan an-Nasa'i 5475","https://sunnah.com/nasai:5475","Allahumma inni a'udhu bika min ghalabatid dayn, wa ghalabatil aduwwi, wa shamatatil a'da.","یا اللہ، میں قرض کے غلبے، دشمن کے غلبے اور دشمنوں کے خوش ہونے سے تیری پناہ مانگتا ہوں۔"],
+["Seeking Protection From Debt and Distress","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ","O Allah, I seek refuge in You from anxiety and grief, from incapacity and laziness, from cowardice and miserliness, from the burden of debt, and from being overcome by people.","Sahih al-Bukhari 6369","https://sunnah.com/bukhari:6369","Allahumma inni a'udhu bika minal hammi wal hazan, wal ajzi wal kasal, wal jubni wal bukhl, wa dala'id dayn, wa ghalabatir rijal.","یا اللہ، میں غم و فکر، بے بسی، سستی، بزدلی، بخل، قرض کے بوجھ اور لوگوں کے غلبے سے تیری پناہ مانگتا ہوں۔"],
+["Seeking Protection From Sin and Debt","اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسَلِ وَالْهَرَمِ وَالْمَأْثَمِ وَالْمَغْرَمِ","O Allah, I seek refuge in You from laziness, old age, sin, and debt.","Sahih al-Bukhari 6375","https://sunnah.com/bukhari:6375","Allahumma inni a'udhu bika minal kasali wal harami wal ma'thami wal maghram.","یا اللہ، میں سستی، بڑھاپے، گناہ اور قرض سے تیری پناہ مانگتا ہوں۔"]
 ];
 function ensureRecord(d){return {...d,principal:Number(d.principal)||0,repayments:Array.isArray(d.repayments)?d.repayments.map(p=>({...p,id:p.id||rid(),amount:Number(p.amount)||0})):[]}}
 data=data.map(ensureRecord);
@@ -1521,7 +1521,7 @@ function renderPeoplePage(){
 }function showPerson(name){
  page("records");document.getElementById("search").value=name;document.getElementById("filter").value="all";renderRecords();
 }
-function duaHTML(d,i){return '<div class="dua"><div class="kicker">MASNOON DUĀ</div><h3>'+esc(d[0])+'</h3><div class="arabic">'+d[1]+'</div><div class="meaning">'+esc(d[2])+'</div><div class="source">'+esc(d[3])+'</div><div class="duaActions"><button class="btn gold" onclick="speak('+i+')">🔊 Dua Suno</button><button class="btn soft" onclick="speakMeaning('+i+')">🗣️ Tarjuma Suno</button><a class="btn ghost" target="_blank" rel="noopener" href="'+d[4]+'" style="text-decoration:none">Reference ↗</a></div></div>'}
+function duaHTML(d,i){return '<div class="dua"><div class="kicker">PROPHETIC DUAS</div><h3>'+esc(d[0])+'</h3><div class="arabic">'+d[1]+'</div><div class="meaning">'+esc(d[2])+'</div><div class="source">'+esc(d[3])+'</div><div class="duaActions"><button class="btn gold" onclick="speak('+i+')">🔊 Play Dua</button><button class="btn soft" onclick="speakMeaning('+i+')">🗣️ Play Translation</button><a class="btn ghost" target="_blank" rel="noopener" href="'+d[4]+'" style="text-decoration:none">Reference ↗</a></div></div>'}
 function openModal(id=null,presetPerson=""){
  editId=id;document.getElementById("form").reset();document.getElementById("modal").classList.add("show");
  if(id){const d=data.find(x=>x.id===id);if(!d)return;document.getElementById("modalTitle").textContent="Edit Qarz Record";direction.value=d.direction;person.value=d.person;document.getElementById("personPhone").value=d.personPhone||"";principal.value=d.principal;date.value=d.date||isoToday();due.value=d.due||"";note.value=d.note||""}
@@ -1591,7 +1591,7 @@ function playDuaAudio(file,onFail){
      window.__duaAudio=audio;
      audio.preload="auto";
      audio.volume=1;
-     audio.onplay=()=>showToast("🔊 Audio chal rahi hai…");
+     audio.onplay=()=>showToast("🔊 Audio is playing…");
      audio.onended=()=>showToast("✓ Audio complete");
      audio.onerror=()=>{ tryNext(); };
      const p=audio.play();
@@ -1601,10 +1601,10 @@ function playDuaAudio(file,onFail){
  tryNext();
 }
 function speak(i){
- playDuaAudio("audio/dua"+(i+1)+".mp3",()=>showToast("Dua audio load nahi ho payi. Page refresh karke dobara Suno dabao."));
+ playDuaAudio("audio/dua"+(i+1)+".mp3",()=>showToast("Could not load the dua audio. Please refresh the page and try again."));
 }
 function speakMeaning(i){
- playDuaAudio("audio/dua"+(i+1)+"-meaning.mp3",()=>showToast("Tarjuma audio load nahi ho payi. Page refresh karke dobara Tarjuma Suno dabao."));
+ playDuaAudio("audio/dua"+(i+1)+"-meaning.mp3",()=>showToast("Tarjuma audio load nahi ho payi. Page refresh karke dobara Play Translation dabao."));
 }
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail()}});
 render();
