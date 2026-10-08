@@ -70,6 +70,7 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
 @media(max-height:720px){.side{min-height:100vh;padding-top:18px;padding-bottom:14px}.sideNote{max-height:168px;padding:10px 11px}.sideNote .arab{font-size:14px;line-height:1.45}.sideNote p{font-size:10px;line-height:1.35;margin:4px 0}.sideNote small{font-size:9px}}
 @media(max-width:1100px){.app{grid-template-columns:245px 1fr}.side{padding:20px 14px}.main{min-width:0}.top{padding:0 18px}.content{padding:24px}.stats{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.peopleGrid,.aboutGrid{grid-template-columns:1fr 1fr}.reportGrid{grid-template-columns:1fr}.reportWide{grid-column:span 1}.reportOverview{grid-template-columns:1fr 1fr}.hero h2{font-size:32px}}
 
+.profileModalBox,.cropModalBox{width:min(500px,100%);max-height:90vh;border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,#0f2744,#0a1d34);box-shadow:0 30px 90px rgba(0,0,0,.5);overflow:hidden}.profileModalHead{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 20px;border-bottom:1px solid var(--line)}.profileModalHead b{display:block;font-size:16px}.profileModalHead small{display:block;color:#8297b2;font-size:10px;margin-top:4px}.profileModalBody{padding:24px}.profilePreviewWrap{display:flex;justify-content:center}.profileLargeAvatar{width:190px;height:190px;border-radius:50%;padding:5px;border:2px solid rgba(255,255,255,.18);background:linear-gradient(145deg,rgba(104,133,202,.22),rgba(255,255,255,.03));display:grid;place-items:center;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.3)}.profileLargeAvatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:none}.profileLargeAvatar.hasPhoto img{display:block}.profileLargeAvatar.hasPhoto #profileLargeText{display:none}.profileLargeAvatar #profileLargeText{font-size:50px;font-weight:900;color:#dce7ff}.profileInfo{text-align:center;margin-top:16px}.profileName{font-family:Georgia,serif;font-size:22px;font-weight:700}.profileUsername{color:#8297b2;font-size:11px;margin-top:5px}.profileActions{display:flex;gap:9px;justify-content:center;margin-top:20px;flex-wrap:wrap}.profileHint{text-align:center;color:#71849e;font-size:10px;line-height:1.5;margin-top:12px}.cropModalBox{width:min(540px,100%)}.cropBody{padding:18px}.cropStage{width:min(360px,86vw);aspect-ratio:1/1;margin:0 auto;border-radius:22px;overflow:hidden;background:#071326;border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 0 0 1px rgba(255,255,255,.03)}#cropCanvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}#cropCanvas.dragging{cursor:grabbing}.cropControls{margin:16px auto 0;width:min(360px,86vw)}.cropControls label{font-size:10px;color:#9db0c8}.cropControls input{padding:0;border:0;background:transparent}.cropActions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.cropActions .btn{min-width:120px}@media(max-width:600px){.profileModalBox,.cropModalBox{width:100%;border-radius:20px}.profileModalBody{padding:18px}.profileLargeAvatar{width:160px;height:160px}.profileActions .btn{flex:1 1 150px}.cropBody{padding:14px}.cropActions .btn{flex:1 1 130px}}
 /* Cross-device responsive layout: desktop, tablet, iPhone/Android */
 @media (max-width: 900px){
   html,body{width:100%;overflow-x:hidden}
@@ -217,7 +218,7 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
 <section class="main">
 <header class="top">
   <div><div class="crumb">Qarz Amanah / <span id="crumb">Dashboard</span></div><h1 id="title">Dashboard</h1></div>
-  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><button class="btn ghost" title="Visual theme">☾</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="account"><button type="button" class="avatar" id="avatar" title="Change profile photo" onclick="document.getElementById('avatarFile').click()"><span id="avatarText">QA</span><img id="avatarImg" alt="Profile photo"></button><input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="uploadAvatar(event)"><div class="accountText" id="accountEmail">Not signed in</div><button class="mini ghost" onclick="startLoggedInPasswordChange()">🔐 Password</button><button class="mini logout" onclick="logout()">Logout</button></div></div>
+  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><button class="btn ghost" title="Visual theme">☾</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="account"><button type="button" class="avatar" id="avatar" title="Open profile" onclick="openProfileModal()"><span id="avatarText">QA</span><img id="avatarImg" alt="Profile photo"></button><input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="startAvatarEdit(event)"><div class="accountText" id="accountEmail">Not signed in</div><button class="mini ghost" onclick="startLoggedInPasswordChange()">🔐 Password</button><button class="mini logout" onclick="logout()">Logout</button></div></div>
 </header>
 
 <main class="content">
@@ -654,6 +655,7 @@ async function ensureProfile(user){
   return {displayName:p?.display_name||fallbackName||"",avatarPath:p?.avatar_path||""};
 }
 async function setAvatarUI(avatarPath,displayName,currentUsernameValue){
+  window.__currentAvatarPath=avatarPath||"";
   const avatar=document.getElementById("avatar"),img=document.getElementById("avatarImg"),textNode=document.getElementById("avatarText");
   if(!avatar||!img||!textNode)return;
   const initials=String(displayName||currentUsernameValue||"QA").trim().split(/\s+/).map(x=>x[0]).join("").slice(0,2).toUpperCase()||"QA";
@@ -666,28 +668,163 @@ async function setAvatarUI(avatarPath,displayName,currentUsernameValue){
   }
 }
 
-async function uploadAvatar(event){
+let cropState={img:null,objectUrl:"",baseScale:1,zoom:1,panX:0,panY:0,dragging:false,lastX:0,lastY:0,file:null};
+
+function openProfileModal(){
+  if(!session)return;
+  const modal=document.getElementById("profileModal");
+  modal.classList.add("show");
+  const name=document.getElementById("accountEmail").textContent||"User";
+  document.getElementById("profileDisplayName").textContent=name;
+  document.getElementById("profileUsername").textContent=currentUsername?"@"+currentUsername:"";
+  const src=document.getElementById("avatarImg")?.src||"";
+  const large=document.getElementById("profileLargeAvatar"),img=document.getElementById("profileLargeImg"),text=document.getElementById("profileLargeText");
+  text.textContent=(name||currentUsername||"QA").split(/\s+/).map(x=>x[0]).join("").slice(0,2).toUpperCase();
+  large.classList.remove("hasPhoto"); img.removeAttribute("src");
+  if(src){img.src=src;large.classList.add("hasPhoto")}
+  const has=!!src;
+  document.getElementById("profileDeleteBtn").style.display=has?"inline-flex":"none";
+}
+
+function closeProfileModal(){document.getElementById("profileModal").classList.remove("show")}
+
+function startAvatarEdit(event){
   const file=event.target.files?.[0];
   event.target.value="";
   if(!file||!session?.user?.id)return;
   if(!["image/jpeg","image/png","image/webp"].includes(file.type))return showToast("Please choose a JPG, PNG or WebP image.");
-  if(file.size>2*1024*1024)return showToast("Profile photo must be 2 MB or smaller.");
-  const ext=file.type==="image/png"?"png":file.type==="image/webp"?"webp":"jpg";
-  const path=session.user.id+"/avatar."+ext;
-  try{
-    showToast("Uploading profile photo…");
-    const {error:upError}=await supabaseClient.storage.from("avatars").upload(path,file,{upsert:true,contentType:file.type,cacheControl:"3600"});
-    if(upError)throw upError;
-    const {error:dbError}=await supabaseClient.from("profiles").update({avatar_path:path}).eq("user_id",session.user.id);
-    if(dbError)throw dbError;
-    const name=document.getElementById("accountEmail").textContent||currentUsername||"";
-    await setAvatarUI(path,name,currentUsername);
-    showToast("Profile photo updated.");
-  }catch(e){
-    console.error("Avatar upload failed",e);
-    showToast("Profile photo upload failed. Please try again.");
+  if(file.size>8*1024*1024)return showToast("Please choose an image smaller than 8 MB.");
+  const url=URL.createObjectURL(file);
+  const img=new Image();
+  img.onload=()=>{
+    cropState={img,objectUrl:url,baseScale:1,zoom:1,panX:0,panY:0,dragging:false,lastX:0,lastY:0,file};
+    const size=360;
+    cropState.baseScale=Math.max(size/img.naturalWidth,size/img.naturalHeight);
+    document.getElementById("cropZoom").value="1";
+    document.getElementById("profileModal").classList.remove("show");
+    document.getElementById("cropModal").classList.add("show");
+    bindCropCanvas();
+    drawCropPreview(true);
+  };
+  img.onerror=()=>{URL.revokeObjectURL(url);showToast("That image could not be opened.")};
+  img.src=url;
+}
+
+function bindCropCanvas(){
+  const canvas=document.getElementById("cropCanvas");
+  if(canvas.dataset.bound==="1")return;
+  canvas.dataset.bound="1";
+  const point=e=>({x:e.clientX,y:e.clientY});
+  canvas.addEventListener("pointerdown",e=>{
+    cropState.dragging=true;cropState.lastX=e.clientX;cropState.lastY=e.clientY;
+    canvas.classList.add("dragging");canvas.setPointerCapture?.(e.pointerId);
+  });
+  canvas.addEventListener("pointermove",e=>{
+    if(!cropState.dragging)return;
+    cropState.panX+=e.clientX-cropState.lastX;cropState.panY+=e.clientY-cropState.lastY;
+    cropState.lastX=e.clientX;cropState.lastY=e.clientY;
+    constrainCropPan();drawCropPreview(true);
+  });
+  const end=e=>{cropState.dragging=false;canvas.classList.remove("dragging");try{canvas.releasePointerCapture?.(e.pointerId)}catch(err){}};
+  canvas.addEventListener("pointerup",end);canvas.addEventListener("pointercancel",end);
+}
+
+function currentCropScale(){return cropState.baseScale*cropState.zoom}
+
+function constrainCropPan(){
+  const size=360, scale=currentCropScale();
+  const w=cropState.img?.naturalWidth*scale||size,h=cropState.img?.naturalHeight*scale||size;
+  const maxX=Math.max(0,(w-size)/2),maxY=Math.max(0,(h-size)/2);
+  cropState.panX=Math.max(-maxX,Math.min(maxX,cropState.panX));
+  cropState.panY=Math.max(-maxY,Math.min(maxY,cropState.panY));
+}
+
+function drawCropPreview(guides=true){
+  const canvas=document.getElementById("cropCanvas"),ctx=canvas.getContext("2d");
+  if(!cropState.img)return;
+  const size=360,scale=currentCropScale();
+  constrainCropPan();
+  ctx.clearRect(0,0,size,size);
+  ctx.fillStyle="#071326";ctx.fillRect(0,0,size,size);
+  const w=cropState.img.naturalWidth*scale,h=cropState.img.naturalHeight*scale;
+  const x=(size-w)/2+cropState.panX,y=(size-h)/2+cropState.panY;
+  ctx.drawImage(cropState.img,x,y,w,h);
+  if(guides){
+    ctx.fillStyle="rgba(0,0,0,.12)";ctx.fillRect(0,0,size,size);
+    ctx.strokeStyle="rgba(255,255,255,.45)";ctx.lineWidth=1;
+    ctx.strokeRect(2.5,2.5,size-5,size-5);
+    ctx.strokeStyle="rgba(255,255,255,.18)";
+    ctx.beginPath();ctx.moveTo(size/3,0);ctx.lineTo(size/3,size);ctx.moveTo(size*2/3,0);ctx.lineTo(size*2/3,size);ctx.moveTo(0,size/3);ctx.lineTo(size,size/3);ctx.moveTo(0,size*2/3);ctx.lineTo(size,size*2/3);ctx.stroke();
   }
 }
+
+function setCropZoom(value){
+  const oldScale=currentCropScale();
+  cropState.zoom=Number(value)||1;
+  const newScale=currentCropScale();
+  if(cropState.img){
+    const ratio=newScale/oldScale;
+    cropState.panX*=ratio;cropState.panY*=ratio;
+  }
+  constrainCropPan();drawCropPreview(true);
+}
+
+async function saveCroppedAvatar(){
+  if(!cropState.img||!session?.user?.id)return;
+  const btn=document.querySelector("#cropModal .btn.primary");
+  if(btn){btn.disabled=true;btn.textContent="Saving…"}
+  try{
+    const out=document.createElement("canvas");out.width=600;out.height=600;
+    const ctx=out.getContext("2d"),scale=cropState.baseScale*cropState.zoom,size=360;
+    const w=cropState.img.naturalWidth*scale,h=cropState.img.naturalHeight*scale;
+    const x=(size-w)/2+cropState.panX,y=(size-h)/2+cropState.panY;
+    ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";
+    ctx.drawImage(cropState.img,x*(600/size),y*(600/size),w*(600/size),h*(600/size));
+    const blob=await new Promise(resolve=>out.toBlob(resolve,"image/jpeg",0.9));
+    if(!blob)throw new Error("Could not prepare image.");
+
+    const newPath=session.user.id+"/avatar.jpg";
+    const oldPath=window.__currentAvatarPath||null;
+    const {error:upError}=await supabaseClient.storage.from("avatars").upload(newPath,blob,{upsert:true,contentType:"image/jpeg",cacheControl:"3600"});
+    if(upError)throw upError;
+    const {error:dbError}=await supabaseClient.from("profiles").update({avatar_path:newPath}).eq("user_id",session.user.id);
+    if(dbError)throw dbError;
+    if(oldPath&&oldPath!==newPath){try{await supabaseClient.storage.from("avatars").remove([oldPath])}catch(e){}}
+    window.__currentAvatarPath=newPath;
+    const name=document.getElementById("accountEmail").textContent||currentUsername||"";
+    await setAvatarUI(newPath,name,currentUsername);
+    closeCropModal();
+    openProfileModal();
+    showToast("Profile photo updated.");
+  }catch(e){
+    console.error("Cropped avatar save failed",e);showToast("Profile photo could not be saved.");
+  }finally{if(btn){btn.disabled=false;btn.textContent="✓ Use Photo"}}
+}
+
+function closeCropModal(){
+  document.getElementById("cropModal").classList.remove("show");
+  if(cropState.objectUrl){URL.revokeObjectURL(cropState.objectUrl)}
+  cropState={img:null,objectUrl:"",baseScale:1,zoom:1,panX:0,panY:0,dragging:false,lastX:0,lastY:0,file:null};
+}
+
+async function deleteAvatar(){
+  if(!session?.user?.id)return;
+  if(!confirm("Delete your profile photo?"))return;
+  try{
+    const oldPath=window.__currentAvatarPath||null;
+    if(oldPath)await supabaseClient.storage.from("avatars").remove([oldPath]);
+    const {error}=await supabaseClient.from("profiles").update({avatar_path:null}).eq("user_id",session.user.id);
+    if(error)throw error;
+    window.__currentAvatarPath="";
+    await setAvatarUI("",document.getElementById("accountEmail").textContent||"User",currentUsername);
+    closeProfileModal();
+    showToast("Profile photo deleted.");
+  }catch(e){
+    console.error("Avatar delete failed",e);showToast("Profile photo could not be deleted.");
+  }
+}
+
+async function uploadAvatar(event){return startAvatarEdit(event)}
 
 function cloudToLocal(records,repayments){
   const byId={};(records||[]).forEach(r=>byId[r.id]={id:r.id,createdAt:new Date(r.created_at).getTime(),direction:r.direction,person:r.person_name,personPhone:r.person_phone||"",principal:Number(r.principal),date:r.qarz_date,due:r.due_date||"",note:r.note||"",repayments:[]});
@@ -1049,6 +1186,61 @@ setInterval(()=>{if(session){checkReminders(false);renderReminderPage();}},60*60
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&session){checkReminders(false);renderReminderPage()}});
 </script>
 <div id="toast" class="toast"></div>
+
+<div class="modal" id="profileModal">
+  <div class="profileModalBox">
+    <div class="profileModalHead">
+      <div>
+        <b>My Profile</b>
+        <small>Profile photo & account details</small>
+      </div>
+      <button class="mini" onclick="closeProfileModal()">✕</button>
+    </div>
+    <div class="profileModalBody">
+      <div class="profilePreviewWrap">
+        <div class="profileLargeAvatar" id="profileLargeAvatar">
+          <span id="profileLargeText">QA</span>
+          <img id="profileLargeImg" alt="Profile photo">
+        </div>
+      </div>
+      <div class="profileInfo">
+        <div class="profileName" id="profileDisplayName">User</div>
+        <div class="profileUsername" id="profileUsername">@username</div>
+      </div>
+      <div class="profileActions">
+        <button class="btn primary" onclick="document.getElementById('avatarFile').click()">✎ Edit Photo</button>
+        <button class="btn ghost" id="profileDeleteBtn" onclick="deleteAvatar()">🗑 Delete Photo</button>
+      </div>
+      <div class="profileHint">Choose a photo, then crop and position it before saving.</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="cropModal">
+  <div class="cropModalBox">
+    <div class="profileModalHead">
+      <div>
+        <b>Crop Profile Photo</b>
+        <small>Drag the photo • Use the slider to zoom</small>
+      </div>
+      <button class="mini" onclick="closeCropModal()">✕</button>
+    </div>
+    <div class="cropBody">
+      <div class="cropStage">
+        <canvas id="cropCanvas" width="360" height="360"></canvas>
+      </div>
+      <div class="cropControls">
+        <label for="cropZoom">Zoom</label>
+        <input id="cropZoom" type="range" min="1" max="3" step="0.01" value="1" oninput="setCropZoom(this.value)">
+      </div>
+      <div class="cropActions">
+        <button class="btn ghost" onclick="closeCropModal()">Cancel</button>
+        <button class="btn primary" onclick="saveCroppedAvatar()">✓ Use Photo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="authScreen" id="authScreen">
   <div class="authBox">
     <div class="authBrand"><div class="authLogo">🕌</div><h2>Qarz Amanah</h2><p>Trust • Record • Return</p></div>
