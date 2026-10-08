@@ -13,7 +13,7 @@
 .mosque{position:fixed;left:250px;right:0;bottom:0;height:30%;z-index:-1;opacity:.28;background:radial-gradient(ellipse at 28% 82%,rgba(110,140,175,.30),transparent 13%),radial-gradient(ellipse at 50% 86%,rgba(110,140,175,.27),transparent 12%),radial-gradient(ellipse at 72% 80%,rgba(110,140,175,.28),transparent 13%),linear-gradient(to top,rgba(255,255,255,.06),transparent 60%)}
 .moon{position:fixed;right:18%;top:7%;width:76px;height:76px;border-radius:50%;z-index:-1;background:#fff4d8;box-shadow:0 0 42px rgba(255,231,180,.24)}.moon:after{content:"";position:absolute;width:67px;height:67px;border-radius:50%;background:#0d2340;left:19px;top:-7px}
 .app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}.side{position:sticky;top:0;height:100vh;min-height:620px;padding:24px 20px;background:linear-gradient(180deg,rgba(5,17,33,.87),rgba(4,19,33,.73));border-right:1px solid var(--line);backdrop-filter:blur(20px);display:flex;flex-direction:column;overflow:hidden}
-.brand{display:flex;align-items:center;gap:12px;padding:5px 8px 28px}.logo{width:52px;height:52px;border:1px solid rgba(255,255,255,.25);border-radius:18px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.03));font-size:26px}.brand b{font-family:Georgia,serif;font-size:24px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.brand{display:flex;align-items:center;gap:12px;padding:5px 8px 28px}.logo{width:52px;height:52px;border:1px solid rgba(255,255,255,.25);border-radius:18px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.03));font-size:26px}.logo3d{padding:0;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.18)}.logo3d svg{width:100%;height:100%;display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.28))}.brand b{font-family:Georgia,serif;font-size:24px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
 .label{color:#7f93ad;font-size:10px;text-transform:uppercase;letter-spacing:1.3px;margin:22px 10px 9px}.nav{display:grid;gap:7px}.nav button{border:0;color:#dbe7f7;background:transparent;padding:12px 14px;border-radius:14px;text-align:left;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:12px}.nav button:hover{background:rgba(255,255,255,.06)}.nav button.active{background:linear-gradient(135deg,rgba(97,124,255,.92),rgba(125,92,232,.80));box-shadow:0 12px 30px rgba(80,98,240,.23)}.ico{width:20px;text-align:center;font-size:17px}
 .sideNote{position:static;margin-top:auto;padding:14px 13px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.035);flex:none;max-height:238px;overflow:hidden}.sideNote .arab{font-family:Georgia,serif;text-align:right;line-height:1.75;font-size:17px}.sideNote p{color:#d2deed;font-family:Georgia,serif;font-size:11px;line-height:1.5;text-align:center;margin:6px 0 4px}.sideNote small{display:block;color:#7f93ad;text-align:center;font-size:10px}
 .main{min-width:0;min-height:100vh}.top{height:84px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 clamp(18px,2vw,34px);border-bottom:1px solid var(--line);background:rgba(7,19,38,.48);backdrop-filter:blur(18px);position:sticky;top:0;z-index:4}.crumb{font-size:11px;color:#9eb0c8}.top h1{margin:3px 0 0;font-size:22px}.topRight{display:flex;align-items:center;justify-content:flex-end;gap:9px;min-width:0;flex:1}.search{width:min(370px,30vw);min-width:180px;background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:14px;padding:11px 14px;color:#fff;outline:none}.search::placeholder{color:#8599b4}.avatar{width:50px;height:50px;flex:0 0 50px;border-radius:50%;border:2px solid rgba(255,255,255,.22);background:linear-gradient(145deg,rgba(91,118,180,.22),rgba(255,255,255,.04));display:grid;place-items:center;font-weight:900;color:#dce7ff;position:relative;overflow:hidden;padding:2px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.2)}.avatar:hover{border-color:rgba(140,160,255,.75);box-shadow:0 0 0 3px rgba(120,140,255,.14),0 10px 28px rgba(0,0,0,.24)}.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center;display:none}.avatar.hasPhoto img{display:block}.avatar.hasPhoto #avatarText{display:none}.avatar::after{display:none}
@@ -241,7 +241,35 @@ body{background:#040d1c;color:var(--text);overflow-x:hidden}
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
 <div class="app">
 <aside class="side">
-  <div class="brand"><div class="logo">🕌</div><div><b>Qarz Amanah</b><small>Trust • Record • Return</small></div></div>
+  <div class="brand"><div class="logo logo3d" aria-label="Qarz Amanah logo">
+  <svg viewBox="0 0 72 72" role="img" aria-hidden="true">
+    <defs>
+      <linearGradient id="qaGold" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#fff1bd"/><stop offset=".35" stop-color="#f4c967"/>
+        <stop offset=".7" stop-color="#d89a2e"/><stop offset="1" stop-color="#fff0b1"/>
+      </linearGradient>
+      <linearGradient id="qaGreen" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#2d8f70"/><stop offset=".55" stop-color="#0f4f3d"/><stop offset="1" stop-color="#073026"/>
+      </linearGradient>
+      <filter id="qaShadow" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000" flood-opacity=".42"/>
+      </filter>
+    </defs>
+    <rect x="3" y="3" width="66" height="66" rx="19" fill="#081522" stroke="url(#qaGold)" stroke-width="1.8"/>
+    <rect x="7" y="7" width="58" height="58" rx="16" fill="url(#qaGreen)" opacity=".92"/>
+    <path d="M18 44 Q36 22 54 44" fill="none" stroke="url(#qaGold)" stroke-width="2.7" stroke-linecap="round"/>
+    <path d="M21 43h30" stroke="#f4d37c" stroke-width="1.5" opacity=".9"/>
+    <path d="M36 18v8" stroke="url(#qaGold)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M31.3 18.8 Q36 13.7 40.7 18.8 Q37.1 16.6 34.2 19.1Z" fill="url(#qaGold)" filter="url(#qaShadow)"/>
+    <path d="M25 38v-7l4-4 4 4v7" fill="none" stroke="url(#qaGold)" stroke-width="2.2"/>
+    <path d="M39 38v-8l4-5 4 5v8" fill="none" stroke="url(#qaGold)" stroke-width="2.2"/>
+    <path d="M28 47 Q34 43 36 40 Q38 43 44 47 L36 54Z" fill="#0a382b" stroke="url(#qaGold)" stroke-width="1.6"/>
+    <path d="M23 47 Q30 49 36 55 Q42 49 49 47 L47 54 Q41 58 36 60 Q31 58 25 54Z" fill="url(#qaGold)" opacity=".96"/>
+    <path d="M30 43 C32 46 34 46 36 44 C38 46 40 46 42 43" fill="none" stroke="#fff7da" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M33 43 C35 45 37 45 39 43" fill="none" stroke="#dcb05c" stroke-width="1.1" stroke-linecap="round"/>
+    <circle cx="36" cy="36" r="1.1" fill="#fff3c4"/>
+  </svg>
+</div><div><b>Qarz Amanah</b><small>Trust • Record • Return</small></div></div>
   <div class="label">Workspace</div>
   <nav class="nav">
     <button class="active" data-p="dashboard" onclick="page('dashboard')"><span class="ico">⌂</span>Dashboard</button>
