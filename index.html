@@ -968,7 +968,7 @@ async function submitAuth(){
 
 async function verifySignupPhone(){
   authMessage("Mobile verification during signup is not required. Generate a free Recovery Code after signing in so you can recover the account later.","ok");
-  setAuthMode("login");
+  setTimeout(()=>setAuthMode("login"),0);
 }
 
 function startRecovery(){
@@ -1701,7 +1701,34 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden&&session){
     <div class="authMsg" id="authMsg"></div>
     <div class="authFoot">Login uses your unique username and password. Your email remains on the account for important notifications. A free Recovery Code is used for password recovery; no SMS is required.</div>
   </div>
-</div>
-
-</body>
-</html>\n<style>\n@media(max-width:600px){.authScreen{padding:12px}.authBox{border-radius:24px}.authBrand{padding:22px 20px 10px}.authLogo{width:82px;height:82px;border-radius:24px}.authLogo svg{width:64px;height:64px}.authBrand h2{font-size:30px}.authTabs{margin:16px 14px 0}.authBody{padding:18px 18px 20px}.authMsg{margin-left:18px;margin-right:18px}.authFoot{margin-left:14px;margin-right:14px;font-size:9px}}\n</style>\n
+</div\n<style>\n/* Premium auth screen refinement */
+.authScreen{background:radial-gradient(ellipse at 50% 18%,rgba(239,188,88,.16),transparent 24%),radial-gradient(circle at 12% 55%,rgba(33,210,154,.11),transparent 24%),radial-gradient(circle at 88% 64%,rgba(97,124,255,.12),transparent 26%),linear-gradient(180deg,#061321 0%,#071a2f 54%,#020a14 100%)}
+.authScreen:after{content:"";position:absolute;inset:3vh 6vw 0;pointer-events:none;border:1px solid rgba(239,188,88,.09);border-bottom:0;border-radius:48% 48% 0 0/22% 22% 0 0;box-shadow:0 0 120px rgba(239,188,88,.05),inset 0 0 90px rgba(255,255,255,.02)}
+.authBox{width:min(700px,100%);max-height:94vh;border-radius:30px;background:linear-gradient(155deg,rgba(17,43,72,.91),rgba(5,20,35,.96));border-color:rgba(239,188,88,.34);box-shadow:0 40px 120px rgba(0,0,0,.58),0 0 55px rgba(239,188,88,.04)}
+.authBrand{padding:34px 34px 10px}
+.authLogo{width:104px;height:104px;border-radius:30px}
+.authLogo svg{width:82px;height:82px}
+.authBrand h2{font-size:42px;letter-spacing:-.6px}
+.authBrand p{font-size:12px;letter-spacing:1px}
+.authTabs{margin:20px 28px 0;padding:4px}
+.authTabs button{padding:14px;font-size:13px}
+.authBody{padding:22px 34px 26px}
+.authBody .field{margin-bottom:15px}
+.authBody input{min-height:48px;padding:12px 14px}
+.authSubmit{min-height:48px;font-size:13px}
+.authMsg{margin:2px 34px 14px}
+.authFoot{margin:0 28px 28px;padding:14px 16px}
+@media(max-width:700px){
+  .authScreen{padding:12px}
+  .authScreen:after{inset:1vh 2vw 0;border-radius:42% 42% 0 0/16% 16% 0 0}
+  .authBox{border-radius:24px}
+  .authBrand{padding:24px 18px 10px}
+  .authLogo{width:88px;height:88px;border-radius:26px}
+  .authLogo svg{width:70px;height:70px}
+  .authBrand h2{font-size:31px}
+  .authTabs{margin:16px 14px 0}
+  .authBody{padding:18px 18px 20px}
+  .authMsg{margin-left:18px;margin-right:18px}
+  .authFoot{margin-left:14px;margin-right:14px;font-size:9px}
+}
+</style>\n
