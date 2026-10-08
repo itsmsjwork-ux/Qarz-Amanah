@@ -294,13 +294,13 @@ function setAuthMode(mode,message="",type=""){
     authBody(`<div style="text-align:center;color:#b5c6db;font-size:12px;line-height:1.6;margin-bottom:13px">We sent a 6-digit OTP to your mobile number. Verify it to secure your account and enable mobile password recovery.</div><div class="field"><label>Mobile OTP</label><input id="phoneOtp" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="6-digit OTP"></div><button class="btn primary authSubmit" id="authSubmit" onclick="verifySignupPhone()">Verify Mobile</button><button class="mini" style="width:100%;margin-top:9px" onclick="setAuthMode('signup')">← Back</button>`);
   }else if(mode==="recovery"){
     if(recoveryStep===1){
-      authBody(`<div style="text-align:center;color:#b5c6db;font-size:12px;line-height:1.6;margin-bottom:13px">Enter your username. A one-time password will be sent to your registered mobile number.</div><div class="field"><label>Username</label><input id="recoveryUsername" autocomplete="username" placeholder="Your username"></div><button class="btn primary authSubmit" id="authSubmit" onclick="sendResetOtp()">Send OTP</button><button class="mini" style="width:100%;margin-top:9px" onclick="setAuthMode('login')">← Back to Login</button>`);
+      authBody(`<div style="text-align:center;color:#b5c6db;font-size:12px;line-height:1.6;margin-bottom:13px">Use your saved Recovery Code. No SMS or email is required.</div><div class="field"><label>Username</label><input id="recoveryUsername" autocomplete="username" placeholder="Your username"></div><div class="field"><label>Recovery Code</label><input id="recoveryCode" inputmode="text" maxlength="12" autocomplete="one-time-code" placeholder="12-character code"></div><button class="btn primary authSubmit" id="authSubmit" onclick="verifyRecoveryCode()">Continue</button><button class="mini" style="width:100%;margin-top:9px" onclick="setAuthMode('login')">← Back to Login</button>`);
     }else{
-      authBody(`<div style="text-align:center;color:#b5c6db;font-size:12px;line-height:1.6;margin-bottom:13px">Enter the OTP sent to your registered mobile number, then choose a new password.</div><div class="field"><label>OTP</label><input id="recoveryOtp" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="6-digit OTP"></div><div class="field"><label>New Password</label><input id="recoveryPassword" type="password" autocomplete="new-password" placeholder="At least 6 characters"></div><div class="field"><label>Confirm New Password</label><input id="recoveryPassword2" type="password" autocomplete="new-password" placeholder="Repeat password"></div><button class="btn primary authSubmit" id="authSubmit" onclick="resetPasswordWithOtp()">Set New Password</button><button class="mini" style="width:100%;margin-top:9px" onclick="setAuthMode('recovery')">← Back</button>`);
+      authBody(`<div style="text-align:center;color:#b5c6db;font-size:12px;line-height:1.6;margin-bottom:13px">Choose your new password.</div><div class="field"><label>New Password</label><input id="recoveryPassword" type="password" autocomplete="new-password" placeholder="At least 6 characters"></div><div class="field"><label>Confirm New Password</label><input id="recoveryPassword2" type="password" autocomplete="new-password" placeholder="Repeat password"></div><button class="btn primary authSubmit" id="authSubmit" onclick="resetPasswordWithCode()">Set New Password</button><button class="mini" style="width:100%;margin-top:9px" onclick="setAuthMode('recovery')">← Back</button>`);
       document.querySelector(".authTabs").style.display="none";
     }
   }else if(mode==="changePassword"){
-    authBody(`<div style="text-align:center;color:#b5c6db;font-size:12px;line-height:1.6;margin-bottom:13px">A one-time password will be sent to your registered mobile number.</div><div class="field"><label>OTP</label><input id="changeOtp" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="6-digit OTP"></div><div class="field"><label>New Password</label><input id="changePassword1" type="password" autocomplete="new-password" placeholder="At least 6 characters"></div><div class="field"><label>Confirm New Password</label><input id="changePassword2" type="password" autocomplete="new-password" placeholder="Repeat password"></div><button class="btn primary authSubmit" id="authSubmit" onclick="finishLoggedInPasswordChange()">Change Password</button><button class="mini" style="width:100%;margin-top:9px" onclick="closeAuthOverlay()">Cancel</button>`);
+    authBody(`<div style="text-align:center;color:#b5c6db;font-size:12px;line-height:1.6;margin-bottom:13px">Set a new password while you are signed in. SMS is not required.</div><div class="field"><label>New Password</label><input id="changePassword1" type="password" autocomplete="new-password" placeholder="At least 6 characters"></div><div class="field"><label>Confirm New Password</label><input id="changePassword2" type="password" autocomplete="new-password" placeholder="Repeat password"></div><button class="btn primary authSubmit" id="authSubmit" onclick="finishLoggedInPasswordChange()">Change Password</button><button class="btn soft" style="width:100%;margin-top:9px" onclick="generateRecoveryCode()">🔐 Generate Recovery Code</button><button class="mini" style="width:100%;margin-top:9px" onclick="closeAuthOverlay()">Cancel</button>`);
   }
   if(message)authMessage(message,type);
 }
@@ -415,70 +415,78 @@ async function submitAuth(){
 }
 
 async function verifySignupPhone(){
-  authMessage("Mobile verification during signup is no longer required. Your registered mobile number is used for password recovery OTP.","ok");
+  authMessage("Mobile verification during signup is not required. Generate a free Recovery Code after signing in so you can recover the account later.","ok");
   setAuthMode("login");
 }
 
 function startRecovery(){
   pendingPhone="";
+  window.__recoveryCode="";
+  sessionStorage.removeItem("qarz_recovery_code");
   setAuthMode("recovery");
 }
-async function sendResetOtp(){
+async function verifyRecoveryCode(){
   const username=document.getElementById("recoveryUsername").value.trim().toLowerCase();
+  const code=document.getElementById("recoveryCode").value.trim().toUpperCase();
   if(!validUsername(username))return authMessage("Please enter your username.","error");
-  const btn=document.getElementById("authSubmit");btn.disabled=true;btn.textContent="Sending OTP…";
-  try{
-    const res=await fetch(authGatewayUrl(),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"send_reset_otp",username})});
-    const out=await res.json();
-    if(!res.ok)throw new Error(out.error||"We could not send the OTP.");
-    currentUsername=username;recoveryStep=2;
-    recoveryStep=2;setAuthMode("recovery","OTP sent to your registered mobile number.","ok");
-    const u=document.getElementById("recoveryUsername");if(u)u.value=username;
-  }catch(e){authMessage(e.message||"Could not send OTP.","error")}finally{if(btn){btn.disabled=false;btn.textContent="Send OTP"}}
+  if(!/^[A-HJ-NP-Z2-9]{12}$/.test(code))return authMessage("Enter your 12-character recovery code.","error");
+  currentUsername=username;
+  window.__recoveryCode=code;
+  sessionStorage.setItem("qarz_recovery_code",code);
+  recoveryStep=2;
+  setAuthMode("recovery","Recovery code accepted. Choose a new password.","ok");
 }
 
-async function resetPasswordWithOtp(){
-  const token=document.getElementById("recoveryOtp").value.trim();
+async function resetPasswordWithCode(){
   const p1=document.getElementById("recoveryPassword").value,p2=document.getElementById("recoveryPassword2").value;
-  if(!/^[0-9]{6}$/.test(token))return authMessage("Enter the 6-digit OTP.","error");
+  const code=document.getElementById("recoveryCode")?.value.trim().toUpperCase() || window.__recoveryCode || "";
   if(p1.length<6)return authMessage("Password must be at least 6 characters.","error");
   if(p1!==p2)return authMessage("Passwords do not match.","error");
+  const recoveryCode=window.__recoveryCode || sessionStorage.getItem("qarz_recovery_code") || "";
+  if(!recoveryCode)return authMessage("Recovery code is missing. Go back and enter it again.","error");
   const btn=document.getElementById("authSubmit");btn.disabled=true;btn.textContent="Updating…";
   try{
-    const res=await fetch(authGatewayUrl(),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"reset_password",username:currentUsername,token,new_password:p1})});
+    const res=await fetch(authGatewayUrl(),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"reset_password_with_code",username:currentUsername,recovery_code:recoveryCode,new_password:p1})});
     const out=await res.json();
-    if(!res.ok)throw new Error(out.error||"Invalid or expired OTP.");
+    if(!res.ok)throw new Error(out.error||"Invalid recovery code.");
+    window.__recoveryCode="";
+    sessionStorage.removeItem("qarz_recovery_code");
     setAuthMode("login","Password updated successfully. Login with your username and new password.","ok");
   }catch(e){authMessage(e.message||"Could not update password.","error")}finally{if(btn){btn.disabled=false;btn.textContent="Set New Password"}}
 }
 
 async function startLoggedInPasswordChange(){
   if(!session||!currentUsername)return;
-  const btn=document.querySelector(".account .ghost");if(btn)btn.disabled=true;
-  try{
-    const res=await fetch(authGatewayUrl(),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"send_reset_otp",username:currentUsername})});
-    const out=await res.json();
-    if(!res.ok)throw new Error(out.error||"Could not send OTP.");
-    recoveryStep=2;
-    document.getElementById("authScreen").classList.remove("hidden");
-    setAuthMode("changePassword","OTP sent to your registered mobile number.","ok");
-  }catch(e){showToast(e.message||"Could not send OTP.")}finally{if(btn)btn.disabled=false}
+  document.getElementById("authScreen").classList.remove("hidden");
+  setAuthMode("changePassword");
 }
 
 async function finishLoggedInPasswordChange(){
-  const token=document.getElementById("changeOtp").value.trim();
   const p1=document.getElementById("changePassword1").value,p2=document.getElementById("changePassword2").value;
-  if(!/^[0-9]{6}$/.test(token))return authMessage("Enter the 6-digit OTP.","error");
   if(p1.length<6)return authMessage("Password must be at least 6 characters.","error");
   if(p1!==p2)return authMessage("Passwords do not match.","error");
   const btn=document.getElementById("authSubmit");btn.disabled=true;btn.textContent="Updating…";
   try{
-    const res=await fetch(authGatewayUrl(),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"reset_password",username:currentUsername,token,new_password:p1})});
+    const res=await fetch(authGatewayUrl(),{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},body:JSON.stringify({action:"change_password",new_password:p1})});
     const out=await res.json();
-    if(!res.ok)throw new Error(out.error||"Invalid or expired OTP.");
+    if(!res.ok)throw new Error(out.error||"Could not change password.");
+    document.getElementById("changePassword1").value="";
+    document.getElementById("changePassword2").value="";
     closeAuthOverlay();
     showToast("Password changed successfully.");
   }catch(e){authMessage(e.message||"Could not change password.","error")}finally{if(btn){btn.disabled=false;btn.textContent="Change Password"}}
+}
+
+async function generateRecoveryCode(){
+  if(!session?.access_token)return authMessage("Please sign in first.","error");
+  try{
+    const res=await fetch(authGatewayUrl(),{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},body:JSON.stringify({action:"generate_recovery_code"})});
+    const out=await res.json();
+    if(!res.ok)throw new Error(out.error||"Could not generate recovery code.");
+    window.__recoveryCode=out.recovery_code;
+    try{await navigator.clipboard.writeText(out.recovery_code)}catch(e){}
+    authMessage("Recovery Code: "+out.recovery_code+" — saved to clipboard. Keep it somewhere safe; you will need it to reset your password without SMS.","ok");
+  }catch(e){authMessage(e.message||"Could not generate recovery code.","error")}
 }
 function closeAuthOverlay(){
   if(session){document.getElementById("authScreen").classList.add("hidden");setAuthMode("login");}
@@ -870,7 +878,7 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden&&session){
     <div class="authTabs" id="authTabs"><button id="loginTab" class="active" onclick="setAuthMode('login')">Login</button><button id="signupTab" onclick="setAuthMode('signup')">Create Account</button></div>
     <div class="authBody" id="authBody"></div>
     <div class="authMsg" id="authMsg"></div>
-    <div class="authFoot">Login uses your unique username and password. Your email remains on the account for important notifications. Mobile OTP is used for password recovery.</div>
+    <div class="authFoot">Login uses your unique username and password. Your email remains on the account for important notifications. A free Recovery Code is used for password recovery; no SMS is required.</div>
   </div>
 </div>
 
