@@ -192,51 +192,7 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
 }
 
 </style>
-<style id="luxury-redesign">
-:root{
-  --bg:#040d1c;--glass:rgba(7,20,38,.78);--glass2:rgba(12,29,52,.86);--line:rgba(242,204,125,.20);
-  --text:#f7f9ff;--muted:#9fb1ca;--blue:#4a83ff;--blue2:#7f55e6;--green:#22d7a0;--gold:#f3c15e;--pink:#ff7d96;
-  --shadow:0 22px 60px rgba(0,0,0,.36)
-}
-body{background:#040d1c;color:var(--text);overflow-x:hidden}
-.bg{background:radial-gradient(circle at 68% 16%,rgba(74,110,255,.12),transparent 28%),radial-gradient(circle at 84% 78%,rgba(202,120,255,.08),transparent 25%),linear-gradient(135deg,#030a16,#07172c 58%,#050b17)}
-.sky{background:radial-gradient(ellipse at 74% 25%,rgba(255,218,151,.22) 0 4%,transparent 4.5%),linear-gradient(to top,rgba(4,10,18,.72),transparent 45%)}
-.mosque{opacity:.20}
-.app{grid-template-columns:260px minmax(0,1fr)}
-.side{padding:22px 16px;background:linear-gradient(180deg,rgba(2,11,23,.97),rgba(4,16,31,.93));border-right:1px solid rgba(240,194,92,.15);box-shadow:16px 0 50px rgba(0,0,0,.15)}
-.brand{padding:4px 8px 24px}.logo{border-radius:18px;background:linear-gradient(145deg,rgba(238,190,94,.18),rgba(255,255,255,.04));border-color:rgba(243,193,94,.26)}.brand b{font-size:22px;color:#f8fbff}
-.label{color:#c8a95b;letter-spacing:1.8px}
-.nav button{color:#dae5f4;padding:11px 13px;border:1px solid transparent}.nav button:hover{background:rgba(255,255,255,.045);border-color:rgba(243,193,94,.12)}.nav button.active{background:linear-gradient(135deg,#f1c85f,#d4a647);color:#091221;box-shadow:0 14px 34px rgba(224,177,66,.26)}
-.sideNote{border-color:rgba(243,193,94,.28);background:linear-gradient(145deg,rgba(13,34,58,.96),rgba(4,15,29,.94));box-shadow:inset 0 0 35px rgba(243,193,94,.04)}
-.main{background:linear-gradient(180deg,rgba(2,9,18,.34),rgba(2,9,18,.05))}
-.top{background:rgba(3,13,26,.92);border-bottom-color:rgba(240,194,92,.13);backdrop-filter:blur(22px)}
-.top h1{font-size:21px}.crumb{color:#91a7c4}.search{background:rgba(8,22,40,.82);border-color:rgba(134,164,207,.18)}
-.account{background:rgba(8,20,36,.8);border-color:rgba(240,194,92,.15)}
-.accountText{color:#d6e0ef}
-.btn.primary{background:linear-gradient(135deg,#f2cb65,#e0ab45);color:#091221;box-shadow:0 12px 26px rgba(222,173,69,.22)}
-.btn.ghost{background:rgba(255,255,255,.045);border-color:rgba(243,193,94,.18)}
-.content{padding:22px 28px 42px}
-.luxuryHero{padding:28px 30px;min-height:310px;border-radius:26px;border-color:rgba(241,194,92,.28);background:linear-gradient(100deg,rgba(5,17,34,.98),rgba(8,23,48,.82));box-shadow:0 26px 70px rgba(0,0,0,.3),inset 0 0 70px rgba(42,86,151,.10);position:relative}
-.heroScene{position:absolute;inset:0;overflow:hidden;border-radius:26px;opacity:.92;pointer-events:none}.heroScene svg{width:100%;height:100%;display:block}.heroScene:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,12,24,.96) 0%,rgba(4,12,24,.80) 38%,rgba(4,12,24,.22) 70%,rgba(4,12,24,.12))}
-.heroRow{position:relative;z-index:2;align-items:flex-start;min-height:250px}.heroContent{max-width:74%}.luxuryHero .kicker{color:#e4c574}.hero h2{font-size:46px;line-height:1.06;margin:8px 0 10px;text-shadow:0 4px 30px rgba(0,0,0,.45)}.hero p{max-width:760px;font-size:13px;color:#e0e8f3}.heroQuote{display:flex;align-items:center;gap:12px;max-width:620px;margin-top:18px;padding:11px 14px;border:1px solid rgba(243,193,94,.34);border-radius:15px;background:rgba(3,13,24,.55);backdrop-filter:blur(12px)}.heroQuote>span{font-size:25px;color:#f4cf72}.heroQuote b{font-size:11px;color:#f0d58b}.heroQuote small{display:block;color:#9eb0c7;font-size:9px;margin-top:4px}.luxuryTotal{padding:18px 22px;border:1px solid rgba(243,193,94,.42);border-radius:20px;background:rgba(5,16,28,.74);box-shadow:inset 0 0 28px rgba(243,193,94,.05);align-self:center;min-width:170px}.luxuryTotal small{color:#dcc88d}.luxuryTotal strong{font-size:38px;color:#fff}.luxuryTotal span{display:block;color:#8fa5bf;font-size:9px;margin-top:4px}
-.primaryStats{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px}.primaryStats .stat{position:relative;overflow:hidden;min-height:112px;padding:18px 18px 18px 72px;border-radius:18px;border-color:rgba(255,255,255,.10)}
-.primaryStats .stat:before{content:"";position:absolute;left:16px;top:18px;width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:22px;font-weight:900}
-.primaryStats .stat:nth-child(1){background:linear-gradient(145deg,rgba(8,82,60,.60),rgba(5,40,37,.88));border-color:rgba(38,217,165,.30)}.primaryStats .stat:nth-child(1):before{content:"↓";background:linear-gradient(145deg,#20d49b,#10956f);box-shadow:0 8px 20px rgba(27,210,160,.22)}
-.primaryStats .stat:nth-child(2){background:linear-gradient(145deg,rgba(9,56,111,.66),rgba(6,28,60,.90));border-color:rgba(68,142,255,.30)}.primaryStats .stat:nth-child(2):before{content:"↑";background:linear-gradient(145deg,#388bff,#2565c8);box-shadow:0 8px 20px rgba(64,136,255,.22)}
-.primaryStats .stat:nth-child(3){background:linear-gradient(145deg,rgba(70,27,121,.65),rgba(31,16,61,.90));border-color:rgba(170,78,255,.30)}.primaryStats .stat:nth-child(3):before{content:"✓";background:linear-gradient(145deg,#a247ff,#6e35ce);box-shadow:0 8px 20px rgba(145,70,242,.22)}
-.primaryStats .stat:nth-child(4){background:linear-gradient(145deg,rgba(103,54,18,.72),rgba(52,25,10,.92));border-color:rgba(236,154,62,.32)}.primaryStats .stat:nth-child(4):before{content:"◷";background:linear-gradient(145deg,#f29b2f,#cb5b17);box-shadow:0 8px 20px rgba(238,142,36,.22)}
-.primaryStats .labelx{color:#d8e4f2;font-size:10px;text-transform:none}.primaryStats strong{font-size:23px;margin-top:7px}.primaryStats small{color:#90a6c0}
-.secondaryStats{display:flex;gap:10px;margin-top:10px}.secondaryStat{flex:1;display:flex;justify-content:space-between;align-items:center;padding:10px 13px;border-radius:13px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}.secondaryStat small{display:block;color:#8298b3;font-size:8px;letter-spacing:1px}.secondaryStat b{font-size:15px}.secondaryStat span{color:#7f94ad;font-size:9px}.overdueStat b{color:#ff9eaa}.recordsStat b{color:#8bb7ff}
-.dashboardMainGrid{grid-template-columns:1.38fr .62fr;gap:14px;margin-top:14px}.dashboardLowerGrid{gap:14px}.dashboardPanel{background:linear-gradient(145deg,rgba(6,19,35,.96),rgba(8,22,41,.86));border-color:rgba(243,193,94,.18);box-shadow:0 18px 45px rgba(0,0,0,.23)}
-.dashboardPanel .head{border-bottom-color:rgba(255,255,255,.08)}.dashboardPanel .head b{font-size:14px}.quickBolt{color:#f4c960;font-size:18px}.quick{grid-template-columns:1fr 1fr;gap:9px}.quickTile{display:flex!important;align-items:center;gap:8px;justify-content:flex-start;min-height:70px;text-align:left!important;padding:12px 13px!important;border-radius:15px!important;border-color:rgba(255,255,255,.10)!important}.quickTile>span{display:flex;flex-direction:column;gap:2px;flex:1}.quickTile small{margin:0!important;color:#99acc4!important;font-size:8px!important;font-weight:500}.quickGreen{background:linear-gradient(145deg,rgba(21,136,103,.28),rgba(6,58,49,.76))!important}.quickBlue{background:linear-gradient(145deg,rgba(26,92,174,.30),rgba(8,37,82,.78))!important}.quickPurple{background:linear-gradient(145deg,rgba(121,48,191,.32),rgba(49,19,90,.80))!important}.quickOrange{background:linear-gradient(145deg,rgba(171,83,25,.34),rgba(80,31,12,.82))!important}
-.trustStrip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}.trustStrip>div{padding:13px 14px;border-radius:15px;border:1px solid rgba(255,255,255,.08);background:rgba(5,18,33,.84)}.trustStrip>div:nth-child(1){border-color:rgba(31,212,158,.28)}.trustStrip>div:nth-child(2){border-color:rgba(64,136,255,.28)}.trustStrip>div:nth-child(3){border-color:rgba(159,84,255,.28)}.trustStrip>div:nth-child(4){border-color:rgba(242,147,53,.28)}.trustStrip b{font-size:11px;display:block;color:#eef4ff}.trustStrip small{display:block;margin-top:4px;color:#8096b0;font-size:8px;line-height:1.45}
-.card{box-shadow:0 18px 45px rgba(0,0,0,.22)}.tag{border:1px solid rgba(255,255,255,.10)}
-.dua{border-color:rgba(243,193,94,.18);background:linear-gradient(145deg,rgba(12,38,53,.84),rgba(18,29,54,.90))}
-.nav button.active .ico,.nav button.active{font-weight:900}
-@media(max-width:1200px){.hero h2{font-size:38px}.primaryStats{grid-template-columns:1fr 1fr}.trustStrip{grid-template-columns:1fr 1fr}.heroContent{max-width:70%}}
-@media(max-width:900px){.luxuryHero{min-height:0;padding:21px 18px}.heroScene{opacity:.66}.heroContent{max-width:100%}.heroRow{min-height:0;gap:18px}.luxuryTotal{align-self:flex-start}.primaryStats{grid-template-columns:1fr 1fr}.dashboardMainGrid{grid-template-columns:1fr}.dashboardLowerGrid{grid-template-columns:1fr}.trustStrip{grid-template-columns:1fr 1fr}.heroQuote{max-width:none}.hero h2{font-size:31px}}
-@media(max-width:600px){.luxuryHero{padding:18px 15px;border-radius:19px}.heroScene{opacity:.48}.hero h2{font-size:25px}.heroQuote{align-items:flex-start}.heroQuote b{font-size:9px}.heroQuote small{font-size:8px}.luxuryTotal{min-width:0;padding:14px 16px}.primaryStats{grid-template-columns:1fr;gap:9px}.secondaryStats{flex-direction:column}.quick{grid-template-columns:1fr}.trustStrip{grid-template-columns:1fr}.dashboardLowerGrid{display:grid}.dashboardPanel .body{padding:13px}}
-</style></head>
+</head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
 <div class="app">
@@ -267,86 +223,28 @@ body{background:#040d1c;color:var(--text);overflow-x:hidden}
 
 <main class="content">
 <section id="dashboard" class="page active">
-  <div class="hero luxuryHero">
-    <div class="heroScene" aria-hidden="true">
-      <svg viewBox="0 0 760 310" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="nightSky" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#07152d"/><stop offset=".55" stop-color="#182e67"/><stop offset="1" stop-color="#69466d"/></linearGradient>
-          <linearGradient id="domeGlow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f88db"/><stop offset="1" stop-color="#12254e"/></linearGradient>
-          <linearGradient id="cityGlow" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f0bc62" stop-opacity=".05"/><stop offset=".5" stop-color="#f5ca73" stop-opacity=".28"/><stop offset="1" stop-color="#e6a94c" stop-opacity=".03"/></linearGradient>
-          <filter id="softGlow"><feGaussianBlur stdDeviation="6"/></filter>
-        </defs>
-        <rect width="760" height="310" fill="url(#nightSky)"/>
-        <circle cx="585" cy="66" r="32" fill="#ffeab7"/><circle cx="598" cy="54" r="32" fill="#182b5e"/>
-        <g opacity=".18" fill="#f6d18a"><circle cx="540" cy="42" r="1.5"/><circle cx="610" cy="38" r="1.2"/><circle cx="664" cy="80" r="1.2"/><circle cx="515" cy="96" r="1"/></g>
-        <ellipse cx="530" cy="254" rx="190" ry="50" fill="#0b1734" opacity=".75"/>
-        <rect y="248" width="760" height="62" fill="#071326"/>
-        <g fill="url(#domeGlow)" stroke="#8dbbff" stroke-opacity=".22">
-          <path d="M360 218 Q390 140 420 218Z"/><path d="M362 220h58v38h-58z"/>
-          <path d="M430 206 Q456 150 482 206Z"/><path d="M434 208h44v43h-44z"/>
-          <path d="M278 224 Q303 170 328 224Z"/><path d="M283 225h40v38h-40z"/>
-        </g>
-        <g fill="#142653">
-          <rect x="336" y="150" width="8" height="102"/><rect x="494" y="142" width="8" height="110"/>
-          <path d="M331 150h18l-9-18z"/><path d="M489 142h18l-9-18z"/>
-          <rect x="330" y="136" width="20" height="5"/><rect x="488" y="128" width="20" height="5"/>
-        </g>
-        <g fill="#f4ca78" opacity=".35" filter="url(#softGlow)">
-          <circle cx="340" cy="198" r="11"/><circle cx="498" cy="188" r="10"/><circle cx="390" cy="211" r="9"/><circle cx="459" cy="205" r="8"/>
-        </g>
-        <path d="M0 270 Q170 242 340 270 T760 270V310H0Z" fill="url(#cityGlow)"/>
-      </svg>
-    </div>
-    <div class="heroRow">
-      <div class="heroContent">
-        <div class="kicker">QARZ MANAGEMENT FOR EVERYONE</div>
-        <h2>Assalamu Alaikum<span id="welcomeName"></span> 👋</h2>
-        <p>Keep track of your loans and return every amānah on time. Principal and repayments only — no interest, APR, late-interest or compounding.</p>
-        <div class="heroQuote"><span>﷽</span><div><b>“Indeed, Allah commands you to return trusts to their rightful owners.”</b><small>Qur'an 4:58</small></div></div>
-      </div>
-      <div class="heroTotal luxuryTotal"><small>Total Outstanding</small><strong id="hero">₹0</strong><span>Principal only</span></div>
-    </div>
-  </div>
-
-  <div class="stats primaryStats">
+  <div class="hero"><div class="heroRow"><div><div class="kicker">QARZ MANAGEMENT FOR EVERYONE</div><h2>Assalamu Alaikum<span id="welcomeName"></span> 👋</h2><p>Keep track of your loans and return every amanah on time. Principal and repayments only — no interest, APR, late-interest or compounding.</p></div><div class="heroTotal"><small>Total Outstanding</small><strong id="hero">₹0</strong></div></div></div>
+  <div class="stats">
     <div class="stat"><div class="labelx">I Will Receive</div><strong id="recv">₹0</strong><small id="recvPeople">0 people</small></div>
     <div class="stat"><div class="labelx">I Will Return</div><strong id="owed">₹0</strong><small id="owedPeople">0 people</small></div>
     <div class="stat"><div class="labelx">Repaid</div><strong id="repaidTotal">₹0</strong><small>All repayments</small></div>
     <div class="stat"><div class="labelx">Pending</div><strong id="active">0</strong><small id="overdueSmall">To be settled</small></div>
+    <div class="stat"><div class="labelx">Overdue</div><strong id="overdueCount">0</strong><small id="overdueAmount">₹0 outstanding</small></div>
+    <div class="stat"><div class="labelx">Total Records</div><strong id="totalRec">0</strong><small>Qarz records</small></div>
   </div>
-
-  <div class="secondaryStats">
-    <div class="secondaryStat overdueStat"><div><small>OVERDUE</small><b id="overdueCount">0</b></div><span id="overdueAmount">₹0 outstanding</span></div>
-    <div class="secondaryStat recordsStat"><div><small>TOTAL RECORDS</small><b id="totalRec">0</b></div><span>Qarz records</span></div>
+  <div class="grid2">
+    <div class="card"><div class="head"><div><b>Recent Records</b><small>Latest qarz activity</small></div><button class="btn ghost" onclick="page('records')">View All →</button></div><div class="body" id="recent"></div></div>
+    <div class="card"><div class="head"><div><b>Featured Duā</b><small>Daily reminder</small></div><button class="btn ghost" onclick="page('duas')">Library →</button></div><div class="body" id="featured"></div></div>
   </div>
-
-  <div class="grid2 dashboardMainGrid">
-    <div class="card dashboardPanel recentPanel">
-      <div class="head"><div><b>Recent Records</b><small>Latest qarz activity</small></div><button class="btn ghost" onclick="page('records')">View All →</button></div>
-      <div class="body" id="recent"></div>
-    </div>
-    <div class="card dashboardPanel quickPanel">
-      <div class="head"><div><b>Quick Actions</b><small>Manage your records easily</small></div><span class="quickBolt">⚡</span></div>
-      <div class="body quick">
-        <button class="btn quickTile quickGreen" onclick="openModal()">＋ <span><b>Add Record</b><small>New qarz entry</small></span> →</button>
-        <button class="btn quickTile quickBlue" onclick="page('people')">♟ <span><b>Add Person</b><small>Manage people</small></span> →</button>
-        <button class="btn quickTile quickPurple" onclick="page('reports')">▥ <span><b>View Reports</b><small>See detailed reports</small></span> →</button>
-        <button class="btn quickTile quickOrange" onclick="page('reminders')">🔔 <span><b>Reminders</b><small>Set reminders</small></span> →</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="grid3 dashboardLowerGrid">
-    <div class="card dashboardPanel"><div class="head"><div><b>Due Reminders</b><small>Upcoming and overdue returns</small></div><span class="noteGood" id="reminderCount">0 upcoming</span></div><div class="body" id="reminders"></div></div>
-    <div class="card dashboardPanel"><div class="head"><div><b>People Summary</b><small>Your active contacts</small></div><button class="btn ghost" onclick="page('people')">View All →</button></div><div class="body" id="peopleSummary"></div></div>
-    <div class="card dashboardPanel"><div class="head"><div><b>Featured Duā</b><small>Daily reminder</small></div><button class="btn ghost" onclick="page('duas')">Library →</button></div><div class="body" id="featured"></div></div>
-  </div>
-
-  <div class="trustStrip">
-    <div><b>All Data Will Remain Same</b><small>Your records, people, reminders and reports stay exactly as they are.</small></div>
-    <div><b>Only UI Changes</b><small>This is a visual redesign — not a data migration.</small></div>
-    <div><b>No Data Loss</b><small>Your saved information is not deleted or reset.</small></div>
-    <div><b>Same Features</b><small>All existing Qarz Amanah features continue to work.</small></div>
+  <div class="grid3">
+    <div class="card"><div class="head"><b>Upcoming Reminders</b><span class="noteGood" id="reminderCount">0 upcoming</span></div><div class="body" id="reminders"></div></div>
+    <div class="card"><div class="head"><b>People Summary</b><button class="btn ghost" onclick="page('people')">View All →</button></div><div class="body" id="peopleSummary"></div></div>
+    <div class="card"><div class="head"><b>Quick Actions</b></div><div class="body quick">
+      <button class="btn ghost" onclick="openModal()">＋ Add Qarz<small style="display:block;color:#8297b2;margin-top:6px">New loan or return</small></button>
+      <button class="btn ghost" onclick="page('records')">➜ View Records<small style="display:block;color:#8297b2;margin-top:6px">Mujhe dena/lena</small></button>
+      <button class="btn ghost" onclick="page('duas')">☾ Duā Library<small style="display:block;color:#8297b2;margin-top:6px">Dua aur reference</small></button>
+      <button class="btn ghost" onclick="backup()">⇩ Generate Backup<small style="display:block;color:#8297b2;margin-top:6px">Save your data</small></button>
+    </div></div>
   </div>
 </section>
 
