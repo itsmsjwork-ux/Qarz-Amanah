@@ -25,22 +25,33 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure Pages
         uses: actions/configure-pages@v5
-      - name: Generate Dua audio
+      - name: Generate Dua audio (male voice) 
         run: |
-          python -m pip install --quiet gTTS
+          python -m pip install --quiet edge-tts
           python - <<'PY'
-          from gtts import gTTS
+          import asyncio
           from pathlib import Path
+          import edge_tts
+
           items = [
-            ("dua1.mp3", "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ"),
-            ("dua2.mp3", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ، وَغَلَبَةِ الْعَدُوِّ، وَشَمَاتَةِ الْأَعْدَاءِ"),
-            ("dua3.mp3", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ"),
-            ("dua4.mp3", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسَلِ وَالْهَرَمِ وَالْمَأْثَمِ وَالْمَغْرَمِ"),
+            ("dua1.mp3", "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ", "ar-SA-HamedNeural", "-8%"),
+            ("dua2.mp3", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ، وَغَلَبَةِ الْعَدُوِّ، وَشَمَاتَةِ الْأَعْدَاءِ", "ar-SA-HamedNeural", "-8%"),
+            ("dua3.mp3", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ", "ar-SA-HamedNeural", "-8%"),
+            ("dua4.mp3", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسَلِ وَالْهَرَمِ وَالْمَأْثَمِ وَالْمَغْرَمِ", "ar-SA-HamedNeural", "-8%"),
+            ("dua1-meaning.mp3", "یا اللہ، اپنے حلال کے ذریعے مجھے اپنے حرام سے بچا، اور اپنے فضل سے مجھے اپنے سوا سب سے بے نیاز کر دے۔", "ur-PK-AsadNeural", "-8%"),
+            ("dua2-meaning.mp3", "یا اللہ، میں قرض کے غلبے، دشمن کے غلبے اور دشمنوں کے خوش ہونے سے تیری پناہ مانگتا ہوں۔", "ur-PK-AsadNeural", "-8%"),
+            ("dua3-meaning.mp3", "یا اللہ، میں غم و فکر، بے بسی، سستی، بزدلی، بخل، قرض کے بوجھ اور لوگوں کے غلبے سے تیری پناہ مانگتا ہوں۔", "ur-PK-AsadNeural", "-8%"),
+            ("dua4-meaning.mp3", "یا اللہ، میں سستی، بڑھاپے، گناہ اور قرض سے تیری پناہ مانگتا ہوں۔", "ur-PK-AsadNeural", "-8%"),
           ]
-          out = Path("audio")
-          out.mkdir(exist_ok=True)
-          for filename, text in items:
-              gTTS(text=text, lang="ar").save(str(out / filename))
+
+          async def make_audio():
+              out = Path("audio")
+              out.mkdir(exist_ok=True)
+              for filename, text, voice, rate in items:
+                  communicate = edge_tts.Communicate(text, voice, rate=rate)
+                  await communicate.save(str(out / filename))
+
+          asyncio.run(make_audio())
           PY
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
