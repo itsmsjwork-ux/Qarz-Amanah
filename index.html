@@ -510,10 +510,11 @@ async function logout(){
  }finally{loggingOut=false}
 }
 async function ensureProfile(user){
-  const displayName=user.user_metadata?.display_name||user.email?.split("@")[0]||"";
-  await supabaseClient.from("profiles").upsert({user_id:user.id,display_name:displayName},{onConflict:"user_id"});
-  const {data:p}=await supabaseClient.from("profiles").select("username,phone").eq("user_id",user.id).maybeSingle();
+  const fallbackName=user.user_metadata?.display_name||user.email?.split("@")[0]||"";
+  await supabaseClient.from("profiles").upsert({user_id:user.id,display_name:fallbackName},{onConflict:"user_id"});
+  const {data:p}=await supabaseClient.from("profiles").select("username,phone,display_name").eq("user_id",user.id).maybeSingle();
   currentUsername=p?.username||user.user_metadata?.username||"";
+  return p?.display_name||fallbackName||"";
 }
 function cloudToLocal(records,repayments){
   const byId={};(records||[]).forEach(r=>byId[r.id]={id:r.id,createdAt:new Date(r.created_at).getTime(),direction:r.direction,person:r.person_name,personPhone:r.person_phone||"",principal:Number(r.principal),date:r.qarz_date,due:r.due_date||"",note:r.note||"",repayments:[]});
@@ -573,9 +574,10 @@ async function handleSession(next){
   userHasSignedIn=true;
   loggingOut=false;
   screen.classList.add("hidden");
-  document.getElementById("accountEmail").textContent=currentUsername?"@"+currentUsername:(session.user.email||"Signed in");
-  document.getElementById("avatar").textContent=(session.user.email||"QA").slice(0,2).toUpperCase();
-  await ensureProfile(session.user);
+  const displayName=await ensureProfile(session.user);
+  document.getElementById("accountEmail").textContent=displayName||currentUsername||"Signed in";
+  const initials=String(displayName||currentUsername||"QA").trim().split(/\s+/).map(x=>x[0]).join("").slice(0,2).toUpperCase()||"QA";
+  document.getElementById("avatar").textContent=initials;
   if(lastLoadedUserId!==session.user.id){try{await loadCloud(session.user)}catch(e){console.error(e);authMessage("Could not load cloud records. Your local data is still available.","error")}}
 }
 setAuthMode("login");
