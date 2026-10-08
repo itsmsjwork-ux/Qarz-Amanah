@@ -770,9 +770,24 @@ body{background:#040d1c;color:var(--text);overflow-x:hidden}
       <div><label>Phone number</label><input id="personPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="e.g. +91 98765 43210"></div>
       <div><label>Original principal (₹)</label><input id="principal" type="number" min="0.01" step="0.01" required></div>
       <div><label>Qarz date</label><input id="date" type="date" required></div>
-      <div><label>Expected repayment date</label><input id="due" type="date"></div>
-      <div class="full"><label>Reason for this Qarz</label><textarea id="note" required placeholder="e.g. Food support"></textarea></div>
+      <div><label>Expected repayment date <span style="font-weight:600;color:#71849e">(Optional)</span></label><input id="due" type="date"></div>
+      <div><label>Purpose</label><select id="purpose" required><option value="">Select purpose</option><option>Medical</option><option>Food</option><option>Education</option><option>Household</option><option>Business</option><option>Emergency</option><option>Personal</option><option>Other</option></select></div>
+      <div class="full"><label>Reason / Details</label><textarea id="note" required placeholder="e.g. Hospital treatment expense"></textarea></div>
     </div></div><div class="modalFoot"><button type="button" class="btn ghost" onclick="closeModal()">Cancel</button><button type="button" class="btn primary" onclick="submitQarz()">Save Record</button></div></form>
+  </div>
+</div>
+
+<div class="modal" id="personHistoryModal">
+  <div class="modalBox personHistoryBox">
+    <div class="modalHead">
+      <div><b id="personHistoryTitle">Qarz History</b><div class="muted">All Qarz records for this person</div></div>
+      <div style="display:flex;gap:7px;align-items:center"><button class="btn gold" onclick="closePersonHistory();openModal(null,currentPersonHistory)">＋ Add Qarz</button><button class="mini" onclick="closePersonHistory()">✕</button></div>
+    </div>
+    <div class="modalBody">
+      <div class="personHistoryStats" id="personHistoryStats"></div>
+      <div class="subhead">Qarz History</div>
+      <div class="personHistoryList" id="personHistoryBody"></div>
+    </div>
   </div>
 </div>
 
@@ -1741,6 +1756,7 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden&&session){
  .authMsg{margin-left:18px;margin-right:18px}
  .authFoot{margin-left:14px;margin-right:14px;font-size:9px}
 }
+.personHistoryBox{width:min(820px,100%)}.personHistoryStats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.personHistoryStats .metric{background:rgba(255,255,255,.045);border:1px solid var(--line)}.personHistoryList{display:grid;gap:9px}.personHistoryRow{display:grid;grid-template-columns:1fr auto;gap:14px;padding:13px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.035)}.personHistoryTop{display:flex;align-items:center;gap:8px}.personHistoryReason{margin-top:8px;color:#c4d1e1;font-size:11px;line-height:1.5}.personHistoryAmount{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:5px}.personHistoryAmount b{font-size:14px}.personHistoryAmount small{color:#8297b2;font-size:9px}@media(max-width:700px){.personHistoryStats{grid-template-columns:1fr 1fr}.personHistoryRow{grid-template-columns:1fr}.personHistoryAmount{text-align:left;align-items:flex-start}}
 </style>
 </body>
 </html>
