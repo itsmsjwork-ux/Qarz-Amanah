@@ -1604,7 +1604,7 @@ function speak(i){
  playDuaAudio("audio/dua"+(i+1)+".mp3",()=>showToast("Could not load the dua audio. Please refresh the page and try again."));
 }
 function speakMeaning(i){
- playDuaAudio("audio/dua"+(i+1)+"-meaning.mp3",()=>showToast("Tarjuma audio load nahi ho payi. Page refresh karke dobara Play Translation dabao."));
+ playDuaAudio("audio/dua"+(i+1)+"-meaning.mp3",()=>showToast("Could not load the translation audio. Please refresh the page and try again."));
 }
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail()}});
 render();
