@@ -311,10 +311,13 @@ async function checkUsername(){
   const u=input.value.trim();
   if(!u){status.textContent="";return}
   if(!validUsername(u)){status.textContent="Use 3–30 letters, numbers, dot, underscore or hyphen.";status.style.color="#ff9faf";return}
-  const {data,error}=await supabaseClient.rpc("is_username_available",{p_username:u});
-  if(error){status.textContent="Could not check username right now.";status.style.color="#ff9faf";return}
-  status.textContent=data?"✓ Username available":"Username is not available. Choose another.";
-  status.style.color=data?"#76eec1":"#ff9faf";
+  try{
+    const res=await fetch(authGatewayUrl(),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"check_username",username:u})});
+    const out=await res.json();
+    if(!res.ok)throw new Error(out.error||"Username check failed.");
+    status.textContent=out.available?"✓ Username available":"Username is not available. Choose another.";
+    status.style.color=out.available?"#76eec1":"#ff9faf";
+  }catch(e){status.textContent="Could not check username right now.";status.style.color="#ff9faf";}
 }
 
 async function submitAuth(){
@@ -347,8 +350,13 @@ async function submitAuth(){
   if(!email)return authMessage("Email is required for account recovery and notifications.","error");
   if(password.length<6)return authMessage("Password must be at least 6 characters.","error");
   if(password!==confirmPassword)return authMessage("Passwords do not match.","error");
-  const {data:available,error:availableError}=await supabaseClient.rpc("is_username_available",{p_username:username});
-  if(availableError)return authMessage("Could not verify username availability.","error");
+  let available=false;
+  try{
+    const res=await fetch(authGatewayUrl(),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"check_username",username})});
+    const out=await res.json();
+    if(!res.ok)throw new Error(out.error||"Username check failed.");
+    available=!!out.available;
+  }catch(e){return authMessage("Could not verify username availability. Please try again.","error")}
   if(!available)return authMessage("Username is not available. Please choose another.","error");
   const btn=document.getElementById("authSubmit");btn.disabled=true;btn.textContent="Creating account…";
   try{
