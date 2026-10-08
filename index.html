@@ -330,6 +330,7 @@ async function submitAuth(){
       const res=await fetch(authGatewayUrl(),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"login",username,password})});
       const out=await res.json();
       if(!res.ok)throw new Error(out.error||"Invalid username or password.");
+      if(!out.session)throw new Error("Login session was not returned. Please try again.");
       const {error}=await supabaseClient.auth.setSession({access_token:out.session.access_token,refresh_token:out.session.refresh_token});
       if(error)throw error;
       currentUsername=username;
@@ -341,53 +342,53 @@ async function submitAuth(){
   const username=document.getElementById("authUsername").value.trim().toLowerCase();
   const name=document.getElementById("authName").value.trim();
   const phone=normalizePhone(document.getElementById("authPhone").value);
-  const email=document.getElementById("authEmail").value.trim();
+  const email=document.getElementById("authEmail").value.trim().toLowerCase();
   const password=document.getElementById("authPassword").value;
   const confirmPassword=document.getElementById("authPassword2").value;
   if(!validUsername(username))return authMessage("Please choose a valid username.","error");
   if(!name)return authMessage("Please enter your name.","error");
   if(!/^\+[1-9]\d{7,14}$/.test(phone))return authMessage("Enter a valid mobile number with country code, e.g. +91 9876543210.","error");
-  if(!email)return authMessage("Email is required for account recovery and notifications.","error");
+  if(!email)return authMessage("Please enter your email address.","error");
   if(password.length<6)return authMessage("Password must be at least 6 characters.","error");
   if(password!==confirmPassword)return authMessage("Passwords do not match.","error");
-  let available=false;
-  try{
-    const res=await fetch(authGatewayUrl(),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"check_username",username})});
-    const out=await res.json();
-    if(!res.ok)throw new Error(out.error||"Username check failed.");
-    available=!!out.available;
-  }catch(e){return authMessage("Could not verify username availability. Please try again.","error")}
-  if(!available)return authMessage("Username is not available. Please choose another.","error");
+
   const btn=document.getElementById("authSubmit");btn.disabled=true;btn.textContent="Creating account…";
   try{
-    const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{display_name:name,username,phone},emailRedirectTo:SITE_URL}});
+    const res=await fetch(authGatewayUrl(),{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({action:"signup",username,name,phone,email,password})
+    });
+    const out=await res.json();
+    if(!res.ok)throw new Error(out.error||"Account could not be created.");
+
+    if(!out.session){
+      authMessage(out.message||"Account created. Please log in with your username and password.","ok");
+      return;
+    }
+
+    const {error}=await supabaseClient.auth.setSession({
+      access_token:out.session.access_token,
+      refresh_token:out.session.refresh_token
+    });
     if(error)throw error;
-    if(!data.session){
-      authMessage("Account created. Please confirm your email, then log in with username and password.","ok");
-      return;
-    }
-    session=data.session;currentUsername=username;pendingPhone=phone;
-    const upd=await supabaseClient.auth.updateUser({phone});
-    if(upd.error){
-      authMessage("Account created, but mobile verification could not start. Check SMS provider setup in Supabase, then log in.","error");
-      await handleSession(data.session);
-      return;
-    }
-    setAuthMode("verifyPhone","OTP sent to your mobile number.","ok");
-  }catch(e){authMessage(e.message||"Account creation failed.","error")}finally{if(btn){btn.disabled=false;btn.textContent="Create Account"}}
+
+    session=out.session;
+    currentUsername=username;
+    pendingPhone=phone;
+    await handleSession(out.session);
+    document.getElementById("authScreen").classList.add("hidden");
+    showToast(out.otp_sent ? "Account created successfully." : "Account created successfully. You can use mobile OTP recovery.");
+  }catch(e){
+    authMessage(e.message||"Account creation failed.","error");
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent="Create Account"}
+  }
 }
 
 async function verifySignupPhone(){
-  const token=document.getElementById("phoneOtp").value.trim();
-  if(!/^[0-9]{6}$/.test(token))return authMessage("Enter the 6-digit OTP.","error");
-  try{
-    const {error}=await supabaseClient.auth.verifyOtp({phone:pendingPhone,token,type:"phone_change"});
-    if(error)throw error;
-    if(session?.user?.id)await supabaseClient.from("profiles").update({phone:pendingPhone}).eq("user_id",session.user.id);
-    await handleSession(session);
-    document.getElementById("authScreen").classList.add("hidden");
-    authMessage("Mobile verified successfully.","ok");
-  }catch(e){authMessage(e.message||"OTP verification failed.","error")}
+  authMessage("Mobile verification during signup is no longer required. Your registered mobile number is used for password recovery OTP.","ok");
+  setAuthMode("login");
 }
 
 function startRecovery(){
