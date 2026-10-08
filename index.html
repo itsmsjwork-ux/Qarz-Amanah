@@ -629,7 +629,27 @@ function removePayment(recId,pid){const d=data.find(x=>x.id===recId);if(!d)retur
 function removeRec(id,fromDetail=false){const d=data.find(x=>x.id===id);if(!d)return;if(confirm("Delete this Qarz record?")){data=data.filter(x=>x.id!==id);save();if(fromDetail)closeDetail()}}
 function backup(){const b=new Blob([JSON.stringify({app:"Qarz Amanah",version:2,exportedAt:new Date().toISOString(),records:data},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="qarz-amanah-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!Array.isArray(x.records))throw 0;const existing=new Set(data.map(d=>d.id));const incoming=x.records.map(ensureRecord).filter(d=>!existing.has(d.id));data.push(...incoming);save();alert(incoming.length+" records restored.")}catch{alert("Invalid backup file.")}};r.readAsText(f)}
-function speak(i){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(D[i][1]);u.lang="ar-SA";u.rate=.8;speechSynthesis.speak(u)}
+let speechVoices=[];
+function loadSpeechVoices(){speechVoices=window.speechSynthesis?window.speechSynthesis.getVoices():[];return speechVoices}
+if("speechSynthesis" in window){loadSpeechVoices();speechSynthesis.onvoiceschanged=loadSpeechVoices}
+function speak(i){
+ const textToSpeak=D[i]?.[1];
+ if(!textToSpeak)return;
+ if(!("speechSynthesis" in window)){alert("Is browser mein voice support available nahi hai.");return}
+ speechSynthesis.cancel();
+ speechSynthesis.resume();
+ const voices=loadSpeechVoices();
+ const arabicVoice=voices.find(v=>/^ar([_-]|$)/i.test(v.lang)||/arabic|arabi/i.test(v.name));
+ const u=new SpeechSynthesisUtterance(textToSpeak);
+ u.lang=arabicVoice?.lang||"ar-SA";
+ if(arabicVoice)u.voice=arabicVoice;
+ u.rate=.72;
+ u.pitch=1;
+ u.volume=1;
+ u.onstart=()=>showToast(arabicVoice?"🔊 Arabic voice started":"🔊 Voice started");
+ u.onerror=(e)=>{console.error("Speech error",e);showToast("Voice start nahi ho payi. Browser mein Arabic voice enabled hai ya nahi check karein.")};
+ speechSynthesis.speak(u);
+}
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail()}});
 render();
 setTimeout(()=>{if(session){checkReminders(false);renderReminderPage();}},1200);
