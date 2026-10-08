@@ -512,9 +512,9 @@ async function logout(){
 async function ensureProfile(user){
   const fallbackName=user.user_metadata?.display_name||user.email?.split("@")[0]||"";
   await supabaseClient.from("profiles").upsert({user_id:user.id,display_name:fallbackName},{onConflict:"user_id"});
-  const {data:p}=await supabaseClient.from("profiles").select("username,phone,display_name").eq("user_id",user.id).maybeSingle();
+  const {data:p}=await supabaseClient.from("profiles").select("username,phone,display_name,avatar_path").eq("user_id",user.id).maybeSingle();
   currentUsername=p?.username||user.user_metadata?.username||"";
-  return p?.display_name||fallbackName||"";
+  return {displayName:p?.display_name||fallbackName||"",avatarPath:p?.avatar_path||""};
 }
 async function setAvatarUI(avatarPath,displayName,currentUsernameValue){
   const avatar=document.getElementById("avatar"),img=document.getElementById("avatarImg"),textNode=document.getElementById("avatarText");
