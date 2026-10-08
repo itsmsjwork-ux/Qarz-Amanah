@@ -654,18 +654,16 @@ function pickVoice(voices,langs){
  return voices.find(v=>langs.some(l=>v.lang.toLowerCase().startsWith(l)))||null;
 }
 function speak(i){
- const arabic=D[i]?.[1],roman=D[i]?.[5]||arabic;
- if(!arabic)return;
+ const file="audio/dua"+(i+1)+".mp3";
  try{
    if(window.__duaAudio){window.__duaAudio.pause();window.__duaAudio.currentTime=0}
-   const audioUrl="https://translate.google.com/translate_tts?ie=UTF-8&q="+encodeURIComponent(arabic)+"&tl=ar&client=tw-ob";
-   const audio=new Audio(audioUrl);window.__duaAudio=audio;
-   audio.volume=1;
+   const audio=new Audio(file);window.__duaAudio=audio;audio.preload="auto";audio.volume=1;
    audio.onplay=()=>showToast("🔊 Dua chal rahi hai…");
-   audio.onerror=()=>fallbackSpeech(arabic,roman);
+   audio.onended=()=>showToast("✓ Dua complete");
+   audio.onerror=()=>fallbackSpeech(D[i]?.[1],D[i]?.[5]||D[i]?.[1]);
    const playPromise=audio.play();
-   if(playPromise)playPromise.catch(()=>fallbackSpeech(arabic,roman));
- }catch(e){fallbackSpeech(arabic,roman)}
+   if(playPromise)playPromise.catch(()=>fallbackSpeech(D[i]?.[1],D[i]?.[5]||D[i]?.[1]));
+ }catch(e){fallbackSpeech(D[i]?.[1],D[i]?.[5]||D[i]?.[1])}
 }
 function fallbackSpeech(arabic,roman){
  if(!("speechSynthesis" in window)){alert("Voice play nahi ho rahi. Browser mein audio/voice permission check karein.");return}
