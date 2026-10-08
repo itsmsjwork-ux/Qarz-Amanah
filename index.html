@@ -331,10 +331,30 @@ async function submitAuth(){
       const out=await res.json();
       if(!res.ok)throw new Error(out.error||"Invalid username or password.");
       if(!out.session)throw new Error("Login session was not returned. Please try again.");
-      const {error}=await supabaseClient.auth.setSession({access_token:out.session.access_token,refresh_token:out.session.refresh_token});
-      if(error)throw error;
       currentUsername=username;
-      authMessage("Signed in.","ok");
+      session=out.session;
+
+      // Show the app immediately after the gateway has authenticated the user.
+      // Session persistence/cloud loading can continue in the background so the
+      // login button never appears to hang on a slow auth-state callback.
+      document.getElementById("authScreen").classList.add("hidden");
+      document.getElementById("accountEmail").textContent="@"+username;
+
+      try{
+        const {error}=await Promise.race([
+          supabaseClient.auth.setSession({
+            access_token:out.session.access_token,
+            refresh_token:out.session.refresh_token
+          }),
+          new Promise((_,reject)=>setTimeout(()=>reject(new Error("Session save timed out")),5000))
+        ]);
+        if(error)throw error;
+      }catch(e){
+        console.error("Session persistence warning",e);
+      }
+
+      handleSession(out.session).catch(e=>console.error("Post-login setup failed",e));
+      showToast("Signed in successfully.");
     }catch(e){authMessage(e.message||"Login failed.","error")}finally{if(btn){btn.disabled=false;btn.textContent="Login to Qarz Amanah"}}
     return;
   }
@@ -367,18 +387,26 @@ async function submitAuth(){
       return;
     }
 
-    const {error}=await supabaseClient.auth.setSession({
-      access_token:out.session.access_token,
-      refresh_token:out.session.refresh_token
-    });
-    if(error)throw error;
-
     session=out.session;
     currentUsername=username;
     pendingPhone=phone;
-    await handleSession(out.session);
     document.getElementById("authScreen").classList.add("hidden");
-    showToast(out.otp_sent ? "Account created successfully." : "Account created successfully. You can use mobile OTP recovery.");
+    showToast("Account created successfully.");
+
+    try{
+      const {error}=await Promise.race([
+        supabaseClient.auth.setSession({
+          access_token:out.session.access_token,
+          refresh_token:out.session.refresh_token
+        }),
+        new Promise((_,reject)=>setTimeout(()=>reject(new Error("Session save timed out")),5000))
+      ]);
+      if(error)throw error;
+    }catch(e){
+      console.error("Session persistence warning",e);
+    }
+
+    handleSession(out.session).catch(e=>console.error("Post-signup setup failed",e));
   }catch(e){
     authMessage(e.message||"Account creation failed.","error");
   }finally{
