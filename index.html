@@ -1041,7 +1041,7 @@ async function generateRecoveryCode(){
   }catch(e){authMessage(e.message||"Could not generate recovery code.","error")}
 }
 function closeAuthOverlay(){
-  if(session){document.getElementById("authScreen").classList.add("hidden");setAuthMode("login");}
+  if(session){document.getElementById("authScreen").classList.add("hidden");setTimeout(()=>setAuthMode("login"),0);}
   else setAuthMode("login");
 }
 
@@ -1669,42 +1669,48 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden&&session){
 <div class="authScreen" id="authScreen">
   <div class="authBox">
     <div class="authBrand">
-  <div class="authLogo" aria-label="Qarz Amanah emblem">
-    <svg viewBox="0 0 120 120" role="img" aria-hidden="true">
-      <defs>
-        <linearGradient id="authGold" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#fff4c9"/><stop offset=".36" stop-color="#f1c766"/>
-          <stop offset=".72" stop-color="#d8972e"/><stop offset="1" stop-color="#fff0b5"/>
-        </linearGradient>
-        <linearGradient id="authEmerald" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#2a8c6f"/><stop offset=".55" stop-color="#0d4b39"/><stop offset="1" stop-color="#062a22"/>
-        </linearGradient>
-      </defs>
-      <rect x="6" y="6" width="108" height="108" rx="31" fill="#0b1d33" stroke="url(#authGold)" stroke-width="2.4"/>
-      <path d="M23 86V49Q23 31 42 23L60 12l18 11q19 8 19 26v37" fill="url(#authEmerald)" stroke="url(#authGold)" stroke-width="2.6"/>
-      <path d="M60 27v15" stroke="url(#authGold)" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M53 31Q60 22 67 31Q62 28 58 32Z" fill="url(#authGold)"/>
-      <path d="M48 48Q60 38 72 48" fill="none" stroke="#ffe8a5" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M32 62Q45 50 61 59Q68 63 78 58" fill="none" stroke="url(#authGold)" stroke-width="5.5" stroke-linecap="round"/>
-      <path d="M88 68Q75 80 59 71Q52 67 42 72" fill="none" stroke="url(#authGold)" stroke-width="5.5" stroke-linecap="round"/>
-      <circle cx="60" cy="64" r="9" fill="#0b1d33" stroke="url(#authGold)" stroke-width="2"/>
-      <path d="M60 59v10M57 61.5h6M57 67h6" stroke="#f5d277" stroke-width="1.7" stroke-linecap="round"/>
-      <path d="M40 91Q60 78 80 91" fill="none" stroke="url(#authGold)" stroke-width="2.4" stroke-linecap="round"/>
-    </svg>
-  </div>
-  <div class="authOrnament"><span></span><i>✦</i><span></span></div>
-  <h2>Qarz Amanah</h2>
-  <p>Trust • Record • Return</p>
-</div>
-    <div class="authTabs" id="authTabs"><button id="loginTab" class="active" onclick="setAuthMode('login')">Login</button><button id="signupTab" onclick="setAuthMode('signup')">Create Account</button></div>
+      <div class="authLogo" aria-label="Qarz Amanah emblem">
+        <svg viewBox="0 0 120 120" role="img" aria-hidden="true">
+          <defs>
+            <linearGradient id="authGold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#fff4c9"/><stop offset=".36" stop-color="#f1c766"/>
+              <stop offset=".72" stop-color="#d8972e"/><stop offset="1" stop-color="#fff0b5"/>
+            </linearGradient>
+            <linearGradient id="authEmerald" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#2a8c6f"/><stop offset=".55" stop-color="#0d4b39"/><stop offset="1" stop-color="#062a22"/>
+            </linearGradient>
+          </defs>
+          <rect x="6" y="6" width="108" height="108" rx="31" fill="#0b1d33" stroke="url(#authGold)" stroke-width="2.4"/>
+          <path d="M23 86V49Q23 31 42 23L60 12l18 11q19 8 19 26v37" fill="url(#authEmerald)" stroke="url(#authGold)" stroke-width="2.6"/>
+          <path d="M60 27v15" stroke="url(#authGold)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M53 31Q60 22 67 31Q62 28 58 32Z" fill="url(#authGold)"/>
+          <path d="M48 48Q60 38 72 48" fill="none" stroke="#ffe8a5" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M32 62Q45 50 61 59Q68 63 78 58" fill="none" stroke="url(#authGold)" stroke-width="5.5" stroke-linecap="round"/>
+          <path d="M88 68Q75 80 59 71Q52 67 42 72" fill="none" stroke="url(#authGold)" stroke-width="5.5" stroke-linecap="round"/>
+          <circle cx="60" cy="64" r="9" fill="#0b1d33" stroke="url(#authGold)" stroke-width="2"/>
+          <path d="M60 59v10M57 61.5h6M57 67h6" stroke="#f5d277" stroke-width="1.7" stroke-linecap="round"/>
+          <path d="M40 91Q60 78 80 91" fill="none" stroke="url(#authGold)" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="authOrnament"><span></span><i>✦</i><span></span></div>
+      <h2>Qarz Amanah</h2>
+      <p>Trust • Record • Return</p>
+    </div>
+    <div class="authTabs" id="authTabs">
+      <button id="loginTab" class="active" onclick="setAuthMode('login')">Login</button>
+      <button id="signupTab" onclick="setAuthMode('signup')">Create Account</button>
+    </div>
     <div class="authBody" id="authBody"></div>
     <div class="authMsg" id="authMsg"></div>
     <div class="authFoot">Login uses your unique username and password. Your email remains on the account for important notifications. A free Recovery Code is used for password recovery; no SMS is required.</div>
   </div>
-</div\n<style>\n/* Premium auth screen refinement */
+</div>
+<style>
+/* Premium auth screen refinement */
 .authScreen{background:radial-gradient(ellipse at 50% 18%,rgba(239,188,88,.16),transparent 24%),radial-gradient(circle at 12% 55%,rgba(33,210,154,.11),transparent 24%),radial-gradient(circle at 88% 64%,rgba(97,124,255,.12),transparent 26%),linear-gradient(180deg,#061321 0%,#071a2f 54%,#020a14 100%)}
+.authScreen:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(30deg,rgba(255,255,255,.035) 12%,transparent 12.5%,transparent 87%,rgba(255,255,255,.035) 87.5%,rgba(255,255,255,.035)),linear-gradient(150deg,rgba(255,255,255,.025) 12%,transparent 12.5%,transparent 87%,rgba(255,255,255,.025) 87.5%,rgba(255,255,255,.025));background-size:44px 76px}
 .authScreen:after{content:"";position:absolute;inset:3vh 6vw 0;pointer-events:none;border:1px solid rgba(239,188,88,.09);border-bottom:0;border-radius:48% 48% 0 0/22% 22% 0 0;box-shadow:0 0 120px rgba(239,188,88,.05),inset 0 0 90px rgba(255,255,255,.02)}
-.authBox{width:min(700px,100%);max-height:94vh;border-radius:30px;background:linear-gradient(155deg,rgba(17,43,72,.91),rgba(5,20,35,.96));border-color:rgba(239,188,88,.34);box-shadow:0 40px 120px rgba(0,0,0,.58),0 0 55px rgba(239,188,88,.04)}
+.authBox{width:min(700px,100%);max-height:94vh;border-radius:30px;background:linear-gradient(155deg,rgba(17,43,72,.93),rgba(5,20,35,.98));border-color:rgba(239,188,88,.34);box-shadow:0 40px 120px rgba(0,0,0,.58),0 0 55px rgba(239,188,88,.04)}
 .authBrand{padding:34px 34px 10px}
 .authLogo{width:104px;height:104px;border-radius:30px}
 .authLogo svg{width:82px;height:82px}
@@ -1712,23 +1718,27 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden&&session){
 .authBrand p{font-size:12px;letter-spacing:1px}
 .authTabs{margin:20px 28px 0;padding:4px}
 .authTabs button{padding:14px;font-size:13px}
+.authTabs button.active{background:linear-gradient(135deg,#f1c969,#d99a32);color:#091728;box-shadow:0 10px 24px rgba(215,154,50,.25),inset 0 1px 0 rgba(255,255,255,.45)}
 .authBody{padding:22px 34px 26px}
 .authBody .field{margin-bottom:15px}
 .authBody input{min-height:48px;padding:12px 14px}
-.authSubmit{min-height:48px;font-size:13px}
+.authBody input:focus{border-color:rgba(239,188,88,.62);box-shadow:0 0 0 3px rgba(239,188,88,.10)}
+.authSubmit{min-height:48px;font-size:13px;background:linear-gradient(135deg,#f2cc6c,#d89b32)!important;color:#071525!important;border-color:rgba(255,232,163,.52)!important;box-shadow:0 14px 28px rgba(216,155,50,.22),inset 0 1px 0 rgba(255,255,255,.45)}
 .authMsg{margin:2px 34px 14px}
 .authFoot{margin:0 28px 28px;padding:14px 16px}
 @media(max-width:700px){
-  .authScreen{padding:12px}
-  .authScreen:after{inset:1vh 2vw 0;border-radius:42% 42% 0 0/16% 16% 0 0}
-  .authBox{border-radius:24px}
-  .authBrand{padding:24px 18px 10px}
-  .authLogo{width:88px;height:88px;border-radius:26px}
-  .authLogo svg{width:70px;height:70px}
-  .authBrand h2{font-size:31px}
-  .authTabs{margin:16px 14px 0}
-  .authBody{padding:18px 18px 20px}
-  .authMsg{margin-left:18px;margin-right:18px}
-  .authFoot{margin-left:14px;margin-right:14px;font-size:9px}
+ .authScreen{padding:12px}
+ .authScreen:after{inset:1vh 2vw 0;border-radius:42% 42% 0 0/16% 16% 0 0}
+ .authBox{border-radius:24px}
+ .authBrand{padding:24px 18px 10px}
+ .authLogo{width:88px;height:88px;border-radius:26px}
+ .authLogo svg{width:70px;height:70px}
+ .authBrand h2{font-size:31px}
+ .authTabs{margin:16px 14px 0}
+ .authBody{padding:18px 18px 20px}
+ .authMsg{margin-left:18px;margin-right:18px}
+ .authFoot{margin-left:14px;margin-right:14px;font-size:9px}
 }
-</style>\n
+</style>
+</body>
+</html>
