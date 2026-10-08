@@ -1592,12 +1592,35 @@ function render(){
  document.getElementById("recvPeople").textContent=recvPeople+" people";
  document.getElementById("owedPeople").textContent=owedPeople+" people";
  document.getElementById("overdueSmall").textContent=overdue?overdue+" overdue":"To be settled";
- const latest=data.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
- document.getElementById("recent").innerHTML=rows(latest);
+ const latestPeople=recentPeopleSummary();
+ document.getElementById("recent").innerHTML=recentPeopleRows(latestPeople);
  document.getElementById("featured").innerHTML=duaHTML(D[0],0);
  document.getElementById("recordBody").innerHTML=rows(data.slice().sort((a,b)=>b.createdAt-a.createdAt));
  renderReminders();renderPeopleSummary();renderPeoplePage();renderReports();renderReminderPage();
  document.getElementById("duaBody").innerHTML=D.map((x,i)=>duaHTML(x,i)).join("");
+}
+function recentPeopleSummary(){
+ const map={};
+ data.forEach(d=>{
+   const name=(d.person||"").trim();if(!name)return;
+   const key=name.toLowerCase();
+   if(!map[key])map[key]={name,records:[],outstanding:0,latest:0,overdue:0};
+   map[key].records.push(d);
+   map[key].outstanding+=bal(d);
+   map[key].latest=Math.max(map[key].latest,Number(d.createdAt)||0);
+   if(bal(d)&&dueInfo(d).state==="overdue")map[key].overdue++;
+ });
+ return Object.values(map).sort((a,b)=>b.latest-a.latest).slice(0,5);
+}
+function recentPeopleRows(items){
+ if(!items.length)return '<div class="empty">No Qarz records yet.</div>';
+ return '<table><thead><tr><th>Person</th><th>Qarz Records</th><th>Outstanding</th><th>Status</th><th></th></tr></thead><tbody>'+
+ items.map(x=>{
+   const direction=x.records.some(d=>d.direction==="recv")&&x.records.some(d=>d.direction==="owed")?"Mixed":x.records.some(d=>d.direction==="recv")?"Receive":"Return";
+   const status=x.outstanding===0?'<span class="tag green">Settled</span>':x.overdue?'<span class="tag pink">'+x.overdue+' overdue</span>':'<span class="tag gold">Pending</span>';
+   return '<tr><td><b>'+esc(x.name)+'</b><div class="muted">'+esc(direction)+'</div></td><td>'+x.records.length+'</td><td><b>'+fmt(x.outstanding)+'</b></td><td>'+status+'</td><td><div class="actions"><button class="mini" onclick="showPerson(\''+esc(x.name).replace(/'/g,"\\'")+'\')">View History</button><button class="mini gold" onclick="event.stopPropagation();openModal(null,\''+esc(x.name).replace(/'/g,"\\'")+'\')">＋ Add</button></div></td></tr>';
+ }).join("")+
+ '</tbody></table>';
 }
 function reminderBuckets(){
  const overdue=[],today=[],upcoming=[];
