@@ -16,7 +16,7 @@
 .brand{display:flex;align-items:center;gap:12px;padding:5px 8px 28px}.logo{width:52px;height:52px;border:1px solid rgba(255,255,255,.25);border-radius:18px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.03));font-size:26px}.brand b{font-family:Georgia,serif;font-size:24px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
 .label{color:#7f93ad;font-size:10px;text-transform:uppercase;letter-spacing:1.3px;margin:22px 10px 9px}.nav{display:grid;gap:7px}.nav button{border:0;color:#dbe7f7;background:transparent;padding:12px 14px;border-radius:14px;text-align:left;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:12px}.nav button:hover{background:rgba(255,255,255,.06)}.nav button.active{background:linear-gradient(135deg,rgba(97,124,255,.92),rgba(125,92,232,.80));box-shadow:0 12px 30px rgba(80,98,240,.23)}.ico{width:20px;text-align:center;font-size:17px}
 .sideNote{position:static;margin-top:auto;padding:14px 13px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.035);flex:none;max-height:238px;overflow:hidden}.sideNote .arab{font-family:Georgia,serif;text-align:right;line-height:1.75;font-size:17px}.sideNote p{color:#d2deed;font-family:Georgia,serif;font-size:11px;line-height:1.5;text-align:center;margin:6px 0 4px}.sideNote small{display:block;color:#7f93ad;text-align:center;font-size:10px}
-.main{min-width:980px}.top{height:84px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid var(--line);background:rgba(7,19,38,.48);backdrop-filter:blur(18px);position:sticky;top:0;z-index:4}.crumb{font-size:11px;color:#9eb0c8}.top h1{margin:3px 0 0;font-size:22px}.topRight{display:flex;align-items:center;gap:9px}.search{width:min(370px,32vw);background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:14px;padding:11px 14px;color:#fff;outline:none}.search::placeholder{color:#8599b4}.avatar{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.07);display:grid;place-items:center;font-weight:900;color:#dce7ff}
+.main{min-width:980px}.top{height:84px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid var(--line);background:rgba(7,19,38,.48);backdrop-filter:blur(18px);position:sticky;top:0;z-index:4}.crumb{font-size:11px;color:#9eb0c8}.top h1{margin:3px 0 0;font-size:22px}.topRight{display:flex;align-items:center;gap:9px}.search{width:min(370px,32vw);background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:14px;padding:11px 14px;color:#fff;outline:none}.search::placeholder{color:#8599b4}.avatar{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.07);display:grid;place-items:center;font-weight:900;color:#dce7ff;position:relative;overflow:hidden;padding:0;cursor:pointer}.avatar:hover{border-color:rgba(140,160,255,.65);box-shadow:0 0 0 3px rgba(120,140,255,.12)}.avatar img{width:100%;height:100%;object-fit:cover;display:none}.avatar.hasPhoto img{display:block}.avatar.hasPhoto #avatarText{display:none}.avatar::after{content:"📷";position:absolute;right:2px;bottom:2px;width:15px;height:15px;border-radius:50%;display:grid;place-items:center;font-size:8px;background:rgba(3,10,20,.82);border:1px solid rgba(255,255,255,.2);opacity:.9}
 .btn{border:1px solid transparent;border-radius:13px;padding:10px 14px;font-weight:800;cursor:pointer;color:#fff}.primary{background:linear-gradient(135deg,var(--blue),var(--blue2));box-shadow:0 10px 24px rgba(100,94,235,.25)}.ghost{background:rgba(255,255,255,.07);border-color:var(--line)}.gold{background:rgba(239,188,88,.14);border-color:rgba(239,188,88,.32);color:#ffd980}.soft{background:rgba(33,210,154,.11);border-color:rgba(33,210,154,.25);color:#75efc1}.danger{background:rgba(255,120,145,.11);border-color:rgba(255,120,145,.25);color:#ff9daf}
 .content{padding:28px 34px 40px}.page{display:none}.page.active{display:block}.hero{border:1px solid rgba(255,255,255,.18);border-radius:26px;padding:30px 32px;background:radial-gradient(circle at 82% 30%,rgba(255,203,103,.18),transparent 20%),linear-gradient(135deg,rgba(18,48,83,.80),rgba(31,63,111,.55));box-shadow:var(--shadow);backdrop-filter:blur(16px);position:relative;overflow:hidden}.hero:after{content:"☾";position:absolute;right:50px;top:-12px;font-size:120px;opacity:.06;font-family:Georgia,serif}.heroRow{display:flex;justify-content:space-between;gap:30px;align-items:flex-end}.kicker{font-size:10px;letter-spacing:1.8px;color:#a7bad3}.hero h2{font-family:Georgia,serif;font-size:40px;margin:10px 0 8px}.hero p{max-width:720px;color:#c5d3e5;font-size:14px;line-height:1.7;margin:0}.heroTotal{text-align:right}.heroTotal small{display:block;color:#a9bad2;font-size:11px}.heroTotal strong{font-size:40px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}.stat{padding:20px;border:1px solid var(--line);border-radius:20px;background:var(--glass);backdrop-filter:blur(16px);box-shadow:0 12px 30px rgba(0,0,0,.16)}.stat .labelx{color:#afc0d6;font-size:11px}.stat strong{display:block;font-size:25px;margin-top:8px}.stat small{color:#7f93ad}
@@ -80,7 +80,7 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
 <section class="main">
 <header class="top">
   <div><div class="crumb">Qarz Amanah / <span id="crumb">Dashboard</span></div><h1 id="title">Dashboard</h1></div>
-  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><button class="btn ghost" title="Visual theme">☾</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="account"><div class="avatar" id="avatar">QA</div><div class="accountText" id="accountEmail">Not signed in</div><button class="mini ghost" onclick="startLoggedInPasswordChange()">🔐 Password</button><button class="mini logout" onclick="logout()">Logout</button></div></div>
+  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><button class="btn ghost" title="Visual theme">☾</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="account"><button type="button" class="avatar" id="avatar" title="Change profile photo" onclick="document.getElementById('avatarFile').click()"><span id="avatarText">QA</span><img id="avatarImg" alt="Profile photo"></button><input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="uploadAvatar(event)"><div class="accountText" id="accountEmail">Not signed in</div><button class="mini ghost" onclick="startLoggedInPasswordChange()">🔐 Password</button><button class="mini logout" onclick="logout()">Logout</button></div></div>
 </header>
 
 <main class="content">
@@ -500,7 +500,7 @@ async function logout(){
    if(error)throw error;
    session=null;lastLoadedUserId=null;currentUsername="";pendingPhone="";data=[];localStorage.removeItem(KEY);render();
    document.getElementById("accountEmail").textContent="Not signed in";
-   document.getElementById("avatar").textContent="QA";
+   document.getElementById("avatar").classList.remove("hasPhoto");document.getElementById("avatarText").textContent="QA";document.getElementById("avatarImg").removeAttribute("src");
    setAuthMode("login");
    document.getElementById("authScreen").classList.remove("hidden");
    authMessage("Logged out successfully.","ok");
@@ -516,6 +516,42 @@ async function ensureProfile(user){
   currentUsername=p?.username||user.user_metadata?.username||"";
   return p?.display_name||fallbackName||"";
 }
+async function setAvatarUI(avatarPath,displayName,currentUsernameValue){
+  const avatar=document.getElementById("avatar"),img=document.getElementById("avatarImg"),textNode=document.getElementById("avatarText");
+  if(!avatar||!img||!textNode)return;
+  const initials=String(displayName||currentUsernameValue||"QA").trim().split(/\s+/).map(x=>x[0]).join("").slice(0,2).toUpperCase()||"QA";
+  textNode.textContent=initials;
+  avatar.classList.remove("hasPhoto");
+  img.removeAttribute("src");
+  if(avatarPath){
+    const {data,error}=await supabaseClient.storage.from("avatars").createSignedUrl(avatarPath,3600);
+    if(!error&&data?.signedUrl){img.src=data.signedUrl;avatar.classList.add("hasPhoto");}
+  }
+}
+
+async function uploadAvatar(event){
+  const file=event.target.files?.[0];
+  event.target.value="";
+  if(!file||!session?.user?.id)return;
+  if(!["image/jpeg","image/png","image/webp"].includes(file.type))return showToast("Please choose a JPG, PNG or WebP image.");
+  if(file.size>2*1024*1024)return showToast("Profile photo must be 2 MB or smaller.");
+  const ext=file.type==="image/png"?"png":file.type==="image/webp"?"webp":"jpg";
+  const path=session.user.id+"/avatar."+ext;
+  try{
+    showToast("Uploading profile photo…");
+    const {error:upError}=await supabaseClient.storage.from("avatars").upload(path,file,{upsert:true,contentType:file.type,cacheControl:"3600"});
+    if(upError)throw upError;
+    const {error:dbError}=await supabaseClient.from("profiles").update({avatar_path:path}).eq("user_id",session.user.id);
+    if(dbError)throw dbError;
+    const name=document.getElementById("accountEmail").textContent||currentUsername||"";
+    await setAvatarUI(path,name,currentUsername);
+    showToast("Profile photo updated.");
+  }catch(e){
+    console.error("Avatar upload failed",e);
+    showToast("Profile photo upload failed. Please try again.");
+  }
+}
+
 function cloudToLocal(records,repayments){
   const byId={};(records||[]).forEach(r=>byId[r.id]={id:r.id,createdAt:new Date(r.created_at).getTime(),direction:r.direction,person:r.person_name,personPhone:r.person_phone||"",principal:Number(r.principal),date:r.qarz_date,due:r.due_date||"",note:r.note||"",repayments:[]});
   (repayments||[]).forEach(p=>{if(byId[p.qarz_id])byId[p.qarz_id].repayments.push({id:p.id,amount:Number(p.amount),date:p.repayment_date,note:p.note||""})});
@@ -574,10 +610,10 @@ async function handleSession(next){
   userHasSignedIn=true;
   loggingOut=false;
   screen.classList.add("hidden");
-  const displayName=await ensureProfile(session.user);
-  document.getElementById("accountEmail").textContent=displayName||currentUsername||"Signed in";
-  const initials=String(displayName||currentUsername||"QA").trim().split(/\s+/).map(x=>x[0]).join("").slice(0,2).toUpperCase()||"QA";
-  document.getElementById("avatar").textContent=initials;
+  const profile=await ensureProfile(session.user);
+  const displayName=profile.displayName||currentUsername||"Signed in";
+  document.getElementById("accountEmail").textContent=displayName;
+  await setAvatarUI(profile.avatarPath,displayName,currentUsername);
   if(lastLoadedUserId!==session.user.id){try{await loadCloud(session.user)}catch(e){console.error(e);authMessage("Could not load cloud records. Your local data is still available.","error")}}
 }
 setAuthMode("login");
