@@ -526,6 +526,143 @@ body{background:#040d1c;color:var(--text);overflow-x:hidden}
 @media(max-width:1200px){.hero h2{font-size:38px}.primaryStats{grid-template-columns:1fr 1fr}.trustStrip{grid-template-columns:1fr 1fr}.heroContent{max-width:70%}}
 @media(max-width:900px){.luxuryHero{min-height:0;padding:21px 18px}.heroScene{opacity:.66}.heroContent{max-width:100%}.heroRow{min-height:0;gap:18px}.luxuryTotal{align-self:flex-start}.primaryStats{grid-template-columns:1fr 1fr}.dashboardMainGrid{grid-template-columns:1fr}.dashboardLowerGrid{grid-template-columns:1fr}.trustStrip{grid-template-columns:1fr 1fr}.heroQuote{max-width:none}.hero h2{font-size:31px}}
 @media(max-width:600px){.luxuryHero{padding:18px 15px;border-radius:19px}.heroScene{opacity:.48}.hero h2{font-size:25px}.heroQuote{align-items:flex-start}.heroQuote b{font-size:9px}.heroQuote small{font-size:8px}.luxuryTotal{min-width:0;padding:14px 16px}.primaryStats{grid-template-columns:1fr;gap:9px}.secondaryStats{flex-direction:column}.quick{grid-template-columns:1fr}.trustStrip{grid-template-columns:1fr}.dashboardLowerGrid{display:grid}.dashboardPanel .body{padding:13px}}
+</style><style>
+:root[data-theme="light"]{
+  --bg:#f3f7f5;
+  --glass:rgba(255,255,255,.80);
+  --glass2:rgba(248,252,250,.92);
+  --line:rgba(20,54,49,.14);
+  --text:#13231f;
+  --muted:#667771;
+  --blue:#2f69d8;
+  --blue2:#6550c7;
+  --green:#168766;
+  --gold:#c78a22;
+  --pink:#d34f69;
+  --shadow:0 24px 60px rgba(32,55,49,.13);
+}
+:root[data-theme="light"] body{background:#f3f7f5;color:var(--text)}
+:root[data-theme="light"] .bg{background:radial-gradient(circle at 18% 18%,rgba(71,126,214,.14),transparent 28%),radial-gradient(circle at 85% 14%,rgba(212,164,72,.13),transparent 25%),radial-gradient(circle at 72% 85%,rgba(44,166,132,.10),transparent 28%),linear-gradient(135deg,#f4f8f6,#edf4f1 55%,#f6faf8)}
+:root[data-theme="light"] .sky{background:radial-gradient(ellipse at 74% 27%,rgba(255,225,166,.60) 0 5%,transparent 5.3%),linear-gradient(to top,rgba(223,233,228,.42),transparent 44%)}
+:root[data-theme="light"] .mosque{opacity:.16;background:radial-gradient(ellipse at 28% 82%,rgba(79,111,104,.22),transparent 13%),radial-gradient(ellipse at 50% 86%,rgba(79,111,104,.20),transparent 12%),radial-gradient(ellipse at 72% 80%,rgba(79,111,104,.20),transparent 13%),linear-gradient(to top,rgba(80,105,98,.10),transparent 60%)}
+:root[data-theme="light"] .moon{background:#ffe9ad;box-shadow:0 0 42px rgba(206,156,47,.20)}
+:root[data-theme="light"] .moon:after{background:#eef4f1}
+:root[data-theme="light"] .side{background:linear-gradient(180deg,rgba(250,253,251,.95),rgba(237,246,242,.92));border-color:var(--line)}
+:root[data-theme="light"] .brand b{color:#152d27}
+:root[data-theme="light"] .brand small,
+:root[data-theme="light"] .label,
+:root[data-theme="light"] .crumb{color:#71827d}
+:root[data-theme="light"] .nav button{color:#29403a}
+:root[data-theme="light"] .nav button:hover{background:rgba(25,91,72,.07)}
+:root[data-theme="light"] .nav button.active{background:linear-gradient(135deg,#2e76db,#6655c9);color:#fff}
+:root[data-theme="light"] .top{background:rgba(250,253,251,.78);border-color:var(--line)}
+:root[data-theme="light"] .top h1{color:#18322b}
+:root[data-theme="light"] .search{background:rgba(255,255,255,.86);border-color:rgba(27,63,55,.14);color:#18322b}
+:root[data-theme="light"] .search::placeholder{color:#879790}
+:root[data-theme="light"] .account{background:rgba(255,255,255,.78);border-color:var(--line)}
+:root[data-theme="light"] .accountText{color:#52655f}
+:root[data-theme="light"] .avatar{background:linear-gradient(145deg,#e9f2ee,#fff);border-color:rgba(27,63,55,.16);color:#2b4b42}
+:root[data-theme="light"] .btn.ghost,
+:root[data-theme="light"] .mini{background:rgba(255,255,255,.72);color:#314740;border-color:var(--line)}
+:root[data-theme="light"] .gold{background:rgba(199,138,34,.11);color:#8a5a0d;border-color:rgba(199,138,34,.26)}
+:root[data-theme="light"] .soft{background:rgba(22,135,102,.09);color:#11694f;border-color:rgba(22,135,102,.22)}
+:root[data-theme="light"] .danger{background:rgba(211,79,105,.08);color:#9d324b;border-color:rgba(211,79,105,.20)}
+:root[data-theme="light"] .card,
+:root[data-theme="light"] .reportCard{background:rgba(255,255,255,.83);border-color:var(--line);box-shadow:0 18px 45px rgba(36,66,58,.09)}
+:root[data-theme="light"] .head{border-bottom-color:var(--line)}
+:root[data-theme="light"] .head b,
+:root[data-theme="light"] td{color:#203a33}
+:root[data-theme="light"] .head small,
+:root[data-theme="light"] .muted,
+:root[data-theme="light"] th,
+:root[data-theme="light"] .empty,
+:root[data-theme="light"] .source{color:#748680}
+:root[data-theme="light"] td{border-top-color:rgba(28,66,57,.08)}
+:root[data-theme="light"] .tag.green{background:rgba(22,135,102,.11);color:#0b7757}
+:root[data-theme="light"] .tag.blue{background:rgba(47,105,216,.10);color:#2d61be}
+:root[data-theme="light"] .tag.gold{background:rgba(199,138,34,.12);color:#8a610f}
+:root[data-theme="light"] .tag.pink{background:rgba(211,79,105,.10);color:#ad3a53}
+:root[data-theme="light"] .stat{background:rgba(255,255,255,.78);border-color:var(--line);box-shadow:0 12px 30px rgba(39,69,61,.08)}
+:root[data-theme="light"] .stat .labelx,
+:root[data-theme="light"] .heroTotal small{color:#657872}
+:root[data-theme="light"] .stat strong,
+:root[data-theme="light"] .heroTotal strong{color:#17372f}
+:root[data-theme="light"] .person,
+:root[data-theme="light"] .personCard,
+:root[data-theme="light"] .metric,
+:root[data-theme="light"] .feature,
+:root[data-theme="light"] .reminderLarge,
+:root[data-theme="light"] .reportOverview>div{background:rgba(255,255,255,.68);border-color:rgba(26,70,60,.08)}
+:root[data-theme="light"] .person:hover,
+:root[data-theme="light"] .personCard:hover,
+:root[data-theme="light"] .reminderLarge:hover{background:rgba(27,97,77,.06)}
+:root[data-theme="light"] .grow b,
+:root[data-theme="light"] .personCard h3,
+:root[data-theme="light"] .reportItem b,
+:root[data-theme="light"] .reminderLarge b{color:#19372f}
+:root[data-theme="light"] .metric small,
+:root[data-theme="light"] .personFoot,
+:root[data-theme="light"] .monthLabel,
+:root[data-theme="light"] .monthNums,
+:root[data-theme="light"] .healthValue span,
+:root[data-theme="light"] .healthMeta,
+:root[data-theme="light"] .reportOverview small,
+:root[data-theme="light"] .sectionTitle{color:#72857e}
+:root[data-theme="light"] .reminder,
+:root[data-theme="light"] .historyRow{border-top-color:rgba(28,66,57,.08)}
+:root[data-theme="light"] .datebox{background:rgba(29,92,74,.07)}
+:root[data-theme="light"] .datebox small,
+:root[data-theme="light"] .reminderLarge small{color:#70837c}
+:root[data-theme="light"] .progress{background:rgba(34,77,65,.08)}
+:root[data-theme="light"] .monthTrack{background:rgba(34,77,65,.06)}
+:root[data-theme="light"] .splitBar{background:rgba(34,77,65,.06)}
+:root[data-theme="light"] input,
+:root[data-theme="light"] select,
+:root[data-theme="light"] textarea,
+:root[data-theme="light"] .toolbar input,
+:root[data-theme="light"] .toolbar select,
+:root[data-theme="light"] .toolbar button{background:rgba(255,255,255,.88);color:#203b34;border-color:rgba(28,66,57,.14)}
+:root[data-theme="light"] select{color-scheme:light}
+:root[data-theme="light"] select option{background:#fff;color:#1e3932}
+:root[data-theme="light"] .modal{background:rgba(229,238,234,.68)}
+:root[data-theme="light"] .modalBox,
+:root[data-theme="light"] .profileModalBox,
+:root[data-theme="light"] .cropModalBox{background:linear-gradient(145deg,#ffffff,#eff6f2);border-color:rgba(30,79,65,.16);box-shadow:0 30px 90px rgba(39,66,58,.18)}
+:root[data-theme="light"] .modalHead,
+:root[data-theme="light"] .modalFoot,
+:root[data-theme="light"] .profileModalHead{border-color:var(--line)}
+:root[data-theme="light"] .modalBox .subhead,
+:root[data-theme="light"] .profileModalHead small,
+:root[data-theme="light"] .profileHint{color:#738780}
+:root[data-theme="light"] .detailStat{background:rgba(36,95,76,.05)}
+:root[data-theme="light"] .history{border-color:var(--line)}
+:root[data-theme="light"] .historyHead{background:rgba(33,87,69,.05);color:#72857e}
+:root[data-theme="light"] .historyRow{color:#27423b}
+:root[data-theme="light"] .personHistoryRow{background:rgba(255,255,255,.66);border-color:rgba(28,66,57,.10)}
+:root[data-theme="light"] .personHistoryReason{color:#536a63}
+:root[data-theme="light"] .hero{border-color:rgba(29,74,62,.12)}
+:root[data-theme="light"] .hero p,
+:root[data-theme="light"] .heroQuote small{color:#dce7e3}
+:root[data-theme="light"] .sideNote{background:rgba(255,255,255,.58);border-color:rgba(28,66,57,.10)}
+:root[data-theme="light"] .sideNote p{color:#4f665f}
+:root[data-theme="light"] .sideNote small{color:#7a8d87}
+:root[data-theme="light"] .dua{background:linear-gradient(145deg,rgba(224,241,235,.93),rgba(236,241,250,.93));border-color:rgba(28,66,57,.10)}
+:root[data-theme="light"] .meaning{color:#49615a}
+:root[data-theme="light"] .toast{background:rgba(255,255,255,.96);color:#244139;border-color:rgba(28,66,57,.12);box-shadow:0 18px 40px rgba(38,67,59,.16)}
+:root[data-theme="light"] .authScreen{background:radial-gradient(ellipse at 50% 18%,rgba(214,163,63,.16),transparent 24%),radial-gradient(circle at 12% 55%,rgba(35,153,116,.10),transparent 24%),linear-gradient(180deg,#f5faf7 0%,#eaf4ef 54%,#f8fbfa 100%)}
+:root[data-theme="light"] .authScreen:before{opacity:.10}
+:root[data-theme="light"] .authScreen:after{border-color:rgba(194,141,38,.14);box-shadow:0 0 120px rgba(194,141,38,.04),inset 0 0 90px rgba(27,77,64,.02)}
+:root[data-theme="light"] .authBox{background:linear-gradient(155deg,rgba(255,255,255,.97),rgba(239,247,243,.99));border-color:rgba(194,141,38,.32);box-shadow:0 40px 120px rgba(39,66,58,.18)}
+:root[data-theme="light"] .authBrand h2{background:linear-gradient(90deg,#1c3a32 18%,#b47716 82%);-webkit-background-clip:text;background-clip:text;color:transparent}
+:root[data-theme="light"] .authBrand p,
+:root[data-theme="light"] .authTabs button{color:#6d8079}
+:root[data-theme="light"] .authTabs{background:rgba(23,88,70,.05);border-color:rgba(28,66,57,.10)}
+:root[data-theme="light"] .authTabs button:hover{color:#1f4037;background:rgba(23,88,70,.06)}
+:root[data-theme="light"] .authBody label{color:#60756e}
+:root[data-theme="light"] .authBody input{background:rgba(255,255,255,.88);border-color:rgba(28,66,57,.14);color:#203b34}
+:root[data-theme="light"] .authBody input::placeholder{color:#8a9b95}
+:root[data-theme="light"] .authFoot{color:#71847d;background:rgba(23,88,70,.035);border-color:rgba(28,66,57,.08)}
+.themeToggle{min-width:46px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;padding:10px 12px}
 </style></head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
@@ -580,7 +717,7 @@ body{background:#040d1c;color:var(--text);overflow-x:hidden}
 <section class="main">
 <header class="top">
   <div><div class="crumb">Qarz Amanah / <span id="crumb">Dashboard</span></div><h1 id="title">Dashboard</h1></div>
-  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><button class="btn ghost" title="Visual theme">☾</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="account"><button type="button" class="avatar" id="avatar" title="Open profile" onclick="openProfileModal()"><span id="avatarText">QA</span><img id="avatarImg" alt="Profile photo"></button><input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="startAvatarEdit(event)"><div class="accountText" id="accountEmail">Not signed in</div><button class="mini ghost" onclick="startLoggedInPasswordChange()">🔐 Password</button><button class="mini logout" onclick="logout()">Logout</button></div></div>
+  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><button class="btn ghost themeToggle" id="themeToggle" title="Switch to light theme" aria-label="Switch to light theme" onclick="toggleTheme()">☀︎</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="account"><button type="button" class="avatar" id="avatar" title="Open profile" onclick="openProfileModal()"><span id="avatarText">QA</span><img id="avatarImg" alt="Profile photo"></button><input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="startAvatarEdit(event)"><div class="accountText" id="accountEmail">Not signed in</div><button class="mini ghost" onclick="startLoggedInPasswordChange()">🔐 Password</button><button class="mini logout" onclick="logout()">Logout</button></div></div>
 </header>
 
 <main class="content">
@@ -820,6 +957,23 @@ const SUPABASE_PUBLISHABLE_KEY="sb_publishable_CAciRzgWpbmGfkegaWgmSQ_njrEEYeo";
 const SITE_URL="https://itsmsjwork-ux.github.io/Qarz-Amanah/";
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const KEY="qarz_amanah_public_v2";
+const THEME_KEY="qarz_amanah_theme";
+function applyTheme(theme){
+  const t=theme==="light"?"light":"dark";
+  document.documentElement.dataset.theme=t;
+  const btn=document.getElementById("themeToggle");
+  if(btn){
+    const light=t==="light";
+    btn.textContent=light?"☾":"☀︎";
+    btn.title=light?"Switch to dark theme":"Switch to light theme";
+    btn.setAttribute("aria-label",light?"Switch to dark theme":"Switch to light theme");
+  }
+  localStorage.setItem(THEME_KEY,t);
+}
+function toggleTheme(){
+  const next=document.documentElement.dataset.theme==="light"?"dark":"light";
+  applyTheme(next);
+}
 let data=JSON.parse(localStorage.getItem(KEY)||"[]");
 let editId=null,currentDetailId=null;
 let session=null,authMode="login",cloudSyncing=false,lastLoadedUserId=null,authBooted=false,userHasSignedIn=false,loggingOut=false,currentUsername="",pendingPhone="",recoveryStep=1;
@@ -1065,7 +1219,8 @@ async function logout(){
  try{
    const {error}=await supabaseClient.auth.signOut();
    if(error)throw error;
-   session=null;lastLoadedUserId=null;currentUsername="";pendingPhone="";data=[];localStorage.removeItem(KEY);render();
+   session=null;lastLoadedUserId=null;currentUsername="";pendingPhone="";data=[];localStorage.removeItem(KEY);applyTheme(localStorage.getItem(THEME_KEY)||"dark");
+render();
    document.getElementById("accountEmail").textContent="Not signed in";
    document.getElementById("avatar").classList.remove("hasPhoto");document.getElementById("avatarText").textContent="QA";document.getElementById("avatarImg").removeAttribute("src");document.getElementById("welcomeName").textContent="";
    setAuthMode("login");
