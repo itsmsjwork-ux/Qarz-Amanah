@@ -25,6 +25,23 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure Pages
         uses: actions/configure-pages@v5
+      - name: Generate Dua audio
+        run: |
+          python -m pip install --quiet gTTS
+          python - <<'PY'
+          from gtts import gTTS
+          from pathlib import Path
+          items = [
+            ("dua1.mp3", "Allahummakfini bihalalika an haramika, wa aghnini bifadlika amman siwak."),
+            ("dua2.mp3", "Allahumma inni a'udhu bika min ghalabatid dayn, wa ghalabatil aduwwi, wa shamatatil a'da."),
+            ("dua3.mp3", "Allahumma inni a'udhu bika minal hammi wal hazan, wal ajzi wal kasal, wal jubni wal bukhl, wa dala'id dayn, wa ghalabatir rijal."),
+            ("dua4.mp3", "Allahumma inni a'udhu bika minal kasali wal harami wal ma'thami wal maghram."),
+          ]
+          out = Path("audio")
+          out.mkdir(exist_ok=True)
+          for filename, text in items:
+              gTTS(text=text, lang="en").save(str(out / filename))
+          PY
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
