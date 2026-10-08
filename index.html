@@ -3,7 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#071326">
+<meta name="theme-color" content="#04101f">
+<meta name="description" content="Qarz Amanah — a simple, interest-free Qarz and repayment record manager built around trust, record, and return.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="application-name" content="Qarz Amanah">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23081522'/%3E%3Cpath d='M13 42Q32 18 51 42' fill='none' stroke='%23f2c45e' stroke-width='3'/%3E%3Cpath d='M20 39v-9l5-5 5 5v9M34 39V28l5-6 5 6v11' fill='none' stroke='%23f2c45e' stroke-width='3'/%3E%3Cpath d='M24 45q8 4 8 9 0-5 8-9' fill='none' stroke='%23f2c45e' stroke-width='3'/%3E%3Cpath d='M29 13h6l-3-5z' fill='%23f2c45e'/%3E%3C/svg%3E">
 <title>Qarz Amanah — Trust • Record • Return</title>
 <style>
 :root{--bg:#071326;--glass:rgba(13,31,55,.76);--glass2:rgba(20,46,78,.72);--line:rgba(206,226,255,.16);--text:#f4f7ff;--muted:#a9bad2;--blue:#617cff;--blue2:#7d5ce8;--green:#21d29a;--gold:#efbc58;--pink:#ff7891;--shadow:0 24px 70px rgba(0,0,0,.34)}
@@ -451,7 +456,32 @@ table{width:100%;border-collapse:collapse}th{font-size:10px;color:#8297b2;text-a
   .brand b{font-size:18px}
   .brand small{font-size:8px}
 }
-</style></style></style>
+<style id="production-polish">
+html{scroll-behavior:smooth}
+::selection{background:rgba(242,196,94,.28);color:#fff}
+:focus-visible{outline:2px solid rgba(242,196,94,.78);outline-offset:2px}
+button,input,select,textarea{font-family:inherit}
+button:disabled,.btn:disabled,.mini:disabled{cursor:not-allowed;opacity:.55;transform:none!important}
+.nav button,.btn,.mini,.avatar,.person,.personCard,.card,.search,input,select,textarea{transition:border-color .18s ease,box-shadow .18s ease,background-color .18s ease,transform .18s ease}
+.search:focus,input:focus,select:focus,textarea:focus{
+  border-color:rgba(242,196,94,.48);
+  box-shadow:0 0 0 3px rgba(242,196,94,.08),inset 0 0 16px rgba(242,196,94,.025);
+}
+.btn.primary:hover{transform:translateY(-1px);box-shadow:0 14px 30px rgba(219,170,63,.24)}
+.btn.ghost:hover,.mini:hover{border-color:rgba(242,196,94,.28);background:rgba(242,196,94,.055)}
+.card:hover{border-color:rgba(242,196,94,.16)}
+.head .btn{white-space:nowrap}
+.page.active{animation:qaPageIn .18s ease-out}
+@keyframes qaPageIn{from{opacity:.82;transform:translateY(3px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+@media(max-width:900px){
+  .top{backdrop-filter:blur(14px)}
+  .content{padding-top:14px}
+}
+</style></style></style></style>
 <style id="luxury-redesign">
 :root{
   --bg:#040d1c;--glass:rgba(7,20,38,.78);--glass2:rgba(12,29,52,.86);--line:rgba(242,204,125,.20);
