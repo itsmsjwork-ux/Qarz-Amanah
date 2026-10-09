@@ -1365,7 +1365,7 @@ box-shadow:0 24px 65px rgba(0,0,0,.24),inset 0 0 55px rgba(243,193,94,.025);over
         <div class="qa-prayerKicker">🕌 DAILY IBADAH CENTER</div>
         <div class="qa-prayerTitle">Prayer & Time</div>
         <div class="qa-prayerMeta">
-          <span id="qaPrayerLocation">Payyanur • Kerala</span>
+          <span id="qaPrayerLocation">📍 Detecting your location…</span>
           <span class="qa-dot">•</span>
           <span id="qaClockDate">Today</span>
         </div>
@@ -1376,7 +1376,7 @@ box-shadow:0 24px 65px rgba(0,0,0,.24),inset 0 0 55px rgba(243,193,94,.025);over
           <strong id="qaHijri">—</strong>
         </div>
         <div class="qa-dateCard qa-clockDateCard">
-          <small>INDIA STANDARD TIME</small>
+          <small id="qaClockZone">LOCAL TIME</small>
           <strong id="qaClock">--:--:--</strong>
         </div>
       </div>
@@ -1394,7 +1394,7 @@ box-shadow:0 24px 65px rgba(0,0,0,.24),inset 0 0 55px rgba(243,193,94,.025);over
       <div class="qa-nextRight">
         <div class="qa-countdownLabel">IN</div>
         <strong id="qaNextCountdown">--:--:--</strong>
-        <button type="button" class="mini qa-locationBtn" id="qaUseLocation" onclick="qaUseBrowserLocation();return false">📍 Change location</button>
+        <button type="button" class="mini qa-locationBtn" id="qaUseLocation" onclick="qaUseBrowserLocation();return false">📍 Use my location</button>
       </div>
     </div>
 
@@ -2776,21 +2776,19 @@ qaInitPrayer();
 setTimeout(()=>{if(session){checkReminders(false);renderReminderPage();}},1200);
 setInterval(()=>{if(session){checkReminders(false);renderReminderPage();}},60*60*1000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&session){checkReminders(false);renderReminderPage()}});
-let qaPrayerState={timings:{Fajr:"05:08",Sunrise:"06:19",Dhuhr:"12:16",Asr:"15:37",Maghrib:"18:14",Isha:"19:24"},location:{lat:12.0935,lng:75.20249,label:"📍 Payyanur, Kerala"},hijri:"",dateKey:"",loaded:false};
+let qaPrayerState={timings:null,location:{lat:null,lng:null,label:"📍 Detecting your location…",exact:false},hijri:"",dateKey:"",loaded:false};
 const QA_PRAYERS=[["Fajr","Fajr","🌅"],["Sunrise","Sunrise","☀️"],["Dhuhr","Dhuhr","☀️"],["Asr","Asr","🌤️"],["Maghrib","Maghrib","🌇"],["Isha","Isha","🌙"]];
 
 function qaPad(n){return String(n).padStart(2,"0")}
 function qaDateKey(d=new Date()){return qaPad(d.getDate())+"-"+qaPad(d.getMonth()+1)+"-"+d.getFullYear()}
 function qaTimePart(v){return String(v||"").replace(/\s*\(.+?\)\s*$/,"").trim().slice(0,5)}
 function qaPrettyTime(v){const p=qaTimePart(v).split(":").map(Number);if(p.length<2||p.some(Number.isNaN))return "--:--";const h=p[0],m=p[1],ampm=h>=12?"PM":"AM",hh=((h+11)%12)+1;return hh+":"+qaPad(m)+" "+ampm}
-function qaFormatClock(d=new Date()){return d.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true,timeZone:"Asia/Kolkata"})}
-function qaFormatDate(d=new Date()){return d.toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"Asia/Kolkata"})}
-function qaHijriFromBrowser(d=new Date()){
-  try{return new Intl.DateTimeFormat("en-IN-u-ca-islamic",{day:"numeric",month:"long",year:"numeric",timeZone:"Asia/Kolkata"}).format(d)+" AH"}catch(e){return "Hijri date unavailable"}
-}
+function qaFormatClock(d=new Date()){return d.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true})}
+function qaFormatDate(d=new Date()){return d.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"})}
+function qaHijriFromBrowser(d=new Date()){try{return new Intl.DateTimeFormat(undefined,{calendar:"islamic",day:"numeric",month:"long",year:"numeric"}).format(d)+" AH"}catch(e){return "Hijri date unavailable"}}
 function qaParseTodayTime(hm,addDay=0){const p=qaTimePart(hm).split(":").map(Number);if(p.length<2||p.some(Number.isNaN))return null;const d=new Date();d.setHours(p[0],p[1],0,0);if(addDay)d.setDate(d.getDate()+addDay);return d}
 function qaSetError(msg){const el=document.getElementById("qaPrayerError");if(!el)return;el.hidden=!msg;el.textContent=msg||""}
-function qaRenderClock(){const c=document.getElementById("qaClock"),d=document.getElementById("qaClockDate"),h=document.getElementById("qaHijri");if(c)c.textContent=qaFormatClock();if(d)d.textContent=qaFormatDate();if(h&&!qaPrayerState.hijri)h.textContent=qaHijriFromBrowser()}
+function qaRenderClock(){const c=document.getElementById("qaClock"),d=document.getElementById("qaClockDate"),h=document.getElementById("qaHijri"),z=document.getElementById("qaClockZone");if(c)c.textContent=qaFormatClock();if(d)d.textContent=qaFormatDate();if(h&&!qaPrayerState.hijri)h.textContent=qaHijriFromBrowser();if(z){z.textContent="LOCAL TIME • "+(Intl.DateTimeFormat().resolvedOptions().timeZone||"Local")}}
 function qaRenderPrayerGrid(){
   const el=document.getElementById("qaPrayerGrid");
   if(!el||!qaPrayerState.timings)return;
@@ -2802,10 +2800,10 @@ function qaRenderPrayerGrid(){
   qaHighlightNext(new Date());
 }
 function qaHighlightNext(now=new Date()){if(!qaPrayerState.timings)return;let next=null,nextDt=null;let lastPrayer=null;for(const [key,label] of QA_PRAYERS){const dt=qaParseTodayTime(qaPrayerState.timings[key]);if(key!=="Sunrise"&&dt&&dt<=now)lastPrayer={key,label};if(key==="Sunrise")continue;if(dt&&dt>now&&!next){next={key,label};nextDt=dt}}if(!next){next={key:"Fajr",label:"Fajr (tomorrow)"};nextDt=qaParseTodayTime(qaPrayerState.timings.Fajr,1)}document.querySelectorAll(".qa-prayerItem").forEach(x=>{const isNext=x.dataset.prayer===next.key&&next.label.indexOf("tomorrow")<0;const isPast=lastPrayer&&QA_PRAYERS.findIndex(p=>p[0]===x.dataset.prayer)<QA_PRAYERS.findIndex(p=>p[0]===lastPrayer.key);x.classList.toggle("current",isNext);x.classList.toggle("past",!!isPast&&!isNext)});const n=document.getElementById("qaNextName"),cd=document.getElementById("qaNextCountdown");if(n)n.textContent=next.label;if(cd&&nextDt){const sec=Math.max(0,Math.floor((nextDt-now)/1000)),h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;cd.textContent=qaPad(h)+":"+qaPad(m)+":"+qaPad(s)}}
-async function qaFetchPrayerTimes(lat=qaPrayerState.location.lat,lng=qaPrayerState.location.lng,label=qaPrayerState.location.label,custom=false){
+async function qaFormatMetaLabel(city,region,exact){return "📍 "+(exact?"":"Approx. ")+city+(region?" • "+region:"")}
+async function qaFetchPrayerTimes(lat,lng,label,exact=true){
   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),10000);
   try{
-    /* Match the Google-style Payyanur setup: UISS Karachi, standard Asr. */
     const qs=new URLSearchParams({latitude:String(lat),longitude:String(lng),date:qaDateKey()});
     const res=await fetch("/api/prayer?"+qs.toString(),{headers:{Accept:"application/json"},signal:controller.signal,cache:"no-store"});
     if(!res.ok)throw new Error("Prayer API "+res.status);
@@ -2813,66 +2811,80 @@ async function qaFetchPrayerTimes(lat=qaPrayerState.location.lat,lng=qaPrayerSta
     if(!json||json.code!==200||!json.data||!json.data.timings)throw new Error("Prayer timings unavailable");
     qaPrayerState.timings=json.data.timings;
     qaPrayerState.hijri=(json.data.date&&json.data.date.hijri)?(json.data.date.hijri.date+" "+json.data.date.hijri.month.en+" "+json.data.date.hijri.year+" AH"):"";
-    qaPrayerState.location={lat,lng,label};
+    qaPrayerState.location={lat,lng,label,exact:!!exact};
     qaPrayerState.dateKey=qaDateKey();qaPrayerState.loaded=true;
     const loc=document.getElementById("qaPrayerLocation"),h=document.getElementById("qaHijri"),fr=document.getElementById("qaFridayNote");
     if(loc)loc.textContent=label;
-    if(h)h.textContent=qaPrayerState.hijri||"Hijri date unavailable";
+    if(h)h.textContent=qaPrayerState.hijri||qaHijriFromBrowser();
     if(fr)fr.textContent=new Date().getDay()===5?"Jumu'ah: follow your local mosque time":"";
-    localStorage.setItem("qa_prayer_cache",JSON.stringify({dateKey:qaPrayerState.dateKey,timings:qaPrayerState.timings,hijri:qaPrayerState.hijri,location:qaPrayerState.location,custom:!!custom}));
-    qaSetError("");
-    qaRenderPrayerGrid()
-  }catch(e){
-    console.error("Prayer times update failed",e);
-    qaSetError("");
-  }finally{clearTimeout(timeout)}
+    localStorage.setItem("qa_prayer_cache",JSON.stringify({dateKey:qaPrayerState.dateKey,timings:qaPrayerState.timings,hijri:qaPrayerState.hijri,location:qaPrayerState.location}));
+    qaSetError("");qaRenderPrayerGrid();
+  }catch(e){console.error("Prayer times update failed",e);qaSetError("Prayer timings are temporarily unavailable. Please try again.")}finally{clearTimeout(timeout)}
 }
-function qaUseBrowserLocation(){
+async function qaLookupLocation(lat,lng){
+  try{
+    const q=new URLSearchParams({latitude:String(lat),longitude:String(lng),localityLanguage:"en"});
+    const r=await fetch("https://api.bigdatacloud.net/data/reverse-geocode-client?"+q.toString(),{headers:{Accept:"application/json"},cache:"no-store"});
+    if(!r.ok)throw new Error("reverse geocode "+r.status);
+    const j=await r.json();
+    const city=j.city||j.locality||j.principalSubdivision||"Your location";
+    const region=j.principalSubdivision&&j.principalSubdivision!==city?j.principalSubdivision:"";
+    return qaFormatMetaLabel(city,region,true);
+  }catch(e){return "📍 Your location"}
+}
+
+async function qaUseBrowserLocation(){
   const btn=document.getElementById("qaUseLocation");
   if(btn){btn.disabled=true;btn.textContent="📍 Locating…"}
   qaSetError("");
   if(!navigator.geolocation){
-    qaSetError("This browser does not provide location. Payyanur timings are still shown.");
-    if(btn){btn.disabled=false;btn.textContent="📍 Change location"}
-    return;
+    qaSetLocationLabel("📍 Location unavailable");
+    qaSetError("Your browser does not provide GPS location.");
+    if(btn){btn.disabled=false;btn.textContent="📍 Use my location"}
+    return false;
   }
-  navigator.geolocation.getCurrentPosition(
-    pos=>{
-      const lat=Number(pos.coords.latitude.toFixed(5)),lng=Number(pos.coords.longitude.toFixed(5));
-      qaFetchPrayerTimes(lat,lng,"📍 Your location",true).finally(()=>{
-        if(btn){btn.disabled=false;btn.textContent="📍 Change location"}
-      });
-    },
-    err=>{
-      console.warn("Location permission/error",err);
-      qaSetError("Location permission was not granted. Payyanur timings remain active.");
-      if(btn){btn.disabled=false;btn.textContent="📍 Change location"}
-    },
-    {enableHighAccuracy:false,timeout:10000,maximumAge:300000}
-  );
+  navigator.geolocation.getCurrentPosition(async pos=>{
+    const lat=Number(pos.coords.latitude.toFixed(6)),lng=Number(pos.coords.longitude.toFixed(6));
+    const label=await qaLookupLocation(lat,lng);
+    try{await qaFetchPrayerTimes(lat,lng,label,true)}finally{if(btn){btn.disabled=false;btn.textContent="📍 Use my location"}}
+  },()=>{
+    qaSetLocationLabel("📍 Location permission needed");
+    qaSetError("Please allow location access to show prayer times for your current place.");
+    if(btn){btn.disabled=false;btn.textContent="📍 Use my location"}
+  },{enableHighAccuracy:true,timeout:12000,maximumAge:300000});
   return false;
 }
+function qaSetLocationLabel(label){const el=document.getElementById("qaPrayerLocation");if(el)el.textContent=label}
+async function qaDetectLocation(){
+  qaSetLocationLabel("📍 Detecting your location…");
+  if(!navigator.geolocation){
+    qaSetLocationLabel("📍 Location unavailable");
+    qaSetError("Please allow location access to show local prayer times.");
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(async pos=>{
+    const lat=Number(pos.coords.latitude.toFixed(6)),lng=Number(pos.coords.longitude.toFixed(6));
+    const label=await qaLookupLocation(lat,lng);
+    await qaFetchPrayerTimes(lat,lng,label,true);
+  },()=>{
+    qaSetLocationLabel("📍 Location permission needed");
+    qaSetError("Allow location access so the app can calculate prayer times for where you are.");
+  },{enableHighAccuracy:true,timeout:12000,maximumAge:300000});
+}
+
 function qaInitPrayer(){
   if(window.__qaPrayerBooted)return;
   window.__qaPrayerBooted=true;
-  const cache=JSON.parse(localStorage.getItem("qa_prayer_cache")||"null");
-  if(cache&&cache.custom===true&&cache.timings&&cache.dateKey===qaDateKey()){
-    qaPrayerState.timings=cache.timings;
-    qaPrayerState.hijri=cache.hijri||"";
-    qaPrayerState.location=cache.location||qaPrayerState.location;
-  }else{
-    localStorage.removeItem("qa_prayer_cache");
-  }
+  localStorage.removeItem("qa_prayer_cache");
   qaPrayerState.dateKey=qaDateKey();
-  qaPrayerState.hijri=qaPrayerState.hijri||qaHijriFromBrowser();
+  qaPrayerState.hijri=qaHijriFromBrowser();
   qaRenderClock();
-  qaRenderPrayerGrid();
   setInterval(qaRenderClock,1000);
   setInterval(()=>qaHighlightNext(new Date()),1000);
   const btn=document.getElementById("qaUseLocation");if(btn)btn.addEventListener("click",qaUseBrowserLocation);
-  qaFetchPrayerTimes();
-  setInterval(()=>{const key=qaDateKey();if(key!==qaPrayerState.dateKey)qaFetchPrayerTimes()},60000)
+  qaDetectLocation();
 }
+
 
 applyLanguage();
 const qaLanguageObserver=new MutationObserver(()=>{
