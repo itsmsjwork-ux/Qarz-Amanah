@@ -2321,6 +2321,13 @@ render();
 setTimeout(()=>{if(session){checkReminders(false);renderReminderPage();}},1200);
 setInterval(()=>{if(session){checkReminders(false);renderReminderPage();}},60*60*1000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&session){checkReminders(false);renderReminderPage()}});
+applyLanguage();
+const qaLanguageObserver=new MutationObserver(()=>{
+ clearTimeout(window.__qaLangTimer);
+ window.__qaLangTimer=setTimeout(()=>applyLanguage(),0);
+});
+qaLanguageObserver.observe(document.body,{subtree:true,childList:true,characterData:true});
+
 </script>
 <div id="toast" class="toast"></div>
 
