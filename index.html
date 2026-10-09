@@ -1381,15 +1381,7 @@ function applyLanguage(){
 function changeLanguage(lang){
  currentLang=LANGS[lang]?lang:"en";
  applyLanguage();
- applyLanguage();
-const qaLanguageObserver=new MutationObserver(()=>{if(!window.__qaApplyingLanguage){clearTimeout(window.__qaLangTimer);window.__qaLangTimer=setTimeout(applyLanguage,0)}});
-window.__qaApplyingLanguage=false;
-const originalApplyLanguage=applyLanguage;
-applyLanguage=function(){window.__qaApplyingLanguage=true;try{originalApplyLanguage()}finally{window.__qaApplyingLanguage=false}};
-const originalChangeLanguage=changeLanguage;
-changeLanguage=function(lang){currentLang=LANGS[lang]?lang:"en";applyLanguage();render();setTimeout(applyLanguage,0)};
-qaLanguageObserver.observe(document.body,{subtree:true,childList:true,characterData:true,attributes:false});
-render();
+ render();
  setTimeout(applyLanguage,0);
 }
 const DUA_TRANSLATIONS={
