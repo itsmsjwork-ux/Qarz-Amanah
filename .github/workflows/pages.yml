@@ -38,18 +38,41 @@ jobs:
             ("dua2.mp3", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ، وَغَلَبَةِ الْعَدُوِّ، وَشَمَاتَةِ الْأَعْدَاءِ", "ar-SA-HamedNeural", "-8%"),
             ("dua3.mp3", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ", "ar-SA-HamedNeural", "-8%"),
             ("dua4.mp3", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسَلِ وَالْهَرَمِ وَالْمَأْثَمِ وَالْمَغْرَمِ", "ar-SA-HamedNeural", "-8%"),
+
             ("dua1-meaning.mp3", "O Allah, suffice me with what You have made lawful instead of what You have made unlawful, and enrich me by Your grace so that I need none besides You.", "en-IN-PrabhatNeural", "-8%"),
             ("dua2-meaning.mp3", "O Allah, I seek refuge in You from being overcome by debt, from being overcome by the enemy, and from the rejoicing of enemies.", "en-IN-PrabhatNeural", "-8%"),
             ("dua3-meaning.mp3", "O Allah, I seek refuge in You from anxiety and grief, from incapacity and laziness, from cowardice and miserliness, from the burden of debt, and from being overcome by people.", "en-IN-PrabhatNeural", "-8%"),
             ("dua4-meaning.mp3", "O Allah, I seek refuge in You from laziness, old age, sin, and debt.", "en-IN-PrabhatNeural", "-8%"),
+
+            ("hi/dua1-meaning.mp3", "हे अल्लाह, आपने जिसे हलाल किया है उसके द्वारा मुझे हराम से पर्याप्त कर दीजिए, और अपने फ़ज़्ल से मुझे अपने अलावा किसी का मोहताज न रखिए।", "hi-IN-MadhurNeural", "-10%"),
+            ("hi/dua2-meaning.mp3", "हे अल्लाह, मैं क़र्ज़ के हावी हो जाने, दुश्मन के हावी हो जाने और दुश्मनों के खुश होने से तेरी पनाह माँगता हूँ।", "hi-IN-MadhurNeural", "-10%"),
+            ("hi/dua3-meaning.mp3", "हे अल्लाह, मैं चिंता और ग़म, असमर्थता और आलस्य, कायरता और कंजूसी, क़र्ज़ के बोझ और लोगों के हावी हो जाने से तेरी पनाह माँगता हूँ।", "hi-IN-MadhurNeural", "-10%"),
+            ("hi/dua4-meaning.mp3", "हे अल्लाह, मैं आलस्य, बुढ़ापे, गुनाह और क़र्ज़ से तेरी पनाह माँगता हूँ।", "hi-IN-MadhurNeural", "-10%"),
+
+            ("ur/dua1-meaning.mp3", "اے اللہ! جو کچھ تو نے حلال کیا ہے اس کے ذریعے مجھے اپنے حرام سے کافی کر دے، اور اپنے فضل سے مجھے اپنے سوا سب سے بے نیاز کر دے۔", "ur-IN-SalmanNeural", "-10%"),
+            ("ur/dua2-meaning.mp3", "اے اللہ! میں قرض کے غالب آ جانے، دشمن کے غالب آ جانے اور دشمنوں کے خوش ہونے سے تیری پناہ مانگتا ہوں۔", "ur-IN-SalmanNeural", "-10%"),
+            ("ur/dua3-meaning.mp3", "اے اللہ! میں فکر و غم، بے بسی و سستی، بزدلی و بخل، قرض کے بوجھ اور لوگوں کے غالب آ جانے سے تیری پناہ مانگتا ہوں۔", "ur-IN-SalmanNeural", "-10%"),
+            ("ur/dua4-meaning.mp3", "اے اللہ! میں سستی، بڑھاپے، گناہ اور قرض سے تیری پناہ مانگتا ہوں۔", "ur-IN-SalmanNeural", "-10%"),
+
+            ("ml/dua1-meaning.mp3", "അല്ലാഹുവേ, നീ ഹലാൽ ആക്കിയതിലൂടെ ഹറാമിൽ നിന്ന് എന്നെ പര്യാപ്തനാക്കണമേ; നിന്റെ അനുഗ്രഹത്താൽ നിന്നൊഴികെ മറ്റാരുടെയും ആവശ്യമില്ലാത്തവനാക്കണമേ.", "ml-IN-MidhunNeural", "-10%"),
+            ("ml/dua2-meaning.mp3", "അല്ലാഹുവേ, കടം എന്നെ കീഴടക്കുന്നതിൽ നിന്നും ശത്രു എന്നെ കീഴടക്കുന്നതിൽ നിന്നും ശത്രുക്കൾ സന്തോഷിക്കുന്നതിൽ നിന്നും ഞാൻ നിന്നോട് അഭയം തേടുന്നു.", "ml-IN-MidhunNeural", "-10%"),
+            ("ml/dua3-meaning.mp3", "അല്ലാഹുവേ, ഉത്കണ്ഠയും ദുഃഖവും, അശക്തിയും മടിയും, ഭീരുത്വവും കഞ്ഞുഷതയും, കടത്തിന്റെ ഭാരവും ആളുകളുടെ ആധിപത്യവും നിന്നോട് അഭയം തേടുന്നു.", "ml-IN-MidhunNeural", "-10%"),
+            ("ml/dua4-meaning.mp3", "അല്ലാഹുവേ, മടിയിൽ നിന്നും വൃദ്ധാവസ്ഥയിൽ നിന്നും പാപത്തിൽ നിന്നും കടത്തിൽ നിന്നും ഞാൻ നിന്നോട് അഭയം തേടുന്നു.", "ml-IN-MidhunNeural", "-10%"),
+
+            ("kn/dua1-meaning.mp3", "ಅಲ್ಲಾಹನೇ, ನೀನು ಹಾಲಾಲ್ ಮಾಡಿದದ್ದರ ಮೂಲಕ ಹರಾಮ್‌ನಿಂದ ನನ್ನನ್ನು ಸಾಕಾಗುವಂತೆ ಮಾಡು; ನಿನ್ನ ಕೃಪೆಯಿಂದ ನಿನ್ನ ಹೊರತು ಬೇರೆ ಯಾರ ಅಗತ್ಯವೂ ನನಗಿರದಂತೆ ಮಾಡು.", "kn-IN-GaganNeural", "-10%"),
+            ("kn/dua2-meaning.mp3", "ಅಲ್ಲಾಹನೇ, ಸಾಲದ ಒತ್ತಡದಿಂದ, ಶತ್ರುವಿನ ಪ್ರಭಾವದಿಂದ ಮತ್ತು ಶತ್ರುಗಳು ಸಂತೋಷಪಡುವುದರಿಂದ ನಾನು ನಿನ್ನ ಶರಣಾಗುತ್ತೇನೆ.", "kn-IN-GaganNeural", "-10%"),
+            ("kn/dua3-meaning.mp3", "ಅಲ್ಲಾಹನೇ, ಚಿಂತೆ ಮತ್ತು ದುಃಖ, ಅಸಮರ್ಥತೆ ಮತ್ತು ಸೋಮಾರಿತನ, ಭಯಭೀತತೆ ಮತ್ತು ಕಂಜೂಸತನ, ಸಾಲದ ಭಾರ ಮತ್ತು ಜನರ ಪ್ರಭಾವದಿಂದ ನಾನು ನಿನ್ನ ಶರಣಾಗುತ್ತೇನೆ.", "kn-IN-GaganNeural", "-10%"),
+            ("kn/dua4-meaning.mp3", "ಅಲ್ಲಾಹನೇ, ಸೋಮಾರಿತನ, ವೃದ್ಧಾಪ್ಯ, ಪಾಪ ಮತ್ತು ಸಾಲದಿಂದ ನಾನು ನಿನ್ನ ಶರಣಾಗುತ್ತೇನೆ.", "kn-IN-GaganNeural", "-10%"),
           ]
 
           async def make_audio():
               out = Path("audio")
               out.mkdir(exist_ok=True)
               for filename, text, voice, rate in items:
+                  target = out / filename
+                  target.parent.mkdir(parents=True, exist_ok=True)
                   communicate = edge_tts.Communicate(text, voice, rate=rate)
-                  await communicate.save(str(out / filename))
+                  await communicate.save(str(target))
 
           asyncio.run(make_audio())
           PY
@@ -60,6 +83,10 @@ jobs:
           required = [
               "dua1.mp3","dua2.mp3","dua3.mp3","dua4.mp3",
               "dua1-meaning.mp3","dua2-meaning.mp3","dua3-meaning.mp3","dua4-meaning.mp3",
+              "hi/dua1-meaning.mp3","hi/dua2-meaning.mp3","hi/dua3-meaning.mp3","hi/dua4-meaning.mp3",
+              "ur/dua1-meaning.mp3","ur/dua2-meaning.mp3","ur/dua3-meaning.mp3","ur/dua4-meaning.mp3",
+              "ml/dua1-meaning.mp3","ml/dua2-meaning.mp3","ml/dua3-meaning.mp3","ml/dua4-meaning.mp3",
+              "kn/dua1-meaning.mp3","kn/dua2-meaning.mp3","kn/dua3-meaning.mp3","kn/dua4-meaning.mp3",
           ]
           audio_dir=Path("audio")
           missing=[]
