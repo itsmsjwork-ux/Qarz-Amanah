@@ -2310,9 +2310,12 @@ function speak(i){
  playDuaAudio("audio/dua"+(i+1)+".mp3",()=>showToast("Audio could not start on this device."),text,"ar-SA","Dua audio");
 }
 function speakMeaning(i){
- const text=D[i]?.[2]||"";
- playDuaAudio("audio/dua"+(i+1)+"-meaning.mp3",()=>showToast("Translation audio could not start on this device."),text,"en-IN","Translation audio");
+ const text=duaMeaning(i);
+ const lang=langDef().locale;
+ if(currentLang==="en")playDuaAudio("audio/dua"+(i+1)+"-meaning.mp3",()=>showToast("Translation audio could not start on this device."),text,"en-IN","Translation audio");
+ else nativeVoice(text,lang,"Translation audio") || showToast("Translation audio could not start on this device.");
 }
+
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail();closePersonHistory()}});
 render();
 setTimeout(()=>{if(session){checkReminders(false);renderReminderPage();}},1200);
