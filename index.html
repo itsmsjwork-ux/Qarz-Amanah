@@ -933,8 +933,13 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
 </style>
 
 <style id="qa-sidebar-resilience">
-.side{min-height:100vh;max-height:100vh;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-gutter:stable}
-.sideNote{margin-top:20px!important;max-height:none!important;flex:0 0 auto}
+.side{min-height:100dvh;max-height:100dvh;height:100dvh;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-gutter:stable;padding-top:14px;padding-bottom:14px}
+.sideNote{margin-top:12px!important;max-height:180px!important;flex:0 0 auto;padding:11px 10px}
+.brand{padding-top:4px!important;padding-bottom:14px!important}
+.brand .logo3d{width:62px!important;height:62px!important;flex-basis:62px!important;border-radius:20px!important}
+.nav{gap:4px!important}
+.nav button{min-height:40px!important;padding:7px 11px!important}
+.label{margin:8px 10px 6px!important}
 @media(max-width:1400px){
   .app{grid-template-columns:240px minmax(0,1fr)}
   .content{padding-left:22px;padding-right:22px}
@@ -947,11 +952,13 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
   .dashboardLowerGrid>.dashboardPanel:last-child{grid-column:auto}
   .primaryStats{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+@media(max-height:760px) and (min-width:901px){.side{padding-top:10px;padding-bottom:10px}.brand{padding-bottom:9px!important}.brand .logo3d{width:54px!important;height:54px!important;flex-basis:54px!important}.brand b{font-size:21px!important}.brand small{font-size:9px!important}.nav button{min-height:36px!important;padding:6px 10px!important;font-size:12px!important}.ico{width:30px!important;height:30px!important;flex-basis:30px!important}.label{margin:6px 9px 4px!important}.sideNote{margin-top:8px!important;padding:8px 9px!important}.sideNote .arab{font-size:14px!important;line-height:1.45!important}.sideNote p{font-size:9px!important;line-height:1.3!important;margin:4px 0 2px!important}.sideNote small{font-size:8px!important}}
 </style>
 <style id="qa-language-ui">
-.languagePicker{position:relative;display:flex;align-items:center;gap:8px;width:132px;min-width:132px;height:42px;padding:0 10px;border:1px solid rgba(242,196,94,.20);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.035));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 8px 20px rgba(0,0,0,.10);backdrop-filter:blur(14px)}
+.languagePicker{position:relative;display:flex;align-items:center;gap:8px;width:158px;min-width:158px;height:42px;padding:0 10px;border:1px solid rgba(242,196,94,.20);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.035));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 8px 20px rgba(0,0,0,.10);backdrop-filter:blur(14px);overflow:hidden}
 .languagePicker:focus-within{border-color:rgba(239,188,88,.52);box-shadow:0 0 0 3px rgba(239,188,88,.10),inset 0 1px 0 rgba(255,255,255,.05)}
 .languageIcon{width:17px;height:17px;flex:0 0 17px;fill:none;stroke:#efc462;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.languageCode{min-width:24px;padding:4px 6px;border-radius:8px;background:rgba(239,188,88,.10);border:1px solid rgba(239,188,88,.20);color:#f3c866;font-size:9px;font-weight:900;letter-spacing:.9px;text-align:center;line-height:1}
 .languageSelect{appearance:none;-webkit-appearance:none;flex:1;min-width:0;width:100%;height:40px;border:0!important;background:transparent!important;color:#eef4ff;padding:0 18px 0 0!important;font:700 11px inherit;outline:none;cursor:pointer;color-scheme:dark}
 .languageSelect option{background:#10243d;color:#eef4ff}
 .languageChevron{position:absolute;right:10px;top:50%;transform:translateY(-58%);color:#a9bad2;font-size:15px;line-height:1;pointer-events:none}
@@ -960,8 +967,8 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
 :root[data-theme="light"] .languageSelect{color:#23433a;color-scheme:light}
 :root[data-theme="light"] .languageSelect option{background:#fff;color:#203c34}
 @media(max-width:900px){
-  .languagePicker{width:100%;min-width:0;height:44px;padding:0 12px;border-radius:13px}
-  .languageSelect{height:42px;font-size:12px}
+  .languagePicker{width:100%;min-width:0;height:44px;padding:0 12px;border-radius:13px}.languageCode{min-width:28px;font-size:10px}
+  .languageSelect{height:42px;font-size:12px}.languageIcon{width:18px;height:18px}
   .languageChevron{right:12px}
   .topRight>.languagePicker{grid-column:1;grid-row:2}
   .topRight>.themeToggle{grid-column:2;grid-row:2}
@@ -978,8 +985,13 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
 <style id="qa-dua-interaction-fixes">
 .dua{position:relative;overflow:visible;isolation:isolate}
 .dua .arabic{display:block;max-width:100%;height:auto;overflow:visible;white-space:normal;text-overflow:clip}
-.duaActions{position:relative;z-index:6;pointer-events:auto}
-.duaActions .btn,.duaActions a{position:relative;z-index:7;pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
+.duaActions{position:relative;z-index:40;display:flex;gap:8px;flex-wrap:wrap;pointer-events:auto}
+.duaActions .btn,.duaActions a{position:relative;z-index:41;pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
+.duaActions button{cursor:pointer}
+.dashboardLowerGrid{align-items:start}
+.dashboardLowerGrid>.dashboardPanel:last-child{overflow:visible}
+.dashboardLowerGrid>.dashboardPanel:last-child .body{overflow:visible}
+.dashboardLowerGrid .dua{height:auto;min-height:0;overflow:visible}
 </style>
 <style id="qa-dua-audio-fixes">
 /* Dua presentation + multilingual audio fixes */
@@ -1056,7 +1068,7 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
 <section class="main">
 <header class="top">
   <div><div class="crumb">Qarz Amanah / <span id="crumb">Dashboard</span></div><h1 id="title">Dashboard</h1></div>
-  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><div class="languagePicker" title="Language" aria-label="Language"><svg class="languageIcon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.4 3.7 5.4 3.7 9S14.5 18.6 12 21M12 3c-2.5 2.4-3.7 5.4-3.7 9S9.5 18.6 12 21"></path></svg><select id="languageSelect" class="languageSelect" title="Language" aria-label="Language" onchange="changeLanguage(this.value)"><option value="en">English</option><option value="hi">हिन्दी</option><option value="ur">اردو</option><option value="ml">മലയാളം</option><option value="kn">ಕನ್ನಡ</option></select><span class="languageChevron" aria-hidden="true">⌄</span></div><button class="btn ghost themeToggle" id="themeToggle" title="Switch to light theme" aria-label="Switch to light theme" onclick="toggleTheme()">☀︎</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="account"><button type="button" class="avatar" id="avatar" title="Open profile" onclick="openProfileModal()"><span id="avatarText">QA</span><img id="avatarImg" alt="Profile photo"></button><input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="startAvatarEdit(event)"><div class="accountText" id="accountEmail">Not signed in</div><button class="mini ghost" onclick="startLoggedInPasswordChange()">🔐 Password</button><button class="mini logout" onclick="logout()">Logout</button></div></div>
+  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><div class="languagePicker" title="Language" aria-label="Language"><svg class="languageIcon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.4 3.7 5.4 3.7 9S14.5 18.6 12 21M12 3c-2.5 2.4-3.7 5.4-3.7 9S9.5 18.6 12 21"></path></svg><span class="languageCode" id="languageCode" aria-hidden="true">EN</span><select id="languageSelect" class="languageSelect" title="Language" aria-label="Language" onchange="changeLanguage(this.value)"><option value="en">English</option><option value="hi">हिन्दी</option><option value="ur">اردو</option><option value="ml">മലയാളം</option><option value="kn">ಕನ್ನಡ</option></select><span class="languageChevron" aria-hidden="true">⌄</span></div><button class="btn ghost themeToggle" id="themeToggle" title="Switch to light theme" aria-label="Switch to light theme" onclick="toggleTheme()">☀︎</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="account"><button type="button" class="avatar" id="avatar" title="Open profile" onclick="openProfileModal()"><span id="avatarText">QA</span><img id="avatarImg" alt="Profile photo"></button><input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="startAvatarEdit(event)"><div class="accountText" id="accountEmail">Not signed in</div><button class="mini ghost" onclick="startLoggedInPasswordChange()">🔐 Password</button><button class="mini logout" onclick="logout()">Logout</button></div></div>
 </header>
 
 <main class="content">
@@ -1407,6 +1419,10 @@ function applyLanguage(){
  document.documentElement.dir=lang.dir;
  const select=document.getElementById("languageSelect");
  if(select)select.value=currentLang;
+ const code=document.getElementById("languageCode");
+ if(code)code.textContent=({en:"EN",hi:"HI",ur:"UR",ml:"ML",kn:"KN"}[currentLang]||"EN");
+ const picker=document.querySelector(".languagePicker");
+ if(picker)picker.title="Language • "+lang.label;
  document.title=trText("Qarz Amanah — Trust • Record • Return");
  const nodes=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
  const list=[];
@@ -2247,7 +2263,7 @@ function showPerson(name){
  document.getElementById("personHistoryModal").classList.add("show");
 }
 function closePersonHistory(){document.getElementById("personHistoryModal").classList.remove("show")}
-function duaHTML(d,i){return '<div class="dua"><div class="kicker">PROPHETIC DUAS</div><h3>'+esc(trText(d[0]))+'</h3><div class="arabic" lang="ar" dir="rtl">'+d[1]+'</div><div class="meaning" lang="'+currentLang+'" dir="'+(langDef().dir||"ltr")+'">'+esc(duaMeaning(i))+'</div><div class="source">'+esc(d[3])+'</div><div class="duaActions"><button class="btn gold" onclick="speak('+i+')">🔊 Play Dua</button><button class="btn soft" onclick="speakMeaning('+i+')">🗣️ Play Translation</button><a class="btn ghost" target="_blank" rel="noopener" href="'+d[4]+'" style="text-decoration:none">Reference ↗</a></div></div>'}
+function duaHTML(d,i){return '<div class="dua"><div class="kicker">PROPHETIC DUAS</div><h3>'+esc(trText(d[0]))+'</h3><div class="arabic" lang="ar" dir="rtl">'+d[1]+'</div><div class="meaning" lang="'+currentLang+'" dir="'+(langDef().dir||"ltr")+'">'+esc(duaMeaning(i))+'</div><div class="source">'+esc(d[3])+'</div><div class="duaActions"><button type="button" class="btn gold" data-dua-action="dua" data-dua-index="'+i+'">🔊 Play Dua</button><button type="button" class="btn soft" data-dua-action="translation" data-dua-index="'+i+'">🗣️ Play Translation</button><a class="btn ghost" target="_blank" rel="noopener" href="'+d[4]+'" style="text-decoration:none">Reference ↗</a></div></div>'}
 function openModal(id=null,presetPerson=""){
  editId=id;document.getElementById("form").reset();document.getElementById("modal").classList.add("show");
  if(id){const d=data.find(x=>x.id===id);if(!d)return;document.getElementById("modalTitle").textContent="Edit Qarz Record";direction.value=d.direction;person.value=d.person;document.getElementById("personPhone").value=d.personPhone||"";principal.value=d.principal;date.value=d.date||isoToday();due.value=d.due||"";document.getElementById("purpose").value=d.purpose||"Other";note.value=d.note||""}
@@ -2391,6 +2407,16 @@ function speakMeaning(i){
   showToast("🔊 Starting translation audio…");
   playDuaAudio(file,()=>showToast("Translation audio could not start on this device."),text,lang,"Translation audio");
 }
+document.addEventListener("click",e=>{
+  const btn=e.target.closest("[data-dua-action]");
+  if(!btn)return;
+  e.preventDefault();
+  e.stopPropagation();
+  const i=Number(btn.dataset.duaIndex);
+  if(!Number.isInteger(i)||!D[i])return;
+  if(btn.dataset.duaAction==="translation")speakMeaning(i);
+  else speak(i);
+});
 
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail();closePersonHistory()}});
 render();
