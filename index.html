@@ -716,7 +716,168 @@ body{background:#040d1c;color:var(--text);overflow-x:hidden}
 :root[data-theme="light"] .profileModalBox,
 :root[data-theme="light"] .cropModalBox{background:linear-gradient(145deg,#fffdf8,#eef6f1);border-color:rgba(29,70,59,.13)}
 :root[data-theme="light"] .themeToggle{color:#23433a}
-</style></head>
+</style>
+<style id="qa-mobile-final">
+/* Final mobile-first responsive pass */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+img,svg,canvas,video{max-width:100%}
+button,.btn,.mini,input,select,textarea{max-width:100%}
+
+@media (max-width:900px){
+  .app{display:block;width:100%;min-width:0}
+  .side{
+    position:sticky;top:0;z-index:30;width:100%;height:auto;min-height:0;
+    padding:8px 9px;display:flex;flex-direction:row;align-items:center;
+    gap:8px;overflow-x:auto;overflow-y:hidden;white-space:nowrap;
+    scrollbar-width:none;-ms-overflow-style:none;
+    border-right:0;border-bottom:1px solid rgba(242,196,94,.16);
+  }
+  .side::-webkit-scrollbar{display:none}
+  .brand{
+    display:flex;flex:0 0 auto;flex-direction:row;align-items:center;
+    text-align:left;gap:8px;padding:0 8px 0 2px;
+  }
+  .brand .logo3d{width:42px;height:42px;flex:0 0 42px;border-radius:13px}
+  .brand b{font-size:17px;white-space:nowrap}
+  .brand small{font-size:8px;white-space:nowrap}
+  .side .label,.sideNote{display:none}
+  .side .nav{display:flex;flex:0 0 auto;gap:5px}
+  .side .nav button{
+    flex:0 0 auto;min-height:42px;padding:8px 10px;
+    border-radius:12px;font-size:10px;white-space:nowrap;gap:6px;
+  }
+  .side .nav button .ico{width:28px;height:28px;flex:0 0 28px;font-size:13px;border-radius:9px}
+  .main{width:100%;min-width:0}
+  .top{
+    position:sticky;top:58px;z-index:20;
+    height:auto;min-height:0;width:100%;
+    display:grid;grid-template-columns:1fr;gap:9px;
+    padding:10px 11px;background:rgba(3,13,26,.96);
+  }
+  .top>div:first-child{width:100%;min-width:0}
+  .top h1{font-size:18px;line-height:1.15}
+  .crumb{font-size:8px}
+  .topRight{
+    width:100%;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) auto;
+    gap:7px;align-items:center;
+  }
+  .search{grid-column:1/-1;width:100%;min-width:0;height:42px}
+  .topRight>.themeToggle{grid-column:2;grid-row:2;width:46px;height:42px}
+  .topRight>.btn.primary{grid-column:1;grid-row:2;width:100%;min-width:0}
+  .account{
+    grid-column:1/-1;grid-row:3;width:100%;min-width:0;
+    display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;
+    gap:7px;align-items:center;padding:6px 7px;
+  }
+  .accountText{min-width:0;max-width:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .account .mini{padding:8px 9px;white-space:nowrap}
+  .avatar{width:40px;height:40px;flex-basis:40px}
+  .content{width:100%;min-width:0;padding:12px 10px 26px}
+  .hero,.luxuryHero{width:100%;min-width:0;padding:18px 15px;border-radius:18px}
+  .heroScene{opacity:.28}
+  .heroRow{display:flex;flex-direction:column;align-items:flex-start;min-height:0;gap:16px}
+  .heroContent{max-width:100%;width:100%}
+  .hero h2{font-size:27px;line-height:1.1}
+  .hero p{font-size:11px;line-height:1.55;max-width:none}
+  .heroQuote{max-width:none;width:100%;padding:10px 11px}
+  .heroQuote b{font-size:9px}
+  .heroQuote small{font-size:8px}
+  .luxuryTotal{align-self:flex-start;min-width:0;width:auto;padding:12px 14px}
+  .luxuryTotal strong{font-size:30px}
+  .primaryStats{grid-template-columns:1fr;gap:9px}
+  .primaryStats .stat{min-height:96px;padding:15px 15px 15px 66px}
+  .primaryStats .stat:before{left:13px;top:15px;width:40px;height:40px}
+  .secondaryStats{display:grid;grid-template-columns:1fr;gap:8px}
+  .secondaryStat{width:100%}
+  .grid2,.grid3,.dashboardMainGrid,.dashboardLowerGrid,.reportGrid,.aboutGrid{
+    grid-template-columns:1fr;width:100%;min-width:0;gap:11px
+  }
+  .dashboardPanel,.card,.reportCard,.feature{min-width:0;width:100%}
+  .head{gap:8px;align-items:flex-start;flex-wrap:wrap}
+  .head>div{min-width:0;max-width:100%}
+  .head .btn{white-space:normal}
+  .body{min-width:0}
+  .toolbar{width:100%;display:grid;grid-template-columns:1fr;gap:7px}
+  .toolbar input,.toolbar select,.toolbar button{
+    width:100%;min-width:0;flex:1 1 auto
+  }
+  .quick{grid-template-columns:1fr}
+  .trustStrip{grid-template-columns:1fr}
+  .reportOverview{grid-template-columns:1fr}
+  .reminderSections{grid-template-columns:1fr}
+  .reminderHero{flex-direction:column;align-items:stretch}
+  .reminderCounts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .reminderCounts span{min-width:0;width:100%}
+  .monthRow{grid-template-columns:58px minmax(0,1fr);gap:7px}
+  .monthNums{grid-column:1/-1;text-align:left}
+  .peopleGrid{grid-template-columns:1fr}
+  .duaActions{display:grid;grid-template-columns:1fr;gap:7px}
+  .duaActions .btn{width:100%}
+  .arabic{font-size:20px;line-height:1.9}
+  .modal{padding:8px}
+  .modalBox,.personHistoryBox,.profileModalBox,.cropModalBox{
+    width:100%;max-width:none;max-height:96vh;border-radius:17px
+  }
+  .modalHead,.modalFoot{padding:13px 14px}
+  .modalBody{padding:14px;max-height:76vh}
+  .modalFoot .btn{flex:1 1 130px}
+  .form{grid-template-columns:1fr;gap:12px}
+  .full{grid-column:auto}
+  .detailHero{grid-template-columns:1fr}
+  .history{width:100%;overflow-x:auto}
+  .historyHead,.historyRow{min-width:430px}
+  .personHistoryStats{grid-template-columns:1fr 1fr}
+  .personHistoryRow{grid-template-columns:1fr}
+  .personHistoryAmount{text-align:left;align-items:flex-start}
+  .personHistoryTop{flex-wrap:wrap}
+  .profileActions{display:grid;grid-template-columns:1fr}
+  .profileActions .btn{width:100%}
+}
+
+@media (max-width:600px){
+  .side{padding:7px 8px;gap:6px}
+  .brand{padding-right:6px}
+  .brand b{font-size:16px}
+  .brand small{font-size:7px}
+  .side .nav{gap:4px}
+  .side .nav button{font-size:9px;padding:7px 8px}
+  .top{top:54px;padding:9px}
+  .top h1{font-size:17px}
+  .topRight{grid-template-columns:minmax(0,1fr) 43px}
+  .topRight>.btn.primary{font-size:11px;padding:9px 8px}
+  .topRight>.themeToggle{width:43px;padding:8px}
+  .account{grid-template-columns:auto minmax(0,1fr);gap:7px}
+  .account .mini{width:100%;min-width:0}
+  .account .mini:nth-last-child(2){grid-column:1}
+  .account .logout{grid-column:2}
+  .accountText{grid-column:2;grid-row:1}
+  .avatar{grid-column:1;grid-row:1}
+  .content{padding:10px 8px 22px}
+  .hero h2{font-size:24px}
+  .heroTotal{width:100%}
+  .primaryStats .stat{min-height:90px;padding-left:62px}
+  .primaryStats .stat:before{left:12px}
+  .head{padding:12px 13px}
+  .body{padding:12px 13px}
+  .reportOverview{grid-template-columns:1fr}
+  .reminderCounts{grid-template-columns:1fr 1fr 1fr}
+  .reminderCounts b{font-size:15px}
+  .reminderCounts small{font-size:8px}
+  .monthLabel{font-size:9px}
+  .tableWrap{width:100%;max-width:100%;overflow-x:auto}
+  table{display:block;width:max-content;min-width:100%;max-width:none;overflow:visible}
+  th,td{font-size:9px;padding:10px 6px}
+  .modalFoot{display:grid;grid-template-columns:1fr 1fr}
+  .modalFoot .btn{width:100%;min-width:0}
+  .detailHero{grid-template-columns:1fr}
+  .historyHead,.historyRow{min-width:390px}
+  .personHistoryStats{grid-template-columns:1fr}
+  .authScreen{padding:8px}
+  .authBox{width:100%;max-width:none}
+}
+</style>
+
+</head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
 <div class="app">
