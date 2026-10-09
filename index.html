@@ -877,6 +877,55 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
 }
 </style>
 
+
+<style id="qa-mobile-smooth">
+/* Final smooth responsive/mobile polish */
+@media (max-width:900px){
+  html,body{overscroll-behavior-x:none;-webkit-text-size-adjust:100%}
+  .side{-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;overscroll-behavior-x:contain}
+  .side .nav button{scroll-snap-align:start;touch-action:manipulation}
+  .top{will-change:transform}
+  .content{overflow:clip}
+  .card,.stat,.hero,.feature,.reportCard{overflow:hidden}
+  .toolbar input,.toolbar select,.toolbar button,.btn,.mini{touch-action:manipulation}
+  .search{font-size:16px}
+  .account{overflow:hidden}
+  .accountText{font-size:10px}
+  .heroQuote{word-break:normal}
+  .heroQuote b{display:block;line-height:1.45}
+  .reminderCounts span{min-height:56px;display:flex;flex-direction:column;justify-content:center}
+  .tableWrap{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+  table{min-width:640px}
+  .modalBody{-webkit-overflow-scrolling:touch}
+  .history,.personHistoryList{overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+@media (max-width:600px){
+  .side{box-shadow:0 8px 25px rgba(0,0,0,.16)}
+  .top{top:0;border-top:0}
+  .top>div:first-child{min-height:34px}
+  .topRight{gap:6px}
+  .search{height:44px}
+  .topRight>.btn.primary,.topRight>.themeToggle{height:44px}
+  .account{grid-template-columns:42px minmax(0,1fr) auto;grid-template-rows:auto auto}
+  .avatar{grid-column:1;grid-row:1/-1;width:42px;height:42px}
+  .accountText{grid-column:2;grid-row:1}
+  .account .mini:nth-last-child(2){grid-column:2;grid-row:2}
+  .account .logout{grid-column:3;grid-row:1/-1;height:42px}
+  .content{padding-left:8px;padding-right:8px}
+  .heroQuote{gap:8px}
+  .heroQuote>span{font-size:21px}
+  .primaryStats .labelx{font-size:10px}
+  .primaryStats strong{font-size:21px}
+  .secondaryStat{padding:10px 11px}
+  .head .toolbar{margin-top:3px}
+  .head .toolbar button,.head .toolbar select,.head .toolbar input{min-height:42px}
+  .modalHead{position:sticky;top:0;z-index:2;background:inherit}
+}
+@media (prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto!important}
+}
+</style>
+
 </head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
@@ -2003,23 +2052,59 @@ function loadSpeechVoices(){speechVoices=window.speechSynthesis?window.speechSyn
 if("speechSynthesis" in window){loadSpeechVoices();speechSynthesis.onvoiceschanged=loadSpeechVoices}
 function stopDuaAudio(){
  if(window.__duaAudio){try{window.__duaAudio.pause();window.__duaAudio.currentTime=0}catch(e){}}
+ if("speechSynthesis" in window){try{window.speechSynthesis.cancel()}catch(e){}}
 }
-function playDuaAudio(file,onFail){
+function nativeVoice(text,lang,label){
+ if(!("speechSynthesis" in window))return false;
+ try{
+   const u=new SpeechSynthesisUtterance(text);
+   u.lang=lang;
+   u.rate=.88;
+   u.pitch=1;
+   const voices=(window.speechSynthesis.getVoices?window.speechSynthesis.getVoices():[]);
+   const wanted=String(lang||"").toLowerCase();
+   const match=voices.find(v=>String(v.lang||"").toLowerCase().startsWith(wanted.split("-")[0]))
+      ||voices.find(v=>String(v.lang||"").toLowerCase().startsWith(wanted))
+      ||voices[0];
+   if(match)u.voice=match;
+   u.onstart=()=>showToast("🔊 "+label+" is playing…");
+   u.onend=()=>showToast("✓ Audio complete");
+   u.onerror=()=>showToast("Your phone could not start the voice. Please try again.");
+   window.speechSynthesis.cancel();
+   window.speechSynthesis.speak(u);
+   return true;
+ }catch(e){return false}
+}
+function playDuaAudio(file,onFail,ttsText,ttsLang,ttsLabel){
  stopDuaAudio();
- const sources=[file,"https://itsmsjwork-ux.github.io/Qarz-Amanah/"+file];
- let idx=0,failed=false;
+ const base="https://itsmsjwork-ux.github.io/Qarz-Amanah/";
+ const sources=[
+   file,
+   file+"?v=3",
+   base+file,
+   base+file+"?v=3"
+ ];
+ let idx=0,finished=false;
+ const fallback=()=>{
+   if(finished)return;
+   finished=true;
+   if(!nativeVoice(ttsText,ttsLang,ttsLabel))onFail();
+ };
  const tryNext=()=>{
-   if(failed)return;
-   if(idx>=sources.length){failed=true;onFail();return}
+   if(finished)return;
+   if(idx>=sources.length){fallback();return}
    const src=sources[idx++];
    try{
-     const audio=new Audio(src);
+     const audio=new Audio();
      window.__duaAudio=audio;
      audio.preload="auto";
+     audio.playsInline=true;
      audio.volume=1;
-     audio.onplay=()=>showToast("🔊 Audio is playing…");
-     audio.onended=()=>showToast("✓ Audio complete");
-     audio.onerror=()=>{ tryNext(); };
+     audio.onplay=()=>showToast("🔊 "+ttsLabel+" is playing…");
+     audio.onended=()=>{finished=true;showToast("✓ Audio complete")};
+     audio.onerror=()=>tryNext();
+     audio.onstalled=()=>{};
+     audio.src=src;
      const p=audio.play();
      if(p)p.catch(()=>tryNext());
    }catch(e){tryNext()}
@@ -2027,10 +2112,12 @@ function playDuaAudio(file,onFail){
  tryNext();
 }
 function speak(i){
- playDuaAudio("audio/dua"+(i+1)+".mp3",()=>showToast("Could not load the dua audio. Please refresh the page and try again."));
+ const text=D[i]?.[1]||"";
+ playDuaAudio("audio/dua"+(i+1)+".mp3",()=>showToast("Audio could not start on this device."),text,"ar-SA","Dua audio");
 }
 function speakMeaning(i){
- playDuaAudio("audio/dua"+(i+1)+"-meaning.mp3",()=>showToast("Could not load the translation audio. Please refresh the page and try again."));
+ const text=D[i]?.[2]||"";
+ playDuaAudio("audio/dua"+(i+1)+"-meaning.mp3",()=>showToast("Translation audio could not start on this device."),text,"en-IN","Translation audio");
 }
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail();closePersonHistory()}});
 render();
