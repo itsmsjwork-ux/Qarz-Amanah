@@ -878,6 +878,12 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
 </style>
 
 
+<style id="qa-responsive-zoom-safety">
+@media(max-width:900px){
+  html,body{width:100%;min-width:0;max-width:100%;overflow-x:hidden}
+  .main,.content,.page,.card,.body,.grid2,.grid3,.dashboardMainGrid,.dashboardLowerGrid{min-width:0;max-width:100%}
+}
+</style>
 <style id="qa-mobile-smooth">
 /* Final smooth responsive/mobile polish */
 @media (max-width:900px){
@@ -926,33 +932,54 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
 }
 </style>
 
-<style id="qa-language-ui">
-.languageSelect{
-  min-width:104px;height:42px;padding:0 30px 0 11px;border-radius:12px;
-  border:1px solid rgba(242,196,94,.18);background:rgba(255,255,255,.045);
-  color:#eaf1fb;font:700 11px inherit;outline:none;cursor:pointer;
-  color-scheme:dark
+<style id="qa-sidebar-resilience">
+.side{min-height:100vh;max-height:100vh;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-gutter:stable}
+.sideNote{margin-top:20px!important;max-height:none!important;flex:0 0 auto}
+@media(max-width:1400px){
+  .app{grid-template-columns:240px minmax(0,1fr)}
+  .content{padding-left:22px;padding-right:22px}
+  .grid3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dashboardLowerGrid>.dashboardPanel:last-child{grid-column:1/-1}
 }
+@media(max-width:1050px) and (min-width:901px){
+  .app{grid-template-columns:220px minmax(0,1fr)}
+  .grid2,.grid3,.reportGrid,.aboutGrid{grid-template-columns:1fr}
+  .dashboardLowerGrid>.dashboardPanel:last-child{grid-column:auto}
+  .primaryStats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+</style>
+<style id="qa-language-ui">
+.languagePicker{position:relative;display:flex;align-items:center;gap:8px;width:132px;min-width:132px;height:42px;padding:0 10px;border:1px solid rgba(242,196,94,.20);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.035));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 8px 20px rgba(0,0,0,.10);backdrop-filter:blur(14px)}
+.languagePicker:focus-within{border-color:rgba(239,188,88,.52);box-shadow:0 0 0 3px rgba(239,188,88,.10),inset 0 1px 0 rgba(255,255,255,.05)}
+.languageIcon{width:17px;height:17px;flex:0 0 17px;fill:none;stroke:#efc462;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.languageSelect{appearance:none;-webkit-appearance:none;flex:1;min-width:0;width:100%;height:40px;border:0!important;background:transparent!important;color:#eef4ff;padding:0 18px 0 0!important;font:700 11px inherit;outline:none;cursor:pointer;color-scheme:dark}
 .languageSelect option{background:#10243d;color:#eef4ff}
-:root[data-theme="light"] .languageSelect{background:#fff;color:#23433a;border-color:rgba(29,70,59,.14);color-scheme:light}
+.languageChevron{position:absolute;right:10px;top:50%;transform:translateY(-58%);color:#a9bad2;font-size:15px;line-height:1;pointer-events:none}
+:root[data-theme="light"] .languagePicker{background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(248,250,246,.96));border-color:rgba(29,70,59,.14);box-shadow:0 8px 22px rgba(39,64,56,.08)}
+:root[data-theme="light"] .languageIcon{stroke:#b58521}
+:root[data-theme="light"] .languageSelect{color:#23433a;color-scheme:light}
 :root[data-theme="light"] .languageSelect option{background:#fff;color:#203c34}
-html[dir="rtl"] .topRight{direction:rtl}
-html[dir="rtl"] .topRight>.search{direction:rtl;text-align:right}
-html[dir="rtl"] .modalBody,html[dir="rtl"] .modalHead,html[dir="rtl"] .body{text-align:right}
-input[type="tel"],input[type="number"],input[type="date"]{direction:ltr;text-align:left}
 @media(max-width:900px){
-  .languageSelect{width:100%;min-width:0;height:44px}
-  .topRight>.languageSelect{grid-column:1;grid-row:2;width:100%}
+  .languagePicker{width:100%;min-width:0;height:44px;padding:0 12px;border-radius:13px}
+  .languageSelect{height:42px;font-size:12px}
+  .languageChevron{right:12px}
+  .topRight>.languagePicker{grid-column:1;grid-row:2}
   .topRight>.themeToggle{grid-column:2;grid-row:2}
   .topRight>.btn.primary{grid-column:1/-1;grid-row:3}
   .account{grid-row:4}
 }
 @media(max-width:600px){
-  .topRight>.languageSelect{grid-column:1;grid-row:2}
+  .topRight>.languagePicker{grid-column:1;grid-row:2}
   .topRight>.themeToggle{grid-column:2;grid-row:2}
   .topRight>.btn.primary{grid-column:1/-1;grid-row:3}
   .account{grid-row:4}
 }
+</style>
+<style id="qa-dua-interaction-fixes">
+.dua{position:relative;overflow:visible;isolation:isolate}
+.dua .arabic{display:block;max-width:100%;height:auto;overflow:visible;white-space:normal;text-overflow:clip}
+.duaActions{position:relative;z-index:6;pointer-events:auto}
+.duaActions .btn,.duaActions a{position:relative;z-index:7;pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
 </style>
 <style id="qa-dua-audio-fixes">
 /* Dua presentation + multilingual audio fixes */
@@ -1029,7 +1056,7 @@ input[type="tel"],input[type="number"],input[type="date"]{direction:ltr;text-ali
 <section class="main">
 <header class="top">
   <div><div class="crumb">Qarz Amanah / <span id="crumb">Dashboard</span></div><h1 id="title">Dashboard</h1></div>
-  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><select id="languageSelect" class="languageSelect" title="Language" aria-label="Language" onchange="changeLanguage(this.value)"><option value="en">English</option><option value="hi">हिन्दी</option><option value="ur">اردو</option><option value="ml">മലയാളം</option><option value="kn">ಕನ್ನಡ</option></select><button class="btn ghost themeToggle" id="themeToggle" title="Switch to light theme" aria-label="Switch to light theme" onclick="toggleTheme()">☀︎</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="account"><button type="button" class="avatar" id="avatar" title="Open profile" onclick="openProfileModal()"><span id="avatarText">QA</span><img id="avatarImg" alt="Profile photo"></button><input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="startAvatarEdit(event)"><div class="accountText" id="accountEmail">Not signed in</div><button class="mini ghost" onclick="startLoggedInPasswordChange()">🔐 Password</button><button class="mini logout" onclick="logout()">Logout</button></div></div>
+  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><div class="languagePicker" title="Language" aria-label="Language"><svg class="languageIcon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.4 3.7 5.4 3.7 9S14.5 18.6 12 21M12 3c-2.5 2.4-3.7 5.4-3.7 9S9.5 18.6 12 21"></path></svg><select id="languageSelect" class="languageSelect" title="Language" aria-label="Language" onchange="changeLanguage(this.value)"><option value="en">English</option><option value="hi">हिन्दी</option><option value="ur">اردو</option><option value="ml">മലയാളം</option><option value="kn">ಕನ್ನಡ</option></select><span class="languageChevron" aria-hidden="true">⌄</span></div><button class="btn ghost themeToggle" id="themeToggle" title="Switch to light theme" aria-label="Switch to light theme" onclick="toggleTheme()">☀︎</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="account"><button type="button" class="avatar" id="avatar" title="Open profile" onclick="openProfileModal()"><span id="avatarText">QA</span><img id="avatarImg" alt="Profile photo"></button><input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="startAvatarEdit(event)"><div class="accountText" id="accountEmail">Not signed in</div><button class="mini ghost" onclick="startLoggedInPasswordChange()">🔐 Password</button><button class="mini logout" onclick="logout()">Logout</button></div></div>
 </header>
 
 <main class="content">
@@ -1272,6 +1299,7 @@ const KEY="qarz_amanah_public_v2";
 const THEME_KEY="qarz_amanah_theme";
 
 const LANG_KEY="qarz_amanah_language";
+function languageUserKey(){return LANG_KEY+(currentUsername?"_"+currentUsername.toLowerCase():"")}
 const LANGS={
   en:{label:"English",locale:"en-IN",dir:"ltr"},
   hi:{label:"हिन्दी",locale:"hi-IN",dir:"ltr"},
@@ -1359,6 +1387,11 @@ const TX={
 };
 let currentLang=localStorage.getItem(LANG_KEY)||"en";
 function langDef(){return LANGS[currentLang]||LANGS.en}
+function restoreUserLanguage(){
+ const saved=localStorage.getItem(languageUserKey());
+ if(saved&&LANGS[saved])currentLang=saved;
+ localStorage.setItem(LANG_KEY,currentLang);
+}
 function trText(text){
  const src=String(text??"");
  const map=TX[currentLang]||TX.en;
@@ -1374,6 +1407,7 @@ function applyLanguage(){
  document.documentElement.dir=lang.dir;
  const select=document.getElementById("languageSelect");
  if(select)select.value=currentLang;
+ document.title=trText("Qarz Amanah — Trust • Record • Return");
  const nodes=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
  const list=[];
  while(nodes.nextNode())list.push(nodes.currentNode);
@@ -1398,6 +1432,8 @@ function applyLanguage(){
    el.setAttribute("aria-label",trText(src));
  });
  localStorage.setItem(LANG_KEY,currentLang);
+ const userKey=languageUserKey();
+ if(userKey!==LANG_KEY)localStorage.setItem(userKey,currentLang);
 }
 function changeLanguage(lang){
  currentLang=LANGS[lang]?lang:"en";
@@ -1949,6 +1985,8 @@ async function handleSession(next){
   loggingOut=false;
   screen.classList.add("hidden");
   const profile=await ensureProfile(session.user);
+  restoreUserLanguage();
+  applyLanguage();
   const displayName=profile.displayName||currentUsername||"Signed in";
   document.getElementById("accountEmail").textContent=displayName;
   document.getElementById("welcomeName").textContent=displayName ? ", "+displayName : "";
@@ -2264,120 +2302,94 @@ function backup(){const b=new Blob([JSON.stringify({app:"Qarz Amanah",version:2,
 function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!Array.isArray(x.records))throw 0;const existing=new Set(data.map(d=>d.id));const incoming=x.records.map(ensureRecord).filter(d=>!existing.has(d.id));data.push(...incoming);save();alert(incoming.length+" records restored.")}catch{alert("Invalid backup file.")}};r.readAsText(f)}
 let speechVoices=[];
 let duaPlaySeq=0;
+let speechRunSeq=0;
+const AUDIO_VERSION="20261009-2";
 function loadSpeechVoices(){speechVoices=window.speechSynthesis?window.speechSynthesis.getVoices():[];return speechVoices}
 if("speechSynthesis" in window){loadSpeechVoices();speechSynthesis.onvoiceschanged=loadSpeechVoices}
 function stopDuaAudio(){
- duaPlaySeq++;
- if(window.__duaAudio){
-   try{
-     window.__duaAudio.pause();
-     window.__duaAudio.onplay=null;
-     window.__duaAudio.onended=null;
-     window.__duaAudio.onerror=null;
-     window.__duaAudio.onabort=null;
-     window.__duaAudio.src="";
-     window.__duaAudio.load();
-   }catch(e){}
- }
- if("speechSynthesis" in window){try{window.speechSynthesis.cancel()}catch(e){}}
+  duaPlaySeq++;
+  speechRunSeq++;
+  if(window.__duaAudio){
+    try{window.__duaAudio.pause();window.__duaAudio.removeAttribute("src");window.__duaAudio.load()}catch(e){}
+  }
+  if("speechSynthesis" in window){try{window.speechSynthesis.cancel()}catch(e){}}
 }
 function nativeVoice(text,lang,label){
- if(!("speechSynthesis" in window)||!String(text||"").trim())return false;
- try{
-   const synth=window.speechSynthesis;
-   synth.cancel();
-   const speakNow=()=>{
-     if(!String(text||"").trim())return;
-     const u=new SpeechSynthesisUtterance(String(text));
-     u.lang=lang||"en-IN";
-     u.rate=.86;
-     u.pitch=1;
-     const wanted=String(lang||"").toLowerCase();
-     const voices=synth.getVoices?synth.getVoices():[];
-     const exact=voices.find(v=>String(v.lang||"").toLowerCase()===wanted);
-     const base=voices.find(v=>String(v.lang||"").toLowerCase().startsWith(wanted.split("-")[0]+"-"));
-     const match=exact||base;
-     if(match)u.voice=match;
-     u.onstart=()=>showToast("🔊 "+label+" is playing…");
-     u.onend=()=>showToast("✓ Audio complete");
-     u.onerror=()=>showToast("Your device could not start the voice. Please try again.");
-     try{synth.speak(u)}catch(e){}
-   };
-   if(!speechVoices.length && synth.getVoices)speechVoices=synth.getVoices();
-   if(!speechVoices.length && synth.addEventListener){
-     const once=()=>{
-       speechVoices=synth.getVoices?synth.getVoices():[];
-       try{synth.removeEventListener("voiceschanged",once)}catch(e){}
-       speakNow();
-     };
-     synth.addEventListener("voiceschanged",once,{once:true});
-     setTimeout(()=>{
-       speechVoices=synth.getVoices?synth.getVoices():speechVoices;
-       if(speechVoices.length)try{synth.removeEventListener("voiceschanged",once)}catch(e){}
-       speakNow();
-     },350);
-   }else{
-     setTimeout(speakNow,30);
-   }
-   return true;
- }catch(e){return false}
+  if(!("speechSynthesis" in window)||!String(text||"").trim())return false;
+  try{
+    const synth=window.speechSynthesis;
+    const run=++speechRunSeq;
+    synth.cancel();
+    const u=new SpeechSynthesisUtterance(String(text));
+    u.lang=lang||"en-IN";
+    u.rate=.90;
+    u.pitch=1;
+    const wanted=String(lang||"").toLowerCase();
+    const voices=synth.getVoices?synth.getVoices():[];
+    const exact=voices.find(v=>String(v.lang||"").toLowerCase()===wanted);
+    const base=voices.find(v=>String(v.lang||"").toLowerCase().startsWith(wanted.split("-")[0]+"-"));
+    if(exact||base)u.voice=exact||base;
+    u.onstart=()=>{if(run===speechRunSeq)showToast("🔊 "+label+" is playing…")};
+    u.onend=()=>{if(run===speechRunSeq)showToast("✓ Audio complete")};
+    u.onerror=()=>{if(run===speechRunSeq)showToast("Your device could not start the voice. Please try again.")};
+    synth.speak(u);
+    return true;
+  }catch(e){return false}
+}
+function audioUrl(file){
+  const sep=String(file).includes("?")?"&":"?";
+  return String(file)+sep+"v="+AUDIO_VERSION;
 }
 function playDuaAudio(file,onFail,ttsText,ttsLang,ttsLabel){
- stopDuaAudio();
- const seq=duaPlaySeq;
- const base="https://itsmsjwork-ux.github.io/Qarz-Amanah/";
- const sources=[file,base+file].filter((v,i,a)=>a.indexOf(v)===i);
- let idx=0,usingAudio=false;
- const fallback=()=>{
-   if(seq!==duaPlaySeq||usingAudio)return;
-   if(!nativeVoice(ttsText,ttsLang,ttsLabel))onFail();
- };
- const audio=new Audio();
- window.__duaAudio=audio;
- audio.preload="auto";
- audio.playsInline=true;
- audio.volume=1;
- const tryNext=()=>{
-   if(seq!==duaPlaySeq)return;
-   if(idx>=sources.length){fallback();return}
-   const src=sources[idx++];
-   try{
-     audio.pause();
-     audio.currentTime=0;
-     audio.src=src;
-     audio.load();
-     const p=audio.play();
-     if(p)p.catch(()=>{if(seq===duaPlaySeq)tryNext()});
-   }catch(e){tryNext()}
- };
- audio.onplay=()=>{
-   if(seq!==duaPlaySeq){try{audio.pause()}catch(e){};return}
-   usingAudio=true;
-   showToast("🔊 "+ttsLabel+" is playing…");
- };
- audio.onended=()=>{
-   if(seq!==duaPlaySeq)return;
-   showToast("✓ Audio complete");
- };
- audio.onerror=()=>{
-   if(seq===duaPlaySeq){
-     audio.pause();
-     audio.currentTime=0;
-     tryNext();
-   }
- };
- audio.onabort=()=>{};
- tryNext();
+  stopDuaAudio();
+  const seq=duaPlaySeq;
+  const base="https://itsmsjwork-ux.github.io/Qarz-Amanah/";
+  const sources=[audioUrl(file),audioUrl(base+file)].filter((v,i,a)=>a.indexOf(v)===i);
+  let idx=0,usingAudio=false;
+  const fallback=()=>{if(seq!==duaPlaySeq||usingAudio)return;nativeVoice(ttsText,ttsLang,ttsLabel)||onFail()};
+  const audio=new Audio();
+  window.__duaAudio=audio;
+  audio.preload="auto";
+  audio.playsInline=true;
+  audio.volume=1;
+  const tryNext=()=>{
+    if(seq!==duaPlaySeq)return;
+    if(idx>=sources.length){fallback();return}
+    const src=sources[idx++];
+    let failed=false;
+    const fail=()=>{
+      if(failed||usingAudio||seq!==duaPlaySeq)return;
+      failed=true;
+      try{audio.pause();audio.currentTime=0}catch(e){}
+      tryNext();
+    };
+    audio.onerror=fail;
+    try{
+      audio.src=src;
+      audio.load();
+      const p=audio.play();
+      if(p)p.catch(fail);
+    }catch(e){fail()}
+  };
+  audio.onplay=()=>{
+    if(seq!==duaPlaySeq){try{audio.pause()}catch(e){};return}
+    usingAudio=true;
+    showToast("🔊 "+ttsLabel+" is playing…");
+  };
+  audio.onended=()=>{if(seq===duaPlaySeq)showToast("✓ Audio complete")};
+  tryNext();
 }
 function speak(i){
- const text=D[i]?.[1]||"";
- playDuaAudio("audio/dua"+(i+1)+".mp3",()=>showToast("Audio could not start on this device."),text,"ar-SA","Dua audio");
+  const text=D[i]?.[1]||"";
+  showToast("🔊 Starting Dua audio…");
+  playDuaAudio("audio/dua"+(i+1)+".mp3",()=>showToast("Audio could not start on this device."),text,"ar-SA","Dua audio");
 }
 function speakMeaning(i){
- const text=duaMeaning(i);
- const lang=langDef().locale;
- const file=currentLang==="en" ? "audio/dua"+(i+1)+"-meaning.mp3" : "audio/"+currentLang+"/dua"+(i+1)+"-meaning.mp3";
- playDuaAudio(file,()=>showToast("Translation audio could not start on this device."),text,lang,"Translation audio");
+  const text=duaMeaning(i);
+  const lang=langDef().locale;
+  const file="audio/"+(currentLang==="en"?"":currentLang+"/")+"dua"+(i+1)+"-meaning.mp3";
+  showToast("🔊 Starting translation audio…");
+  playDuaAudio(file,()=>showToast("Translation audio could not start on this device."),text,lang,"Translation audio");
 }
 
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail();closePersonHistory()}});
