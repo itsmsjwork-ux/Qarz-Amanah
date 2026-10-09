@@ -926,6 +926,34 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
 }
 </style>
 
+<style id="qa-language-ui">
+.languageSelect{
+  min-width:104px;height:42px;padding:0 30px 0 11px;border-radius:12px;
+  border:1px solid rgba(242,196,94,.18);background:rgba(255,255,255,.045);
+  color:#eaf1fb;font:700 11px inherit;outline:none;cursor:pointer;
+  color-scheme:dark
+}
+.languageSelect option{background:#10243d;color:#eef4ff}
+:root[data-theme="light"] .languageSelect{background:#fff;color:#23433a;border-color:rgba(29,70,59,.14);color-scheme:light}
+:root[data-theme="light"] .languageSelect option{background:#fff;color:#203c34}
+html[dir="rtl"] .topRight{direction:rtl}
+html[dir="rtl"] .topRight>.search{direction:rtl;text-align:right}
+html[dir="rtl"] .modalBody,html[dir="rtl"] .modalHead,html[dir="rtl"] .body{text-align:right}
+input[type="tel"],input[type="number"],input[type="date"]{direction:ltr;text-align:left}
+@media(max-width:900px){
+  .languageSelect{width:100%;min-width:0;height:44px}
+  .topRight>.languageSelect{grid-column:1;grid-row:2;width:100%}
+  .topRight>.themeToggle{grid-column:2;grid-row:2}
+  .topRight>.btn.primary{grid-column:1/-1;grid-row:3}
+  .account{grid-row:4}
+}
+@media(max-width:600px){
+  .topRight>.languageSelect{grid-column:1;grid-row:2}
+  .topRight>.themeToggle{grid-column:2;grid-row:2}
+  .topRight>.btn.primary{grid-column:1/-1;grid-row:3}
+  .account{grid-row:4}
+}
+</style>
 </head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
@@ -980,7 +1008,7 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
 <section class="main">
 <header class="top">
   <div><div class="crumb">Qarz Amanah / <span id="crumb">Dashboard</span></div><h1 id="title">Dashboard</h1></div>
-  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><button class="btn ghost themeToggle" id="themeToggle" title="Switch to light theme" aria-label="Switch to light theme" onclick="toggleTheme()">☀︎</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="account"><button type="button" class="avatar" id="avatar" title="Open profile" onclick="openProfileModal()"><span id="avatarText">QA</span><img id="avatarImg" alt="Profile photo"></button><input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="startAvatarEdit(event)"><div class="accountText" id="accountEmail">Not signed in</div><button class="mini ghost" onclick="startLoggedInPasswordChange()">🔐 Password</button><button class="mini logout" onclick="logout()">Logout</button></div></div>
+  <div class="topRight"><input class="search" id="globalSearch" placeholder="Search by name, note, or date..." oninput="globalFind(this.value)"><select id="languageSelect" class="languageSelect" title="Language" aria-label="Language" onchange="changeLanguage(this.value)"><option value="en">English</option><option value="hi">हिन्दी</option><option value="ur">اردو</option><option value="ml">മലയാളം</option><option value="kn">ಕನ್ನಡ</option></select><button class="btn ghost themeToggle" id="themeToggle" title="Switch to light theme" aria-label="Switch to light theme" onclick="toggleTheme()">☀︎</button><button class="btn primary" onclick="openModal()">＋ Add Record</button><div class="account"><button type="button" class="avatar" id="avatar" title="Open profile" onclick="openProfileModal()"><span id="avatarText">QA</span><img id="avatarImg" alt="Profile photo"></button><input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="startAvatarEdit(event)"><div class="accountText" id="accountEmail">Not signed in</div><button class="mini ghost" onclick="startLoggedInPasswordChange()">🔐 Password</button><button class="mini logout" onclick="logout()">Logout</button></div></div>
 </header>
 
 <main class="content">
@@ -1221,6 +1249,180 @@ const SITE_URL="https://itsmsjwork-ux.github.io/Qarz-Amanah/";
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const KEY="qarz_amanah_public_v2";
 const THEME_KEY="qarz_amanah_theme";
+
+const LANG_KEY="qarz_amanah_language";
+const LANGS={
+  en:{label:"English",locale:"en-IN",dir:"ltr"},
+  hi:{label:"हिन्दी",locale:"hi-IN",dir:"ltr"},
+  ur:{label:"اردو",locale:"ur-PK",dir:"rtl"},
+  ml:{label:"മലയാളം",locale:"ml-IN",dir:"ltr"},
+  kn:{label:"ಕನ್ನಡ",locale:"kn-IN",dir:"ltr"}
+};
+const TX={
+"en":{
+"Workspace":"Workspace","Tools":"Tools","Dashboard":"Dashboard","Qarz Records":"Qarz Records","Reports":"Reports","Reminders":"Reminders","People":"People","Duā Library":"Duā Library","Backup & Restore":"Backup & Restore","About":"About",
+"Trust • Record • Return":"Trust • Record • Return","QARZ MANAGEMENT FOR EVERYONE":"QARZ MANAGEMENT FOR EVERYONE","Assalamu Alaikum":"Assalamu Alaikum","Total Outstanding":"Total Outstanding","Principal only":"Principal only","I Will Receive":"I Will Receive","I Will Return":"I Will Return","Repaid":"Repaid","Pending":"Pending","To be settled":"To be settled","OVERDUE":"OVERDUE","TOTAL RECORDS":"TOTAL RECORDS","outstanding":"outstanding","Qarz records":"Qarz records",
+"Recent Records":"Recent Records","Latest qarz activity":"Latest qarz activity","View All →":"View All →","Quick Actions":"Quick Actions","Manage your records easily":"Manage your records easily","Add Record":"Add Record","New qarz entry":"New qarz entry","Add Person":"Add Person","Manage people":"Manage people","View Reports":"View Reports","See detailed reports":"See detailed reports","Set reminders":"Set reminders",
+"Due Reminders":"Due Reminders","Upcoming and overdue returns":"Upcoming and overdue returns","People Summary":"People Summary","Your active contacts":"Your active contacts","Featured Duā":"Featured Duā","Daily reminder":"Daily reminder","Library →":"Library →",
+"Current outstanding position":"Current outstanding position","Receive Outstanding":"Receive Outstanding","Return Outstanding":"Return Outstanding","Total Repaid":"Total Repaid","Total Principal":"Total Principal","Live":"Live","Settlement Health":"Settlement Health","How much has been settled":"How much has been settled","No repayments yet":"No repayments yet","open":"open","completed":"completed","Monthly Summary":"Monthly Summary","Principal added and repayments received/paid by month":"Principal added and repayments received/paid by month","Last 6 months":"Last 6 months","Overdue Watch":"Overdue Watch","Outstanding past due dates":"Outstanding past due dates","Direction Split":"Direction Split","Outstanding amount by direction":"Outstanding amount by direction",
+"Stay on top of due dates and overdue Qarz":"Stay on top of due dates and overdue Qarz","Enable Notifications":"Enable Notifications","Check Now":"Check Now","Reminder Center":"Reminder Center","Browser notifications are off.":"Browser notifications are off.","Browser alerts run while Qarz Amanah is open.":"Browser alerts run while Qarz Amanah is open.","Overdue":"Overdue","Due today":"Due today","Upcoming":"Upcoming","Needs Attention":"Needs Attention","Nothing is due today.":"Nothing is due today.","No overdue Qarz. Alhamdulillah.":"No overdue Qarz. Alhamdulillah.","No upcoming due dates.":"No upcoming due dates.",
+"People connected to your open and completed Qarz":"People connected to your open and completed Qarz","Search people...":"Search people...","Arabic • English meaning • reference":"Arabic • English meaning • reference",
+"Backup your records":"Backup your records","Export all Qarz Amanah records into a JSON backup and keep it somewhere safe. Your records sync to your account when you are signed in. A local backup is also available.":"Export all Qarz Amanah records into a JSON backup and keep it somewhere safe. Your records sync to your account when you are signed in. A local backup is also available.","Create Backup":"Create Backup","Restore a backup":"Restore a backup","Bring back records from a saved Qarz Amanah backup file. Existing records are kept and restored records are added.":"Bring back records from a saved Qarz Amanah backup file. Existing records are kept and restored records are added.","Restore Backup":"Restore Backup",
+"Qarz bookkeeping tool designed for individuals, families, community work and small businesses. Simple, private and easy to understand.":"Qarz bookkeeping tool designed for individuals, families, community work and small businesses. Simple, private and easy to understand.","Religious scope":"Religious scope","Interest-free by design":"Interest-free by design","Privacy":"Privacy",
+"Only principal and repayments are recorded. The app intentionally avoids riba-related calculations such as interest, APR, late-interest and compounding.":"Only principal and repayments are recorded. The app intentionally avoids riba-related calculations such as interest, APR, late-interest and compounding.",
+"Login uses your unique username and password. Your email remains on the account for important notifications. A free Recovery Code is used for password recovery; no SMS is required.":"Login uses your unique username and password. Your email remains on the account for important notifications. A free Recovery Code is used for password recovery; no SMS is required.",
+"Qarz type":"Qarz type","Person name":"Person name","Phone number":"Phone number","Original principal (₹)":"Original principal (₹)","Qarz date":"Qarz date","Expected repayment date":"Expected repayment date","Optional":"Optional","Purpose":"Purpose","Reason / Details":"Reason / Details","Save Record":"Save Record","Cancel":"Cancel","Select purpose":"Select purpose","Medical":"Medical","Food":"Food","Education":"Education","Household":"Household","Business":"Business","Emergency":"Emergency","Personal":"Personal","Other":"Other","New Qarz Record":"New Qarz Record","Edit Qarz Record":"Edit Qarz Record","Qarz History":"Qarz History","All Qarz records for this person":"All Qarz records for this person","Add Qarz":"Add Qarz","Qarz Details":"Qarz Details","Original":"Original","Repayment progress":"Repayment progress","Record details":"Record details","Repayment history":"Repayment history","Date":"Date","Amount":"Amount","Action":"Action","Add Repayment":"Add Repayment","Edit Record":"Edit Record","Delete":"Delete","Reason / Details:":"Reason / Details:",
+"Search by name, note, or date...":"Search by name, note, or date...","Search name...":"Search name...","View":"View","Repay":"Repay","View History":"View History","Receive":"Receive","Return":"Return","Mixed":"Mixed","Settled":"Settled","No Qarz records yet.":"No Qarz records yet.","No people yet.":"No people yet.","No people found.":"No people found.",
+"Seeking Sufficiency Through Halal Provision":"Seeking Sufficiency Through Halal Provision","Seeking Protection From Overwhelming Debt":"Seeking Protection From Overwhelming Debt","Seeking Protection From Debt and Distress":"Seeking Protection From Debt and Distress","Seeking Protection From Sin and Debt":"Seeking Protection From Sin and Debt","PROPHETIC DUAS":"PROPHETIC DUAS","Play Dua":"Play Dua","Play Translation":"Play Translation","Reference ↗":"Reference ↗",
+"Password":"Password","Logout":"Logout","Not signed in":"Not signed in","My Profile":"My Profile","Profile photo & account details":"Profile photo & account details","Edit Photo":"Edit Photo","Delete Photo":"Delete Photo","Crop Profile Photo":"Crop Profile Photo","Drag the photo • Use the slider to zoom":"Drag the photo • Use the slider to zoom","Zoom":"Zoom","Use Photo":"Use Photo",
+"Login":"Login","Create Account":"Create Account","Username":"Username","Your name":"Your name","Mobile Number":"Mobile Number","Email is optional and is not required to create or log in to your account.":"Email is optional and is not required to create or log in to your account.","Confirm Password":"Confirm Password","Forgot Password?":"Forgot Password?","Login to Qarz Amanah":"Login to Qarz Amanah","Create Account":"Create Account","Mobile OTP":"Mobile OTP","Verify Mobile":"Verify Mobile","← Back":"← Back","Continue":"Continue","New Password":"New Password","Set New Password":"Set New Password","Change Password":"Change Password","Generate Recovery Code":"Generate Recovery Code","Cancel":"Cancel",
+"Reference":"Reference","All":"All","Receive Outstanding":"Receive Outstanding","Return Outstanding":"Return Outstanding",
+"Completed":"Completed","Overdue":"Overdue","Due today":"Due today","Pending":"Pending","Receive from":"Receive from","Return to":"Return to","days overdue":"days overdue","In ":"In "
+},
+"hi":{
+"Workspace":"कार्य क्षेत्र","Tools":"उपकरण","Dashboard":"डैशबोर्ड","Qarz Records":"क़र्ज़ रिकॉर्ड","Reports":"रिपोर्ट्स","Reminders":"रिमाइंडर","People":"लोग","Duā Library":"दुआ पुस्तकालय","Backup & Restore":"बैकअप और पुनर्स्थापना","About":"परिचय","Trust • Record • Return":"भरोसा • रिकॉर्ड • वापसी",
+"QARZ MANAGEMENT FOR EVERYONE":"सभी के लिए क़र्ज़ प्रबंधन","Assalamu Alaikum":"अस्सलामु अलैकुम","Total Outstanding":"कुल बकाया","Principal only":"केवल मूलधन","I Will Receive":"मुझे प्राप्त होना है","I Will Return":"मुझे वापस करना है","Repaid":"चुकाया गया","Pending":"लंबित","To be settled":"निपटाना बाकी है","OVERDUE":"समय-सीमा पार","TOTAL RECORDS":"कुल रिकॉर्ड","outstanding":"बकाया","Qarz records":"क़र्ज़ रिकॉर्ड",
+"Recent Records":"हाल के रिकॉर्ड","Latest qarz activity":"हाल की क़र्ज़ गतिविधि","View All →":"सभी देखें →","Quick Actions":"त्वरित कार्य","Manage your records easily":"अपने रिकॉर्ड आसानी से प्रबंधित करें","Add Record":"रिकॉर्ड जोड़ें","New qarz entry":"नया क़र्ज़ दर्ज करें","Add Person":"व्यक्ति जोड़ें","Manage people":"लोगों को प्रबंधित करें","View Reports":"रिपोर्ट देखें","See detailed reports":"विस्तृत रिपोर्ट देखें","Set reminders":"रिमाइंडर देखें",
+"Due Reminders":"देय रिमाइंडर","Upcoming and overdue returns":"आने वाली और समय-सीमा पार वापसी","People Summary":"लोगों का सारांश","Your active contacts":"आपके सक्रिय संपर्क","Featured Duā":"चयनित दुआ","Daily reminder":"दैनिक याद दिलाना","Library →":"पुस्तकालय →",
+"Current outstanding position":"वर्तमान बकाया स्थिति","Receive Outstanding":"प्राप्त करने का बकाया","Return Outstanding":"वापस करने का बकाया","Total Repaid":"कुल चुकाया गया","Total Principal":"कुल मूलधन","Live":"लाइव","Settlement Health":"निपटान स्थिति","How much has been settled":"कितना निपटाया गया","No repayments yet":"अभी कोई भुगतान नहीं","open":"खुले","completed":"पूर्ण","Monthly Summary":"मासिक सारांश","Principal added and repayments received/paid by month":"महीने के अनुसार जोड़ा गया मूलधन और भुगतान","Last 6 months":"पिछले 6 महीने","Overdue Watch":"समय-सीमा पार निगरानी","Outstanding past due dates":"देय तिथि पार बकाया","Direction Split":"दिशा के अनुसार विभाजन","Outstanding amount by direction":"दिशा के अनुसार बकाया राशि",
+"Stay on top of due dates and overdue Qarz":"देय तिथियों और समय-सीमा पार क़र्ज़ पर नज़र रखें","Enable Notifications":"नोटिफ़िकेशन चालू करें","Check Now":"अभी जाँचें","Reminder Center":"रिमाइंडर केंद्र","Browser notifications are off.":"ब्राउज़र नोटिफ़िकेशन बंद हैं।","Browser alerts run while Qarz Amanah is open.":"ब्राउज़र अलर्ट तब चलते हैं जब क़र्ज़ अमानत खुला रहता है।","Overdue":"समय-सीमा पार","Due today":"आज देय","Upcoming":"आगामी","Needs Attention":"ध्यान आवश्यक","Nothing is due today.":"आज कुछ देय नहीं है।","No overdue Qarz. Alhamdulillah.":"कोई समय-सीमा पार क़र्ज़ नहीं। अल्हम्दुलिल्लाह।","No upcoming due dates.":"कोई आगामी देय तिथि नहीं।",
+"People connected to your open and completed Qarz":"आपके खुले और पूरे क़र्ज़ से जुड़े लोग","Search people...":"लोग खोजें...","Arabic • English meaning • reference":"अरबी • हिंदी अर्थ • संदर्भ",
+"Backup your records":"अपने रिकॉर्ड का बैकअप लें","Create Backup":"बैकअप बनाएँ","Restore a backup":"बैकअप पुनर्स्थापित करें","Restore Backup":"बैकअप पुनर्स्थापित करें","Religious scope":"धार्मिक दायरा","Interest-free by design":"ब्याज-मुक्त रूप से बनाया गया","Privacy":"गोपनीयता",
+"Qarz type":"क़र्ज़ का प्रकार","Person name":"व्यक्ति का नाम","Phone number":"फ़ोन नंबर","Original principal (₹)":"मूल मूलधन (₹)","Qarz date":"क़र्ज़ की तारीख","Expected repayment date":"अपेक्षित वापसी की तारीख","Optional":"वैकल्पिक","Purpose":"उद्देश्य","Reason / Details":"कारण / विवरण","Save Record":"रिकॉर्ड सहेजें","Cancel":"रद्द करें","Select purpose":"उद्देश्य चुनें","Medical":"चिकित्सा","Food":"भोजन","Education":"शिक्षा","Household":"घरेलू","Business":"व्यवसाय","Emergency":"आपातकाल","Personal":"व्यक्तिगत","Other":"अन्य","New Qarz Record":"नया क़र्ज़ रिकॉर्ड","Edit Qarz Record":"क़र्ज़ रिकॉर्ड संपादित करें","Qarz History":"क़र्ज़ इतिहास","All Qarz records for this person":"इस व्यक्ति के सभी क़र्ज़ रिकॉर्ड","Add Qarz":"क़र्ज़ जोड़ें","Qarz Details":"क़र्ज़ विवरण","Original":"मूलधन","Repayment progress":"वापसी की प्रगति","Record details":"रिकॉर्ड विवरण","Repayment history":"भुगतान इतिहास","Date":"तारीख","Amount":"राशि","Action":"कार्रवाई","Add Repayment":"भुगतान जोड़ें","Edit Record":"रिकॉर्ड संपादित करें","Delete":"हटाएँ",
+"Search by name, note, or date...":"नाम, नोट या तारीख से खोजें...","Search name...":"नाम खोजें...","View":"देखें","Repay":"वापसी दर्ज करें","View History":"इतिहास देखें","Receive":"प्राप्ति","Return":"वापसी","Mixed":"मिश्रित","Settled":"निपटाया गया","No Qarz records yet.":"अभी कोई क़र्ज़ रिकॉर्ड नहीं है।","No people yet.":"अभी कोई व्यक्ति नहीं है।","No people found.":"कोई व्यक्ति नहीं मिला।",
+"PROPHETIC DUAS":"नबवी दुआएँ","Play Dua":"दुआ सुनें","Play Translation":"अनुवाद सुनें","Reference ↗":"संदर्भ ↗","Password":"पासवर्ड","Logout":"लॉग आउट","Not signed in":"साइन इन नहीं है","My Profile":"मेरी प्रोफ़ाइल","Profile photo & account details":"प्रोफ़ाइल फ़ोटो और खाता विवरण","Edit Photo":"फ़ोटो संपादित करें","Delete Photo":"फ़ोटो हटाएँ","Crop Profile Photo":"प्रोफ़ाइल फ़ोटो क्रॉप करें","Drag the photo • Use the slider to zoom":"फ़ोटो खींचें • ज़ूम के लिए स्लाइडर इस्तेमाल करें","Zoom":"ज़ूम","Use Photo":"फ़ोटो इस्तेमाल करें",
+"Login":"लॉग इन","Create Account":"खाता बनाएँ","Username":"यूज़रनेम","Your name":"आपका नाम","Mobile Number":"मोबाइल नंबर","Email is optional and is not required to create or log in to your account.":"ईमेल वैकल्पिक है और खाता बनाने या लॉग इन करने के लिए आवश्यक नहीं है।","Confirm Password":"पासवर्ड की पुष्टि करें","Forgot Password?":"पासवर्ड भूल गए?","Login to Qarz Amanah":"क़र्ज़ अमानत में लॉग इन करें","Mobile OTP":"मोबाइल OTP","Verify Mobile":"मोबाइल सत्यापित करें","Continue":"जारी रखें","New Password":"नया पासवर्ड","Set New Password":"नया पासवर्ड सेट करें","Change Password":"पासवर्ड बदलें","Generate Recovery Code":"रिकवरी कोड बनाएँ","Reference":"संदर्भ","All":"सभी","Completed":"पूर्ण","Overdue":"समय-सीमा पार","Due today":"आज देय","Pending":"लंबित","Receive from":"से प्राप्त करें","Return to":"को वापस करें","days overdue":"दिन देर","In ":"में "
+},
+"ur":{
+"Workspace":"ورک اسپیس","Tools":"ٹولز","Dashboard":"ڈیش بورڈ","Qarz Records":"قرض ریکارڈ","Reports":"رپورٹس","Reminders":"یاد دہانیاں","People":"افراد","Duā Library":"دعاؤں کی لائبریری","Backup & Restore":"بیک اپ اور بحالی","About":"تعارف","Trust • Record • Return":"اعتماد • ریکارڈ • واپسی",
+"QARZ MANAGEMENT FOR EVERYONE":"سب کے لیے قرض کا انتظام","Assalamu Alaikum":"السلام علیکم","Total Outstanding":"کل بقایا","Principal only":"صرف اصل رقم","I Will Receive":"مجھے وصول کرنا ہے","I Will Return":"مجھے واپس کرنا ہے","Repaid":"ادا شدہ","Pending":"زیرِ التوا","To be settled":"تصفیہ باقی ہے","OVERDUE":"میعاد گزر چکی","TOTAL RECORDS":"کل ریکارڈ","outstanding":"بقایا","Qarz records":"قرض ریکارڈ",
+"Recent Records":"حالیہ ریکارڈ","Latest qarz activity":"حالیہ قرض کی سرگرمی","View All →":"سب دیکھیں →","Quick Actions":"فوری اقدامات","Manage your records easily":"اپنے ریکارڈ آسانی سے منظم کریں","Add Record":"ریکارڈ شامل کریں","New qarz entry":"نیا قرض درج کریں","Add Person":"شخص شامل کریں","Manage people":"افراد کو منظم کریں","View Reports":"رپورٹس دیکھیں","See detailed reports":"تفصیلی رپورٹس دیکھیں","Set reminders":"یاد دہانیاں دیکھیں",
+"Due Reminders":"واجب یاد دہانیاں","Upcoming and overdue returns":"آنے والی اور میعاد گزری ہوئی واپسی","People Summary":"افراد کا خلاصہ","Your active contacts":"آپ کے فعال رابطے","Featured Duā":"منتخب دعا","Daily reminder":"روزانہ یاد دہانی","Library →":"لائبریری →",
+"Current outstanding position":"موجودہ بقایا صورتحال","Receive Outstanding":"وصول ہونے والا بقایا","Return Outstanding":"واپس کرنے والا بقایا","Total Repaid":"کل ادا شدہ","Total Principal":"کل اصل رقم","Live":"براہِ راست","Settlement Health":"تصفیے کی صورتحال","How much has been settled":"کتنا تصفیہ ہوا","No repayments yet":"ابھی کوئی ادائیگی نہیں","open":"کھلے","completed":"مکمل","Monthly Summary":"ماہانہ خلاصہ","Principal added and repayments received/paid by month":"مہینے کے لحاظ سے اصل رقم اور ادائیگیوں کا خلاصہ","Last 6 months":"گزشتہ 6 ماہ","Overdue Watch":"میعاد ختم ہونے کی نگرانی","Outstanding past due dates":"واجب تاریخ کے بعد کا بقایا","Direction Split":"سمت کے لحاظ سے تقسیم","Outstanding amount by direction":"سمت کے لحاظ سے بقایا رقم",
+"Stay on top of due dates and overdue Qarz":"واجب تاریخوں اور میعاد گزرے قرض پر نظر رکھیں","Enable Notifications":"نوٹیفکیشن فعال کریں","Check Now":"ابھی چیک کریں","Reminder Center":"یاد دہانی مرکز","Browser notifications are off.":"براؤزر نوٹیفکیشن بند ہیں۔","Browser alerts run while Qarz Amanah is open.":"براؤزر الرٹس اس وقت چلتے ہیں جب قرض امانت کھلا ہو۔","Overdue":"میعاد گزر چکی","Due today":"آج واجب","Upcoming":"آنے والا","Needs Attention":"توجہ درکار","Nothing is due today.":"آج کچھ واجب نہیں۔","No overdue Qarz. Alhamdulillah.":"الحمدللہ، کوئی میعاد گزرا قرض نہیں۔","No upcoming due dates.":"کوئی آنے والی واجب تاریخ نہیں۔",
+"People connected to your open and completed Qarz":"آپ کے کھلے اور مکمل قرض سے متعلق افراد","Search people...":"افراد تلاش کریں...","Arabic • English meaning • reference":"عربی • اردو معنی • حوالہ",
+"Backup your records":"اپنے ریکارڈ کا بیک اپ لیں","Create Backup":"بیک اپ بنائیں","Restore a backup":"بیک اپ بحال کریں","Restore Backup":"بیک اپ بحال کریں","Religious scope":"دینی دائرہ","Interest-free by design":"بغیر سود کے بنایا گیا","Privacy":"رازداری",
+"Qarz type":"قرض کی قسم","Person name":"شخص کا نام","Phone number":"فون نمبر","Original principal (₹)":"اصل رقم (₹)","Qarz date":"قرض کی تاریخ","Expected repayment date":"متوقع واپسی کی تاریخ","Optional":"اختیاری","Purpose":"مقصد","Reason / Details":"وجہ / تفصیل","Save Record":"ریکارڈ محفوظ کریں","Cancel":"منسوخ","Select purpose":"مقصد منتخب کریں","Medical":"طبی","Food":"کھانا","Education":"تعلیم","Household":"گھریلو","Business":"کاروبار","Emergency":"ہنگامی","Personal":"ذاتی","Other":"دیگر","New Qarz Record":"نیا قرض ریکارڈ","Edit Qarz Record":"قرض ریکارڈ میں ترمیم","Qarz History":"قرض کی تاریخ","All Qarz records for this person":"اس شخص کے تمام قرض ریکارڈ","Add Qarz":"قرض شامل کریں","Qarz Details":"قرض کی تفصیل","Original":"اصل رقم","Repayment progress":"واپسی کی پیش رفت","Record details":"ریکارڈ کی تفصیل","Repayment history":"ادائیگی کی تاریخ","Date":"تاریخ","Amount":"رقم","Action":"کارروائی","Add Repayment":"ادائیگی شامل کریں","Edit Record":"ریکارڈ میں ترمیم","Delete":"حذف کریں",
+"Search by name, note, or date...":"نام، نوٹ یا تاریخ سے تلاش کریں...","Search name...":"نام تلاش کریں...","View":"دیکھیں","Repay":"واپسی درج کریں","View History":"تاریخ دیکھیں","Receive":"وصولی","Return":"واپسی","Mixed":"ملی جلی","Settled":"طے شدہ","No Qarz records yet.":"ابھی کوئی قرض ریکارڈ نہیں۔","No people yet.":"ابھی کوئی فرد نہیں۔","No people found.":"کوئی فرد نہیں ملا۔",
+"PROPHETIC DUAS":"نبی کی دعائیں","Play Dua":"دعا سنیں","Play Translation":"ترجمہ سنیں","Reference ↗":"حوالہ ↗","Password":"پاس ورڈ","Logout":"لاگ آؤٹ","Not signed in":"سائن اِن نہیں","My Profile":"میری پروفائل","Profile photo & account details":"پروفائل تصویر اور اکاؤنٹ کی تفصیل","Edit Photo":"تصویر میں ترمیم","Delete Photo":"تصویر حذف کریں","Crop Profile Photo":"پروفائل تصویر تراشیں","Drag the photo • Use the slider to zoom":"تصویر کھینچیں • زوم کے لیے سلائیڈر استعمال کریں","Zoom":"زوم","Use Photo":"تصویر استعمال کریں",
+"Login":"لاگ اِن","Create Account":"اکاؤنٹ بنائیں","Username":"یوزرنیم","Your name":"آپ کا نام","Mobile Number":"موبائل نمبر","Email is optional and is not required to create or log in to your account.":"ای میل اختیاری ہے اور اکاؤنٹ بنانے یا لاگ اِن کرنے کے لیے ضروری نہیں۔","Confirm Password":"پاس ورڈ کی تصدیق","Forgot Password?":"پاس ورڈ بھول گئے؟","Login to Qarz Amanah":"قرض امانت میں لاگ اِن کریں","Mobile OTP":"موبائل OTP","Verify Mobile":"موبائل کی تصدیق","Continue":"جاری رکھیں","New Password":"نیا پاس ورڈ","Set New Password":"نیا پاس ورڈ سیٹ کریں","Change Password":"پاس ورڈ تبدیل کریں","Generate Recovery Code":"ریکوری کوڈ بنائیں","Reference":"حوالہ","All":"سب","Completed":"مکمل","Overdue":"میعاد گزر چکی","Due today":"آج واجب","Pending":"زیرِ التوا","Receive from":"سے وصول کریں","Return to":"کو واپس کریں","days overdue":"دن تاخیر","In ":"میں "
+},
+"ml":{
+"Workspace":"വർക്ക്സ്പേസ്","Tools":"ടൂളുകൾ","Dashboard":"ഡാഷ്ബോർഡ്","Qarz Records":"ഖർദ് രേഖകൾ","Reports":"റിപ്പോർട്ടുകൾ","Reminders":"റിമൈൻഡറുകൾ","People":"ആളുകൾ","Duā Library":"ദുആ ലൈബ്രറി","Backup & Restore":"ബാക്കപ്പ് & പുനഃസ്ഥാപിക്കൽ","About":"വിവരം","Trust • Record • Return":"വിശ്വാസം • രേഖ • തിരിച്ചടവ്",
+"QARZ MANAGEMENT FOR EVERYONE":"എല്ലാവർക്കുമുള്ള ഖർദ് മാനേജ്മെന്റ്","Assalamu Alaikum":"അസ്സലാമു അലൈക്കും","Total Outstanding":"ആകെ ബാക്കി","Principal only":"മൂലധനം മാത്രം","I Will Receive":"എനിക്ക് ലഭിക്കാനുള്ളത്","I Will Return":"എനിക്ക് തിരികെ നൽകാനുള്ളത്","Repaid":"തിരിച്ചടച്ചത്","Pending":"ബാക്കി","To be settled":"തീർപ്പാക്കാനുള്ളത്","OVERDUE":"കാലാവധി കഴിഞ്ഞത്","TOTAL RECORDS":"ആകെ രേഖകൾ","outstanding":"ബാക്കി","Qarz records":"ഖർദ് രേഖകൾ",
+"Recent Records":"സമീപകാല രേഖകൾ","Latest qarz activity":"ഏറ്റവും പുതിയ ഖർദ് പ്രവർത്തനം","View All →":"എല്ലാം കാണുക →","Quick Actions":"ദ്രുത പ്രവർത്തനങ്ങൾ","Manage your records easily":"രേഖകൾ എളുപ്പത്തിൽ കൈകാര്യം ചെയ്യുക","Add Record":"രേഖ ചേർക്കുക","New qarz entry":"പുതിയ ഖർദ് എൻട്രി","Add Person":"വ്യക്തിയെ ചേർക്കുക","Manage people":"ആളുകളെ നിയന്ത്രിക്കുക","View Reports":"റിപ്പോർട്ടുകൾ കാണുക","See detailed reports":"വിശദമായ റിപ്പോർട്ടുകൾ കാണുക","Set reminders":"റിമൈൻഡറുകൾ കാണുക",
+"Due Reminders":"തിരിച്ചടവ് ഓർമ്മപ്പെടുത്തലുകൾ","Upcoming and overdue returns":"വരാനിരിക്കുന്നതും കാലാവധി കഴിഞ്ഞതുമായ തിരിച്ചടവുകൾ","People Summary":"ആളുകളുടെ സംഗ്രഹം","Your active contacts":"നിങ്ങളുടെ സജീവ ബന്ധങ്ങൾ","Featured Duā":"തിരഞ്ഞെടുത്ത ദുആ","Daily reminder":"ദൈനംദിന ഓർമ്മപ്പെടുത്തൽ","Library →":"ലൈബ്രറി →",
+"Current outstanding position":"നിലവിലെ ബാക്കി സ്ഥിതി","Receive Outstanding":"ലഭിക്കാനുള്ള ബാക്കി","Return Outstanding":"തിരികെ നൽകാനുള്ള ബാക്കി","Total Repaid":"ആകെ തിരിച്ചടച്ചത്","Total Principal":"ആകെ മൂലധനം","Live":"തത്സമയം","Settlement Health":"തീർപ്പാക്കൽ നില","How much has been settled":"എത്ര തീർപ്പാക്കി","No repayments yet":"ഇതുവരെ തിരിച്ചടവ് ഇല്ല","open":"തുറന്നത്","completed":"പൂർത്തിയായത്","Monthly Summary":"മാസിക സംഗ്രഹം","Principal added and repayments received/paid by month":"മാസംപ്രകാരം ചേർത്ത മൂലധനവും തിരിച്ചടവുകളും","Last 6 months":"കഴിഞ്ഞ 6 മാസം","Overdue Watch":"കാലാവധി കഴിഞ്ഞവ","Outstanding past due dates":"കാലാവധി കഴിഞ്ഞ ബാക്കി","Direction Split":"ദിശ അനുസരിച്ചുള്ള വിഭജനം","Outstanding amount by direction":"ദിശ അനുസരിച്ചുള്ള ബാക്കി തുക",
+"Stay on top of due dates and overdue Qarz":"തിരിച്ചടവ് തീയതികളും കാലാവധി കഴിഞ്ഞ ഖർദും ശ്രദ്ധിക്കുക","Enable Notifications":"അറിയിപ്പുകൾ സജീവമാക്കുക","Check Now":"ഇപ്പോൾ പരിശോധിക്കുക","Reminder Center":"റിമൈൻഡർ സെന്റർ","Browser notifications are off.":"ബ്രൗസർ അറിയിപ്പുകൾ ഓഫ് ആണ്.","Browser alerts run while Qarz Amanah is open.":"Qarz Amanah തുറന്നിരിക്കുമ്പോൾ ബ്രൗസർ അറിയിപ്പുകൾ പ്രവർത്തിക്കും.","Overdue":"കാലാവധി കഴിഞ്ഞത്","Due today":"ഇന്ന് നൽകേണ്ടത്","Upcoming":"വരാനിരിക്കുന്നത്","Needs Attention":"ശ്രദ്ധ ആവശ്യമാണ്","Nothing is due today.":"ഇന്ന് ഒന്നും നൽകേണ്ടതില്ല.","No overdue Qarz. Alhamdulillah.":"അൽഹംദുലില്ലാഹ്, കാലാവധി കഴിഞ്ഞ ഖർദ് ഇല്ല.","No upcoming due dates.":"വരാനിരിക്കുന്ന തീയതികളില്ല.",
+"People connected to your open and completed Qarz":"നിങ്ങളുടെ തുറന്നതും പൂർത്തിയായതുമായ ഖർദുമായി ബന്ധപ്പെട്ട ആളുകൾ","Search people...":"ആളുകളെ തിരയുക...","Arabic • English meaning • reference":"അറബി • മലയാള അർത്ഥം • റഫറൻസ്",
+"Backup your records":"നിങ്ങളുടെ രേഖകൾ ബാക്കപ്പ് ചെയ്യുക","Create Backup":"ബാക്കപ്പ് സൃഷ്ടിക്കുക","Restore a backup":"ബാക്കപ്പ് പുനഃസ്ഥാപിക്കുക","Restore Backup":"ബാക്കപ്പ് പുനഃസ്ഥാപിക്കുക","Religious scope":"മതപരമായ പരിധി","Interest-free by design":"പലിശ രഹിതമായി രൂപകൽപ്പന ചെയ്തത്","Privacy":"സ്വകാര്യത",
+"Qarz type":"ഖർദിന്റെ തരം","Person name":"വ്യക്തിയുടെ പേര്","Phone number":"ഫോൺ നമ്പർ","Original principal (₹)":"യഥാർത്ഥ മൂലധനം (₹)","Qarz date":"ഖർദ് തീയതി","Expected repayment date":"പ്രതീക്ഷിക്കുന്ന തിരിച്ചടവ് തീയതി","Optional":"ഐച്ഛികം","Purpose":"ഉദ്ദേശ്യം","Reason / Details":"കാരണം / വിശദാംശങ്ങൾ","Save Record":"രേഖ സംരക്ഷിക്കുക","Cancel":"റദ്ദാക്കുക","Select purpose":"ഉദ്ദേശ്യം തിരഞ്ഞെടുക്കുക","Medical":"ചികിത്സ","Food":"ഭക്ഷണം","Education":"വിദ്യാഭ്യാസം","Household":"വീട്","Business":"ബിസിനസ്","Emergency":"അടിയന്തരാവസ്ഥ","Personal":"സ്വകാര്യം","Other":"മറ്റുള്ളവ","New Qarz Record":"പുതിയ ഖർദ് രേഖ","Edit Qarz Record":"ഖർദ് രേഖ തിരുത്തുക","Qarz History":"ഖർദ് ചരിത്രം","All Qarz records for this person":"ഈ വ്യക്തിയുടെ എല്ലാ ഖർദ് രേഖകളും","Add Qarz":"ഖർദ് ചേർക്കുക","Qarz Details":"ഖർദ് വിശദാംശങ്ങൾ","Original":"യഥാർത്ഥ തുക","Repayment progress":"തിരിച്ചടവ് പുരോഗതി","Record details":"രേഖയുടെ വിശദാംശങ്ങൾ","Repayment history":"തിരിച്ചടവ് ചരിത്രം","Date":"തീയതി","Amount":"തുക","Action":"നടപടി","Add Repayment":"തിരിച്ചടവ് ചേർക്കുക","Edit Record":"രേഖ തിരുത്തുക","Delete":"ഇല്ലാതാക്കുക",
+"Search by name, note, or date...":"പേര്, കുറിപ്പ്, തീയതി എന്നിവ ഉപയോഗിച്ച് തിരയുക...","Search name...":"പേര് തിരയുക...","View":"കാണുക","Repay":"തിരിച്ചടവ്","View History":"ചരിത്രം കാണുക","Receive":"ലഭിക്കുക","Return":"തിരികെ നൽകുക","Mixed":"മിശ്രം","Settled":"തീർപ്പാക്കി","No Qarz records yet.":"ഇതുവരെ ഖർദ് രേഖകളില്ല.","No people yet.":"ഇതുവരെ ആളുകളില്ല.","No people found.":"ആളെ കണ്ടെത്തിയില്ല.",
+"PROPHETIC DUAS":"നബിവചന ദുആകൾ","Play Dua":"ദുആ കേൾക്കുക","Play Translation":"വിവർത്തനം കേൾക്കുക","Reference ↗":"റഫറൻസ് ↗","Password":"പാസ്‌വേഡ്","Logout":"ലോഗൗട്ട്","Not signed in":"സൈൻ ഇൻ ചെയ്തിട്ടില്ല","My Profile":"എന്റെ പ്രൊഫൈൽ","Profile photo & account details":"പ്രൊഫൈൽ ഫോട്ടോയും അക്കൗണ്ട് വിവരങ്ങളും","Edit Photo":"ഫോട്ടോ തിരുത്തുക","Delete Photo":"ഫോട്ടോ ഇല്ലാതാക്കുക","Crop Profile Photo":"പ്രൊഫൈൽ ഫോട്ടോ ക്രോപ്പ് ചെയ്യുക","Drag the photo • Use the slider to zoom":"ഫോട്ടോ വലിച്ചുനീക്കുക • സൂം ചെയ്യാൻ സ്ലൈഡർ ഉപയോഗിക്കുക","Zoom":"സൂം","Use Photo":"ഫോട്ടോ ഉപയോഗിക്കുക",
+"Login":"ലോഗിൻ","Create Account":"അക്കൗണ്ട് സൃഷ്ടിക്കുക","Username":"യൂസർനെയിം","Your name":"നിങ്ങളുടെ പേര്","Mobile Number":"മൊബൈൽ നമ്പർ","Email is optional and is not required to create or log in to your account.":"ഇമെയിൽ ഐച്ഛികമാണ്; അക്കൗണ്ട് സൃഷ്ടിക്കാനും ലോഗിൻ ചെയ്യാനും അത് ആവശ്യമായിട്ടില്ല.","Confirm Password":"പാസ്‌വേഡ് സ്ഥിരീകരിക്കുക","Forgot Password?":"പാസ്‌വേഡ് മറന്നോ?","Login to Qarz Amanah":"Qarz Amanah-ലേക്ക് ലോഗിൻ ചെയ്യുക","Mobile OTP":"മൊബൈൽ OTP","Verify Mobile":"മൊബൈൽ സ്ഥിരീകരിക്കുക","Continue":"തുടരുക","New Password":"പുതിയ പാസ്‌വേഡ്","Set New Password":"പുതിയ പാസ്‌വേഡ് സജ്ജമാക്കുക","Change Password":"പാസ്‌വേഡ് മാറ്റുക","Generate Recovery Code":"റിക്കവറി കോഡ് സൃഷ്ടിക്കുക","Reference":"റഫറൻസ്","All":"എല്ലാം","Completed":"പൂർത്തിയായി","Overdue":"കാലാവധി കഴിഞ്ഞു","Due today":"ഇന്ന് നൽകേണ്ടത്","Pending":"ബാക്കി","Receive from":"ൽ നിന്ന് സ്വീകരിക്കുക","Return to":"ലേക്ക് തിരികെ നൽകുക","days overdue":"ദിവസം വൈകി","In ":"ഇനി "
+},
+"kn":{
+"Workspace":"ವರ್ಕ್‌ಸ್ಪೇಸ್","Tools":"ಟೂಲ್ಸ್","Dashboard":"ಡ್ಯಾಶ್‌ಬೋರ್ಡ್","Qarz Records":"ಖರ್ಜ್ ದಾಖಲೆಗಳು","Reports":"ವರದಿಗಳು","Reminders":"ಜ್ಞಾಪನೆಗಳು","People":"ವ್ಯಕ್ತಿಗಳು","Duā Library":"ದುಆ ಗ್ರಂಥಾಲಯ","Backup & Restore":"ಬ್ಯಾಕಪ್ ಮತ್ತು ಮರುಸ್ಥಾಪನೆ","About":"ಬಗ್ಗೆ","Trust • Record • Return":"ನಂಬಿಕೆ • ದಾಖಲೆ • ಮರುಪಾವತಿ",
+"QARZ MANAGEMENT FOR EVERYONE":"ಎಲ್ಲರಿಗೂ ಖರ್ಜ್ ನಿರ್ವಹಣೆ","Assalamu Alaikum":"ಅಸ್ಸಲಾಮು ಅಲೈಕುಂ","Total Outstanding":"ಒಟ್ಟು ಬಾಕಿ","Principal only":"ಮೂಲ ಮೊತ್ತ ಮಾತ್ರ","I Will Receive":"ನಾನು ಪಡೆಯಬೇಕಾದದ್ದು","I Will Return":"ನಾನು ಹಿಂದಿರುಗಿಸಬೇಕಾದದ್ದು","Repaid":"ಪಾವತಿಸಿದದ್ದು","Pending":"ಬಾಕಿ","To be settled":"ಇತ್ಯರ್ಥವಾಗಬೇಕಿದೆ","OVERDUE":"ಅವಧಿ ಮೀರಿದೆ","TOTAL RECORDS":"ಒಟ್ಟು ದಾಖಲೆಗಳು","outstanding":"ಬಾಕಿ","Qarz records":"ಖರ್ಜ್ ದಾಖಲೆಗಳು",
+"Recent Records":"ಇತ್ತೀಚಿನ ದಾಖಲೆಗಳು","Latest qarz activity":"ಇತ್ತೀಚಿನ ಖರ್ಜ್ ಚಟುವಟಿಕೆ","View All →":"ಎಲ್ಲವನ್ನೂ ನೋಡಿ →","Quick Actions":"ತ್ವರಿತ ಕ್ರಿಯೆಗಳು","Manage your records easily":"ನಿಮ್ಮ ದಾಖಲೆಗಳನ್ನು ಸುಲಭವಾಗಿ ನಿರ್ವಹಿಸಿ","Add Record":"ದಾಖಲೆ ಸೇರಿಸಿ","New qarz entry":"ಹೊಸ ಖರ್ಜ್ ನಮೂದು","Add Person":"ವ್ಯಕ್ತಿ ಸೇರಿಸಿ","Manage people":"ವ್ಯಕ್ತಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ","View Reports":"ವರದಿಗಳನ್ನು ನೋಡಿ","See detailed reports":"ವಿವರವಾದ ವರದಿಗಳನ್ನು ನೋಡಿ","Set reminders":"ಜ್ಞಾಪನೆಗಳನ್ನು ನೋಡಿ",
+"Due Reminders":"ಪಾವತಿ ಜ್ಞಾಪನೆಗಳು","Upcoming and overdue returns":"ಮುಂಬರುವ ಮತ್ತು ಅವಧಿ ಮೀರಿದ ಮರುಪಾವತಿಗಳು","People Summary":"ವ್ಯಕ್ತಿ ಸಾರಾಂಶ","Your active contacts":"ನಿಮ್ಮ ಸಕ್ರಿಯ ಸಂಪರ್ಕಗಳು","Featured Duā":"ಆಯ್ದ ದುಆ","Daily reminder":"ದೈನಂದಿನ ಜ್ಞಾಪನೆ","Library →":"ಗ್ರಂಥಾಲಯ →",
+"Current outstanding position":"ಪ್ರಸ್ತುತ ಬಾಕಿ ಸ್ಥಿತಿ","Receive Outstanding":"ಪಡೆಯಬೇಕಾದ ಬಾಕಿ","Return Outstanding":"ಹಿಂದಿರುಗಿಸಬೇಕಾದ ಬಾಕಿ","Total Repaid":"ಒಟ್ಟು ಪಾವತಿಸಿದದ್ದು","Total Principal":"ಒಟ್ಟು ಮೂಲ ಮೊತ್ತ","Live":"ಪ್ರಸ್ತುತ","Settlement Health":"ಇತ್ಯರ್ಥ ಸ್ಥಿತಿ","How much has been settled":"ಎಷ್ಟು ಇತ್ಯರ್ಥವಾಗಿದೆ","No repayments yet":"ಇನ್ನೂ ಮರುಪಾವತಿ ಇಲ್ಲ","open":"ತೆರೆದ","completed":"ಪೂರ್ಣಗೊಂಡ","Monthly Summary":"ಮಾಸಿಕ ಸಾರಾಂಶ","Principal added and repayments received/paid by month":"ತಿಂಗಳವಾರು ಸೇರಿಸಿದ ಮೂಲ ಮೊತ್ತ ಮತ್ತು ಮರುಪಾವತಿಗಳು","Last 6 months":"ಕಳೆದ 6 ತಿಂಗಳು","Overdue Watch":"ಅವಧಿ ಮೀರಿದವು","Outstanding past due dates":"ನಿಗದಿತ ದಿನಾಂಕ ಮೀರಿದ ಬಾಕಿ","Direction Split":"ದಿಕ್ಕಿನ ಪ್ರಕಾರ ವಿಭಾಗ","Outstanding amount by direction":"ದಿಕ್ಕಿನ ಪ್ರಕಾರ ಬಾಕಿ ಮೊತ್ತ",
+"Stay on top of due dates and overdue Qarz":"ಪಾವತಿ ದಿನಾಂಕಗಳು ಮತ್ತು ಅವಧಿ ಮೀರಿದ ಖರ್ಜ್‌ ಮೇಲೆ ಗಮನವಿರಲಿ","Enable Notifications":"ಅಧಿಸೂಚನೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ","Check Now":"ಈಗ ಪರಿಶೀಲಿಸಿ","Reminder Center":"ಜ್ಞಾಪನೆ ಕೇಂದ್ರ","Browser notifications are off.":"ಬ್ರೌಸರ್ ಅಧಿಸೂಚನೆಗಳು ಆಫ್ ಆಗಿವೆ.","Browser alerts run while Qarz Amanah is open.":"Qarz Amanah ತೆರೆದಿರುವಾಗ ಬ್ರೌಸರ್ ಎಚ್ಚರಿಕೆಗಳು ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತವೆ.","Overdue":"ಅವಧಿ ಮೀರಿದೆ","Due today":"ಇಂದು ಪಾವತಿ","Upcoming":"ಮುಂಬರುವ","Needs Attention":"ಗಮನ ಅಗತ್ಯ","Nothing is due today.":"ಇಂದು ಯಾವುದೂ ಪಾವತಿಸಬೇಕಿಲ್ಲ.","No overdue Qarz. Alhamdulillah.":"ಅಲ್ಹಮ್ದುಲಿಲ್ಲಾಹ್, ಯಾವುದೇ ಅವಧಿ ಮೀರಿದ ಖರ್ಜ್ ಇಲ್ಲ.","No upcoming due dates.":"ಮುಂಬರುವ ಪಾವತಿ ದಿನಾಂಕಗಳಿಲ್ಲ.",
+"People connected to your open and completed Qarz":"ನಿಮ್ಮ ತೆರೆದ ಮತ್ತು ಪೂರ್ಣಗೊಂಡ ಖರ್ಜ್‌ಗೆ ಸಂಬಂಧಿಸಿದ ವ್ಯಕ್ತಿಗಳು","Search people...":"ವ್ಯಕ್ತಿಗಳನ್ನು ಹುಡುಕಿ...","Arabic • English meaning • reference":"ಅರಬಿ • ಕನ್ನಡ ಅರ್ಥ • ಉಲ್ಲೇಖ",
+"Backup your records":"ನಿಮ್ಮ ದಾಖಲೆಗಳ ಬ್ಯಾಕಪ್ ತೆಗೆದುಕೊಳ್ಳಿ","Create Backup":"ಬ್ಯಾಕಪ್ ರಚಿಸಿ","Restore a backup":"ಬ್ಯಾಕಪ್ ಮರುಸ್ಥಾಪಿಸಿ","Restore Backup":"ಬ್ಯಾಕಪ್ ಮರುಸ್ಥಾಪಿಸಿ","Religious scope":"ಧಾರ್ಮಿಕ ವ್ಯಾಪ್ತಿ","Interest-free by design":"ಬಡ್ಡಿರಹಿತವಾಗಿ ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ","Privacy":"ಗೌಪ್ಯತೆ",
+"Qarz type":"ಖರ್ಜ್ ಪ್ರಕಾರ","Person name":"ವ್ಯಕ್ತಿಯ ಹೆಸರು","Phone number":"ಫೋನ್ ಸಂಖ್ಯೆ","Original principal (₹)":"ಮೂಲ ಮೊತ್ತ (₹)","Qarz date":"ಖರ್ಜ್ ದಿನಾಂಕ","Expected repayment date":"ನಿರೀಕ್ಷಿತ ಮರುಪಾವತಿ ದಿನಾಂಕ","Optional":"ಐಚ್ಛಿಕ","Purpose":"ಉದ್ದೇಶ","Reason / Details":"ಕಾರಣ / ವಿವರಗಳು","Save Record":"ದಾಖಲೆ ಉಳಿಸಿ","Cancel":"ರದ್ದುಮಾಡಿ","Select purpose":"ಉದ್ದೇಶ ಆಯ್ಕೆಮಾಡಿ","Medical":"ವೈದ್ಯಕೀಯ","Food":"ಆಹಾರ","Education":"ಶಿಕ್ಷಣ","Household":"ಮನೆಯ ಖರ್ಚು","Business":"ವ್ಯಾಪಾರ","Emergency":"ತುರ್ತು","Personal":"ವೈಯಕ್ತಿಕ","Other":"ಇತರೆ","New Qarz Record":"ಹೊಸ ಖರ್ಜ್ ದಾಖಲೆ","Edit Qarz Record":"ಖರ್ಜ್ ದಾಖಲೆಯನ್ನು ತಿದ್ದು","Qarz History":"ಖರ್ಜ್ ಇತಿಹಾಸ","All Qarz records for this person":"ಈ ವ್ಯಕ್ತಿಯ ಎಲ್ಲಾ ಖರ್ಜ್ ದಾಖಲೆಗಳು","Add Qarz":"ಖರ್ಜ್ ಸೇರಿಸಿ","Qarz Details":"ಖರ್ಜ್ ವಿವರಗಳು","Original":"ಮೂಲ ಮೊತ್ತ","Repayment progress":"ಮರುಪಾವತಿ ಪ್ರಗತಿ","Record details":"ದಾಖಲೆ ವಿವರಗಳು","Repayment history":"ಮರುಪಾವತಿ ಇತಿಹಾಸ","Date":"ದಿನಾಂಕ","Amount":"ಮೊತ್ತ","Action":"ಕ್ರಿಯೆ","Add Repayment":"ಮರುಪಾವತಿ ಸೇರಿಸಿ","Edit Record":"ದಾಖಲೆ ತಿದ್ದು","Delete":"ಅಳಿಸಿ",
+"Search by name, note, or date...":"ಹೆಸರು, ಟಿಪ್ಪಣಿ ಅಥವಾ ದಿನಾಂಕದಿಂದ ಹುಡುಕಿ...","Search name...":"ಹೆಸರಿನಿಂದ ಹುಡುಕಿ...","View":"ನೋಡಿ","Repay":"ಮರುಪಾವತಿ","View History":"ಇತಿಹಾಸ ನೋಡಿ","Receive":"ಪಡೆಯಿರಿ","Return":"ಹಿಂದಿರುಗಿಸಿ","Mixed":"ಮಿಶ್ರ","Settled":"ಇತ್ಯರ್ಥವಾಗಿದೆ","No Qarz records yet.":"ಇನ್ನೂ ಖರ್ಜ್ ದಾಖಲೆಗಳಿಲ್ಲ.","No people yet.":"ಇನ್ನೂ ವ್ಯಕ್ತಿಗಳಿಲ್ಲ.","No people found.":"ಯಾವುದೇ ವ್ಯಕ್ತಿ ಕಂಡುಬಂದಿಲ್ಲ.",
+"PROPHETIC DUAS":"ನಬಿಯವರ ದುಆಗಳು","Play Dua":"ದುಆ ಕೇಳಿ","Play Translation":"ಅನುವಾದ ಕೇಳಿ","Reference ↗":"ಉಲ್ಲೇಖ ↗","Password":"ಪಾಸ್‌ವರ್ಡ್","Logout":"ಲಾಗ್ ಔಟ್","Not signed in":"ಸೈನ್ ಇನ್ ಆಗಿಲ್ಲ","My Profile":"ನನ್ನ ಪ್ರೊಫೈಲ್","Profile photo & account details":"ಪ್ರೊಫೈಲ್ ಫೋಟೋ ಮತ್ತು ಖಾತೆ ವಿವರಗಳು","Edit Photo":"ಫೋಟೋ ತಿದ್ದು","Delete Photo":"ಫೋಟೋ ಅಳಿಸಿ","Crop Profile Photo":"ಪ್ರೊಫೈಲ್ ಫೋಟೋ ಕ್ರಾಪ್ ಮಾಡಿ","Drag the photo • Use the slider to zoom":"ಫೋಟೋ ಎಳೆಯಿರಿ • ಜೂಮ್ ಮಾಡಲು ಸ್ಲೈಡರ್ ಬಳಸಿ","Zoom":"ಜೂಮ್","Use Photo":"ಫೋಟೋ ಬಳಸಿ",
+"Login":"ಲಾಗಿನ್","Create Account":"ಖಾತೆ ರಚಿಸಿ","Username":"ಯೂಸರ್‌ನೇಮ್","Your name":"ನಿಮ್ಮ ಹೆಸರು","Mobile Number":"ಮೊಬೈಲ್ ಸಂಖ್ಯೆ","Email is optional and is not required to create or log in to your account.":"ಇಮೇಲ್ ಐಚ್ಛಿಕವಾಗಿದೆ; ಖಾತೆ ರಚಿಸಲು ಅಥವಾ ಲಾಗಿನ್ ಮಾಡಲು ಅಗತ್ಯವಿಲ್ಲ.","Confirm Password":"ಪಾಸ್‌ವರ್ಡ್ ದೃಢೀಕರಿಸಿ","Forgot Password?":"ಪಾಸ್‌ವರ್ಡ್ ಮರೆತಿರಾ?","Login to Qarz Amanah":"Qarz Amanah ಗೆ ಲಾಗಿನ್ ಮಾಡಿ","Mobile OTP":"ಮೊಬೈಲ್ OTP","Verify Mobile":"ಮೊಬೈಲ್ ಪರಿಶೀಲಿಸಿ","Continue":"ಮುಂದುವರಿಸಿ","New Password":"ಹೊಸ ಪಾಸ್‌ವರ್ಡ್","Set New Password":"ಹೊಸ ಪಾಸ್‌ವರ್ಡ್ ಸೆಟ್ ಮಾಡಿ","Change Password":"ಪಾಸ್‌ವರ್ಡ್ ಬದಲಿಸಿ","Generate Recovery Code":"ರಿಕವರಿ ಕೋಡ್ ರಚಿಸಿ","Reference":"ಉಲ್ಲೇಖ","All":"ಎಲ್ಲಾ","Completed":"ಪೂರ್ಣಗೊಂಡಿದೆ","Overdue":"ಅವಧಿ ಮೀರಿದೆ","Due today":"ಇಂದು ಪಾವತಿ","Pending":"ಬಾಕಿ","Receive from":"ರಿಂದ ಪಡೆಯಿರಿ","Return to":"ಗೆ ಹಿಂದಿರುಗಿಸಿ","days overdue":"ದಿನ ತಡವಾಗಿದೆ","In ":"ಇನ್ನೂ "
+}
+};
+let currentLang=localStorage.getItem(LANG_KEY)||"en";
+function langDef(){return LANGS[currentLang]||LANGS.en}
+function trText(text){
+ const src=String(text??"");
+ const map=TX[currentLang]||TX.en;
+ if(!src.trim())return src;
+ if(map[src]!==undefined)return map[src];
+ let out=src;
+ Object.keys(map).filter(k=>k && k!==src).sort((a,b)=>b.length-a.length).forEach(k=>{if(out.includes(k))out=out.split(k).join(map[k])});
+ return out;
+}
+function applyLanguage(){
+ const lang=langDef();
+ document.documentElement.lang=currentLang;
+ document.documentElement.dir=lang.dir;
+ const select=document.getElementById("languageSelect");
+ if(select)select.value=currentLang;
+ const nodes=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+ const list=[];
+ while(nodes.nextNode())list.push(nodes.currentNode);
+ list.forEach(node=>{
+   if(!node.__qaSource)node.__qaSource=node.nodeValue;
+   const translated=trText(node.__qaSource);
+   if(node.nodeValue!==translated)node.nodeValue=translated;
+ });
+ document.querySelectorAll("[placeholder]").forEach(el=>{
+   const src=el.getAttribute("data-qa-placeholder")||el.getAttribute("placeholder");
+   if(!el.hasAttribute("data-qa-placeholder"))el.setAttribute("data-qa-placeholder",src);
+   el.setAttribute("placeholder",trText(src));
+ });
+ document.querySelectorAll("[title]").forEach(el=>{
+   const src=el.getAttribute("data-qa-title")||el.getAttribute("title");
+   if(!el.hasAttribute("data-qa-title"))el.setAttribute("data-qa-title",src);
+   el.setAttribute("title",trText(src));
+ });
+ document.querySelectorAll("[aria-label]").forEach(el=>{
+   const src=el.getAttribute("data-qa-aria")||el.getAttribute("aria-label");
+   if(!el.hasAttribute("data-qa-aria"))el.setAttribute("data-qa-aria",src);
+   el.setAttribute("aria-label",trText(src));
+ });
+ localStorage.setItem(LANG_KEY,currentLang);
+}
+function changeLanguage(lang){
+ currentLang=LANGS[lang]?lang:"en";
+ applyLanguage();
+ applyLanguage();
+const qaLanguageObserver=new MutationObserver(()=>{if(!window.__qaApplyingLanguage){clearTimeout(window.__qaLangTimer);window.__qaLangTimer=setTimeout(applyLanguage,0)}});
+window.__qaApplyingLanguage=false;
+const originalApplyLanguage=applyLanguage;
+applyLanguage=function(){window.__qaApplyingLanguage=true;try{originalApplyLanguage()}finally{window.__qaApplyingLanguage=false}};
+const originalChangeLanguage=changeLanguage;
+changeLanguage=function(lang){currentLang=LANGS[lang]?lang:"en";applyLanguage();render();setTimeout(applyLanguage,0)};
+qaLanguageObserver.observe(document.body,{subtree:true,childList:true,characterData:true,attributes:false});
+render();
+ setTimeout(applyLanguage,0);
+}
+const DUA_TRANSLATIONS={
+hi:[
+"हे अल्लाह, आपने जिसे हलाल किया है उसके द्वारा मुझे हराम से पर्याप्त कर दीजिए, और अपने फ़ज़्ल से मुझे अपने अलावा किसी का मोहताज न रखिए।",
+"हे अल्लाह, मैं क़र्ज़ के हावी हो जाने, दुश्मन के हावी हो जाने और दुश्मनों के खुश होने से तेरी पनाह माँगता हूँ।",
+"हे अल्लाह, मैं चिंता और ग़म, असमर्थता और आलस्य, कायरता और कंजूसी, क़र्ज़ के बोझ और लोगों के हावी हो जाने से तेरी पनाह माँगता हूँ।",
+"हे अल्लाह, मैं आलस्य, बुढ़ापे, गुनाह और क़र्ज़ से तेरी पनाह माँगता हूँ।"
+],
+ur:[
+"اے اللہ! جو کچھ تو نے حلال کیا ہے اس کے ذریعے مجھے اپنے حرام سے کافی کر دے، اور اپنے فضل سے مجھے اپنے سوا سب سے بے نیاز کر دے۔",
+"اے اللہ! میں قرض کے غالب آ جانے، دشمن کے غالب آ جانے اور دشمنوں کے خوش ہونے سے تیری پناہ مانگتا ہوں۔",
+"اے اللہ! میں فکر و غم، بے بسی و سستی، بزدلی و بخل، قرض کے بوجھ اور لوگوں کے غالب آ جانے سے تیری پناہ مانگتا ہوں۔",
+"اے اللہ! میں سستی، بڑھاپے، گناہ اور قرض سے تیری پناہ مانگتا ہوں۔"
+],
+ml:[
+"അല്ലാഹുവേ, നീ ഹലാൽ ആക്കിയതിലൂടെ ഹറാമിൽ നിന്ന് എന്നെ പര്യാപ്തനാക്കണമേ; നിന്റെ അനുഗ്രഹത്താൽ നിന്നൊഴികെ മറ്റാരുടെയും ആവശ്യമില്ലാത്തവനാക്കണമേ.",
+"അല്ലാഹുവേ, കടം എന്നെ കീഴടക്കുന്നതിൽ നിന്നും ശത്രു എന്നെ കീഴടക്കുന്നതിൽ നിന്നും ശത്രുക്കൾ സന്തോഷിക്കുന്നതിൽ നിന്നും ഞാൻ നിന്നോട് അഭയം തേടുന്നു.",
+"അല്ലാഹുവേ, ഉത്കണ്ഠയും ദുഃഖവും, അശക്തിയും മടിയും, ഭീരുത്വവും കഞ്ഞുഷതയും, കടത്തിന്റെ ഭാരവും ആളുകളുടെ ആധിപത്യവും നിന്നോട് അഭയം തേടുന്നു.",
+"അല്ലാഹുവേ, മടിയിൽ നിന്നും വൃദ്ധാവസ്ഥയിൽ നിന്നും പാപത്തിൽ നിന്നും കടത്തിൽ നിന്നും ഞാൻ നിന്നോട് അഭയം തേടുന്നു."
+],
+kn:[
+"ಅಲ್ಲಾಹನೇ, ನೀನು ಹಾಲಾಲ್ ಮಾಡಿದದ್ದರ ಮೂಲಕ ಹರಾಮ್‌ನಿಂದ ನನ್ನನ್ನು ಸಾಕಾಗುವಂತೆ ಮಾಡು; ನಿನ್ನ ಕೃಪೆಯಿಂದ ನಿನ್ನ ಹೊರತು ಬೇರೆ ಯಾರ ಅಗತ್ಯವೂ ನನಗಿರದಂತೆ ಮಾಡು.",
+"ಅಲ್ಲಾಹನೇ, ಸಾಲದ ಒತ್ತಡದಿಂದ, ಶತ್ರುವಿನ ಪ್ರಭಾವದಿಂದ ಮತ್ತು ಶತ್ರುಗಳು ಸಂತೋಷಪಡುವುದರಿಂದ ನಾನು ನಿನ್ನ ಶರಣಾಗುತ್ತೇನೆ.",
+"ಅಲ್ಲಾಹನೇ, ಚಿಂತೆ ಮತ್ತು ದುಃಖ, ಅಸಮರ್ಥತೆ ಮತ್ತು ಸೋಮಾರಿತನ, ಭಯಭೀತತೆ ಮತ್ತು ಕಂಜೂಸತನ, ಸಾಲದ ಭಾರ ಮತ್ತು ಜನರ ಪ್ರಭಾವದಿಂದ ನಾನು ನಿನ್ನ ಶರಣಾಗುತ್ತೇನೆ.",
+"ಅಲ್ಲಾಹನೇ, ಸೋಮಾರಿತನ, ವೃದ್ಧಾಪ್ಯ, ಪಾಪ ಮತ್ತು ಸಾಲದಿಂದ ನಾನು ನಿನ್ನ ಶರಣಾಗುತ್ತೇನೆ."
+]
+};
+function duaMeaning(i){
+ const lang=currentLang;
+ return DUA_TRANSLATIONS[lang]?.[i]||D[i][2];
+}
+
 function applyTheme(theme){
   const t=theme==="light"?"light":"dark";
   document.documentElement.dataset.theme=t;
@@ -1898,7 +2100,7 @@ function checkReminders(manual=false){
  if(manual)renderReminderPage();
 }
 function showToast(msg){
- const t=document.getElementById("toast");if(!t)return;t.textContent=msg;t.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),2200);
+ const t=document.getElementById("toast");if(!t)return;t.textContent=trText(msg);t.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),2200);
 }
 function renderReports(){
  const principalTotal=data.reduce((a,d)=>a+(Number(d.principal)||0),0);
