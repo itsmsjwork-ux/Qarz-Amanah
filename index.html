@@ -1110,7 +1110,44 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
 :root[data-theme="light"] .qa-prayerItem{background:rgba(28,91,72,.035);border-color:rgba(28,66,57,.09)}
 :root[data-theme="light"] .qa-prayerItem.current{background:rgba(199,138,34,.10);border-color:rgba(199,138,34,.38)}
 :root[data-theme="light"] .qa-prayerTime{color:#1f3d35}
-</style></head>
+</style><script id="qa-early-time">
+(function(){
+  const FALLBACK={Fajr:"05:03",Sunrise:"06:13",Dhuhr:"12:12",Asr:"16:31",Maghrib:"18:12",Isha:"19:21"};
+  const names=["Fajr","Sunrise","Dhuhr","Asr","Maghrib","Isha"];
+  function pad(n){return String(n).padStart(2,"0")}
+  function clock(){const d=new Date();return d.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true,timeZone:"Asia/Kolkata"})}
+  function dateText(){return new Date().toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"Asia/Kolkata"})}
+  function hijri(){try{return new Intl.DateTimeFormat("en-IN-u-ca-islamic",{day:"numeric",month:"long",year:"numeric",timeZone:"Asia/Kolkata"}).format(new Date())+" AH"}catch(e){return "Hijri date unavailable"}}
+  function setText(id,value){const el=document.getElementById(id);if(el)el.textContent=value}
+  function paint(){
+    setText("qaClock",clock());
+    setText("qaClockDate",dateText());
+    const h=document.getElementById("qaHijri");if(h&&!h.textContent.trim().startsWith("Hijri date unavailable"))h.textContent=hijri();
+    setText("qaPrayerLocation","Kochi • Kerala");
+    names.forEach(n=>{const els=document.querySelectorAll('.qa-prayerItem[data-prayer="'+n+'"] .qa-prayerTime');els.forEach(el=>{if(!el.textContent||el.textContent.indexOf("--")>=0||el.textContent.indexOf("Loading")>=0)el.textContent=FALLBACK[n]})});
+  }
+  function next(){
+    let key=null,dt=null,now=new Date();
+    for(const n of ["Fajr","Dhuhr","Asr","Maghrib","Isha"]){
+      const p=FALLBACK[n].split(":").map(Number),x=new Date();x.setHours(p[0],p[1],0,0);
+      if(x>now){key=n;dt=x;break}
+    }
+    if(!dt){const p=FALLBACK.Fajr.split(":").map(Number);dt=new Date();dt.setDate(dt.getDate()+1);dt.setHours(p[0],p[1],0,0);key="Fajr";}
+    setText("qaNextName",key+(dt.getDate()!==now.getDate()?" (tomorrow)":""));
+    const s=Math.max(0,Math.floor((dt-now)/1000));setText("qaNextCountdown",pad(Math.floor(s/3600))+":"+pad(Math.floor((s%3600)/60))+":"+pad(s%60));
+  }
+  function boot(){
+    paint();
+    const grid=document.getElementById("qaPrayerGrid");
+    if(grid && grid.querySelector(".qa-prayerLoading")){
+      grid.innerHTML=names.map(n=>'<div class="qa-prayerItem" data-prayer="'+n+'"><div class="qa-prayerName">'+n+'</div><div class="qa-prayerTime">'+FALLBACK[n]+'</div><small>IST</small></div>').join("");
+    }
+    paint();next();
+    setInterval(paint,1000);setInterval(next,1000);
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot();
+})();
+</script></head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
 <div class="app">
@@ -1425,7 +1462,7 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
 const SUPABASE_URL="https://wocjtxliicyuuefouvka.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_CAciRzgWpbmGfkegaWgmSQ_njrEEYeo";
 const SITE_URL="https://itsmsjwork-ux.github.io/Qarz-Amanah/";
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const supabaseClient=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
 const KEY="qarz_amanah_public_v2";
 const THEME_KEY="qarz_amanah_theme";
 
@@ -2129,11 +2166,16 @@ async function handleSession(next){
   if(lastLoadedUserId!==session.user.id){try{await loadCloud(session.user)}catch(e){console.error(e);authMessage("Could not load cloud records. Your local data is still available.","error")}}
 }
 setAuthMode("login");
-(async()=>{const {data}=await supabaseClient.auth.getSession();authBooted=true;await handleSession(data.session)})();
-supabaseClient.auth.onAuthStateChange((event,next)=>{
-  if(!authBooted && event==="INITIAL_SESSION")return;
-  setTimeout(()=>handleSession(next),0);
-});
+if(supabaseClient){
+  (async()=>{try{const {data}=await supabaseClient.auth.getSession();authBooted=true;await handleSession(data.session)}catch(e){console.error("Auth boot failed",e);authBooted=true;}})();
+  supabaseClient.auth.onAuthStateChange((event,next)=>{
+    if(!authBooted && event==="INITIAL_SESSION")return;
+    setTimeout(()=>handleSession(next),0);
+  });
+}else{
+  authBooted=true;
+  console.warn("Supabase client unavailable; app started in local/offline mode.");
+}
 function paid(d){return d.repayments.reduce((a,p)=>a+Number(p.amount||0),0)}
 function bal(d){return Math.max(0,Number(d.principal)-paid(d))}
 function dueInfo(d){
