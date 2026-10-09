@@ -2319,7 +2319,7 @@ function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReade
 let speechVoices=[];
 let duaPlaySeq=0;
 let speechRunSeq=0;
-const AUDIO_VERSION="20261009-2";
+const AUDIO_VERSION="20261009-3";
 function loadSpeechVoices(){speechVoices=window.speechSynthesis?window.speechSynthesis.getVoices():[];return speechVoices}
 if("speechSynthesis" in window){loadSpeechVoices();speechSynthesis.onvoiceschanged=loadSpeechVoices}
 function stopDuaAudio(){
