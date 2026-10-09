@@ -2391,9 +2391,8 @@ function stopDuaAudio(){
     }catch(e){}
     window.__duaAudio=null;
   }
-  if("speechSynthesis" in window){
-    try{window.speechSynthesis.cancel()}catch(e){}
-  }
+  // Do not call speechSynthesis.cancel() here. Chrome can suppress a new
+  // utterance when cancel() is invoked during the same pointer gesture.
 }
 
 function findSpeechVoice(lang){
@@ -2411,15 +2410,10 @@ function nativeVoice(text,lang,label,fallbackText=""){
   const synth=window.speechSynthesis;
   const run=++speechRunSeq;
   try{
-    synth.cancel();
-
     let chosenText=String(text||"").trim();
     let chosenLang=String(lang||"en-IN");
     let voice=findSpeechVoice(chosenLang);
 
-    // Windows/Chrome often has no Arabic/Urdu/Malayalam voice.
-    // Keep playback inside the original click handler and fall back to
-    // phonetic/English text so the button still produces sound immediately.
     if(!voice && fallbackText){
       chosenText=String(fallbackText||"").trim();
       chosenLang="en-IN";
@@ -2436,11 +2430,15 @@ function nativeVoice(text,lang,label,fallbackText=""){
 
     u.onstart=()=>{if(run===speechRunSeq)showToast("🔊 "+label+" is playing…")};
     u.onend=()=>{if(run===speechRunSeq)showToast("✓ Audio complete")};
-    u.onerror=()=>{if(run===speechRunSeq)showToast("Audio could not start. Please check your browser sound.");};
+    u.onerror=()=>{if(run===speechRunSeq)showToast("Audio could not start. Check browser sound/volume.");};
 
+    // Resume first in case Chrome left synthesis in a paused state.
+    try{synth.resume()}catch(e){}
     synth.speak(u);
+    try{synth.resume()}catch(e){}
     return true;
   }catch(e){
+    console.error("Speech synthesis failed",e);
     return false;
   }
 }
@@ -2511,20 +2509,22 @@ qaLanguageObserver.observe(document.body,{subtree:true,childList:true,characterD
 document.addEventListener("pointerup",function(e){
   try{
     if(!e.isPrimary)return;
-    const stack=document.elementsFromPoint(e.clientX,e.clientY)||[];
-    let el=null;
-    for(const node of stack){
-      const candidate=node.closest&&node.closest(".qa-dua-play");
-      if(candidate){el=candidate;break}
-    }
+    const x=e.clientX,y=e.clientY;
+    const buttons=[...document.querySelectorAll(".qa-dua-play")];
+    const el=buttons.find(btn=>{
+      const r=btn.getBoundingClientRect();
+      return r.width>0&&r.height>0&&x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom;
+    });
     if(!el)return;
 
+    // The document-level capture handler also works when another invisible
+    // layer receives the physical pointer event.
     const action=el.dataset.duaAction;
     const index=Number(el.dataset.duaIndex);
     if(!Number.isInteger(index))return;
 
     const directTarget=e.target instanceof Element && e.target.closest(".qa-dua-play");
-    if(directTarget===el)return; // normal onclick will handle it
+    if(directTarget===el)return;
 
     e.preventDefault();
     e.stopPropagation();
