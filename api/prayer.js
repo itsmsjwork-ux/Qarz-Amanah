@@ -16,8 +16,7 @@ module.exports = async function handler(req, res) {
       latitude: String(latitude),
       longitude: String(longitude),
       method: "1",
-      school: "0",
-      timezonestring: "Asia/Kolkata"
+      school: "0"
     });
     const upstream = await fetch(
       "https://api.aladhan.com/v1/timings/" + date + "?" + params.toString(),
