@@ -954,6 +954,27 @@ input[type="tel"],input[type="number"],input[type="date"]{direction:ltr;text-ali
   .account{grid-row:4}
 }
 </style>
+<style id="qa-dua-audio-fixes">
+/* Dua presentation + multilingual audio fixes */
+.side{overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
+.sideNote{max-height:260px;overflow:auto;scrollbar-width:thin;padding:12px 12px}
+.sideNote .arab{font-size:15px;line-height:1.55}
+.sideNote p{font-size:10px;line-height:1.45;margin:7px 0 3px}
+.dua{min-width:0;padding:20px 20px 18px}
+.dua h3{margin:6px 0 14px}
+.dua .arabic{margin-bottom:11px;line-height:1.8;overflow-wrap:anywhere;word-break:normal}
+.dua .meaning{margin-top:0;line-height:1.72;overflow-wrap:anywhere;word-break:normal;white-space:normal}
+.dua .source{margin-top:12px}
+.duaActions{display:flex;gap:8px;flex-wrap:wrap}
+.duaActions .btn{white-space:normal}
+@media(max-width:700px){
+  .sideNote{max-height:230px}
+  .dua{padding:17px 16px}
+  .dua .arabic{font-size:20px;line-height:1.75}
+  .dua .meaning{font-size:13px;line-height:1.65}
+  .duaActions .btn{flex:1 1 100%}
+}
+</style>
 </head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
@@ -2188,7 +2209,7 @@ function showPerson(name){
  document.getElementById("personHistoryModal").classList.add("show");
 }
 function closePersonHistory(){document.getElementById("personHistoryModal").classList.remove("show")}
-function duaHTML(d,i){return '<div class="dua"><div class="kicker">PROPHETIC DUAS</div><h3>'+esc(d[0])+'</h3><div class="arabic">'+d[1]+'</div><div class="meaning">'+esc(d[2])+'</div><div class="source">'+esc(d[3])+'</div><div class="duaActions"><button class="btn gold" onclick="speak('+i+')">🔊 Play Dua</button><button class="btn soft" onclick="speakMeaning('+i+')">🗣️ Play Translation</button><a class="btn ghost" target="_blank" rel="noopener" href="'+d[4]+'" style="text-decoration:none">Reference ↗</a></div></div>'}
+function duaHTML(d,i){return '<div class="dua"><div class="kicker">PROPHETIC DUAS</div><h3>'+esc(trText(d[0]))+'</h3><div class="arabic" lang="ar" dir="rtl">'+d[1]+'</div><div class="meaning" lang="'+currentLang+'" dir="'+(langDef().dir||"ltr")+'">'+esc(duaMeaning(i))+'</div><div class="source">'+esc(d[3])+'</div><div class="duaActions"><button class="btn gold" onclick="speak('+i+')">🔊 Play Dua</button><button class="btn soft" onclick="speakMeaning('+i+')">🗣️ Play Translation</button><a class="btn ghost" target="_blank" rel="noopener" href="'+d[4]+'" style="text-decoration:none">Reference ↗</a></div></div>'}
 function openModal(id=null,presetPerson=""){
  editId=id;document.getElementById("form").reset();document.getElementById("modal").classList.add("show");
  if(id){const d=data.find(x=>x.id===id);if(!d)return;document.getElementById("modalTitle").textContent="Edit Qarz Record";direction.value=d.direction;person.value=d.person;document.getElementById("personPhone").value=d.personPhone||"";principal.value=d.principal;date.value=d.date||isoToday();due.value=d.due||"";document.getElementById("purpose").value=d.purpose||"Other";note.value=d.note||""}
@@ -2249,23 +2270,36 @@ function stopDuaAudio(){
  if("speechSynthesis" in window){try{window.speechSynthesis.cancel()}catch(e){}}
 }
 function nativeVoice(text,lang,label){
- if(!("speechSynthesis" in window))return false;
+ if(!("speechSynthesis" in window)||!String(text||"").trim())return false;
  try{
-   const u=new SpeechSynthesisUtterance(text);
-   u.lang=lang;
-   u.rate=.88;
-   u.pitch=1;
-   const voices=(window.speechSynthesis.getVoices?window.speechSynthesis.getVoices():[]);
-   const wanted=String(lang||"").toLowerCase();
-   const match=voices.find(v=>String(v.lang||"").toLowerCase().startsWith(wanted.split("-")[0]))
-      ||voices.find(v=>String(v.lang||"").toLowerCase().startsWith(wanted))
-      ||voices[0];
-   if(match)u.voice=match;
-   u.onstart=()=>showToast("🔊 "+label+" is playing…");
-   u.onend=()=>showToast("✓ Audio complete");
-   u.onerror=()=>showToast("Your phone could not start the voice. Please try again.");
-   window.speechSynthesis.cancel();
-   window.speechSynthesis.speak(u);
+   const synth=window.speechSynthesis;
+   const speakNow=()=>{
+     const u=new SpeechSynthesisUtterance(String(text));
+     u.lang=lang||"en-IN";
+     u.rate=.84;
+     u.pitch=1;
+     const wanted=String(lang||"").toLowerCase();
+     const voices=synth.getVoices?synth.getVoices():[];
+     const exact=voices.find(v=>String(v.lang||"").toLowerCase()===wanted);
+     const base=voices.find(v=>String(v.lang||"").toLowerCase().startsWith(wanted.split("-")[0]+"-"));
+     const match=exact||base;
+     if(match)u.voice=match;
+     u.onstart=()=>showToast("🔊 "+label+" is playing…");
+     u.onend=()=>showToast("✓ Audio complete");
+     u.onerror=()=>showToast("Your device could not start the voice. Please try again.");
+     synth.cancel();
+     setTimeout(()=>{try{synth.speak(u)}catch(e){}},30);
+   };
+   if(!speechVoices.length && synth.getVoices){
+     speechVoices=synth.getVoices();
+   }
+   if(!speechVoices.length && synth.addEventListener){
+     const once=()=>{speechVoices=synth.getVoices?synth.getVoices():[];synth.removeEventListener("voiceschanged",once);speakNow();};
+     synth.addEventListener("voiceschanged",once,{once:true});
+     setTimeout(()=>{speechVoices=synth.getVoices?synth.getVoices():speechVoices;if(speechVoices.length){try{synth.removeEventListener("voiceschanged",once)}catch(e){}}speakNow()},250);
+   }else{
+     speakNow();
+   }
    return true;
  }catch(e){return false}
 }
@@ -2312,8 +2346,8 @@ function speak(i){
 function speakMeaning(i){
  const text=duaMeaning(i);
  const lang=langDef().locale;
- if(currentLang==="en")playDuaAudio("audio/dua"+(i+1)+"-meaning.mp3",()=>showToast("Translation audio could not start on this device."),text,"en-IN","Translation audio");
- else nativeVoice(text,lang,"Translation audio") || showToast("Translation audio could not start on this device.");
+ const file=currentLang==="en" ? "audio/dua"+(i+1)+"-meaning.mp3" : "audio/"+currentLang+"/dua"+(i+1)+"-meaning.mp3";
+ playDuaAudio(file,()=>showToast("Translation audio could not start on this device."),text,lang,"Translation audio");
 }
 
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail();closePersonHistory()}});
