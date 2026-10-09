@@ -2776,7 +2776,7 @@ qaInitPrayer();
 setTimeout(()=>{if(session){checkReminders(false);renderReminderPage();}},1200);
 setInterval(()=>{if(session){checkReminders(false);renderReminderPage();}},60*60*1000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&session){checkReminders(false);renderReminderPage()}});
-let qaPrayerState={timings:{Fajr:"05:08",Sunrise:"06:19",Dhuhr:"12:16",Asr:"15:37",Maghrib:"18:14",Isha:"19:24"},location:{lat:12.0935,lng:75.20249,label:"Payyanur • Kerala"},hijri:"",dateKey:"",loaded:false};
+let qaPrayerState={timings:{Fajr:"05:08",Sunrise:"06:19",Dhuhr:"12:16",Asr:"15:37",Maghrib:"18:14",Isha:"19:24"},location:{lat:12.0935,lng:75.20249,label:"📍 Payyanur, Kerala"},hijri:"",dateKey:"",loaded:false};
 const QA_PRAYERS=[["Fajr","Fajr","🌅"],["Sunrise","Sunrise","☀️"],["Dhuhr","Dhuhr","☀️"],["Asr","Asr","🌤️"],["Maghrib","Maghrib","🌇"],["Isha","Isha","🌙"]];
 
 function qaPad(n){return String(n).padStart(2,"0")}
