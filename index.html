@@ -2316,7 +2316,7 @@ function showPerson(name){
  document.getElementById("personHistoryModal").classList.add("show");
 }
 function closePersonHistory(){document.getElementById("personHistoryModal").classList.remove("show")}
-function duaHTML(d,i){return '<div class="dua"><div class="kicker">PROPHETIC DUAS</div><h3>'+esc(trText(d[0]))+'</h3><div class="arabic" lang="ar" dir="rtl">'+d[1]+'</div><div class="meaning" lang="'+currentLang+'" dir="'+(langDef().dir||"ltr")+'">'+esc(duaMeaning(i))+'</div><div class="source">'+esc(d[3])+'</div><div class="duaActions"><button type="button" class="btn gold" onclick="speak('+i+')" aria-label="Play Dua">🔊 Play Dua</button><button type="button" class="btn soft" onclick="speakMeaning('+i+')" aria-label="Play Translation">🗣️ Play Translation</button><a class="btn ghost" target="_blank" rel="noopener" href="'+d[4]+'" style="text-decoration:none">Reference ↗</a></div></div>'}
+function duaHTML(d,i){return '<div class="dua"><div class="kicker">PROPHETIC DUAS</div><h3>'+esc(trText(d[0]))+'</h3><div class="arabic" lang="ar" dir="rtl">'+d[1]+'</div><div class="meaning" lang="'+currentLang+'" dir="'+(langDef().dir||"ltr")+'">'+esc(duaMeaning(i))+'</div><div class="source">'+esc(d[3])+'</div><div class="duaActions"><button type="button" class="btn gold qa-dua-play" data-dua-action="dua" data-dua-index="'+i+'" onclick="speak('+i+')" aria-label="Play Dua">🔊 Play Dua</button><button type="button" class="btn soft qa-dua-play" data-dua-action="meaning" data-dua-index="'+i+'" onclick="speakMeaning('+i+')" aria-label="Play Translation">🗣️ Play Translation</button><a class="btn ghost" target="_blank" rel="noopener" href="'+d[4]+'" style="text-decoration:none">Reference ↗</a></div></div>'}
 function openModal(id=null,presetPerson=""){
  editId=id;document.getElementById("form").reset();document.getElementById("modal").classList.add("show");
  if(id){const d=data.find(x=>x.id===id);if(!d)return;document.getElementById("modalTitle").textContent="Edit Qarz Record";direction.value=d.direction;person.value=d.person;document.getElementById("personPhone").value=d.personPhone||"";principal.value=d.principal;date.value=d.date||isoToday();due.value=d.due||"";document.getElementById("purpose").value=d.purpose||"Other";note.value=d.note||""}
@@ -2502,6 +2502,38 @@ const qaLanguageObserver=new MutationObserver(()=>{
  window.__qaLangTimer=setTimeout(()=>applyLanguage(),0);
 });
 qaLanguageObserver.observe(document.body,{subtree:true,childList:true,characterData:true});
+
+/* Last-resort pointer bridge:
+   Some layouts/browsers can place an invisible stacking layer over the Dua
+   buttons. This listener uses the actual pointer coordinates to find a Dua
+   control underneath that layer and starts speech directly from the user's
+   pointer gesture, preserving browser audio activation. */
+document.addEventListener("pointerup",function(e){
+  try{
+    if(!e.isPrimary)return;
+    const stack=document.elementsFromPoint(e.clientX,e.clientY)||[];
+    let el=null;
+    for(const node of stack){
+      const candidate=node.closest&&node.closest(".qa-dua-play");
+      if(candidate){el=candidate;break}
+    }
+    if(!el)return;
+
+    const action=el.dataset.duaAction;
+    const index=Number(el.dataset.duaIndex);
+    if(!Number.isInteger(index))return;
+
+    const directTarget=e.target instanceof Element && e.target.closest(".qa-dua-play");
+    if(directTarget===el)return; // normal onclick will handle it
+
+    e.preventDefault();
+    e.stopPropagation();
+    if(action==="meaning")speakMeaning(index);else speak(index);
+  }catch(err){
+    console.error("Dua pointer bridge error",err);
+  }
+},true);
+
 
 </script>
 <div id="toast" class="toast"></div>
