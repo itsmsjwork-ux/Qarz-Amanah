@@ -2370,106 +2370,124 @@ function removeRec(id,fromDetail=false){const d=data.find(x=>x.id===id);if(!d)re
 function backup(){const b=new Blob([JSON.stringify({app:"Qarz Amanah",version:2,exportedAt:new Date().toISOString(),records:data},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="qarz-amanah-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!Array.isArray(x.records))throw 0;const existing=new Set(data.map(d=>d.id));const incoming=x.records.map(ensureRecord).filter(d=>!existing.has(d.id));data.push(...incoming);save();alert(incoming.length+" records restored.")}catch{alert("Invalid backup file.")}};r.readAsText(f)}
 let speechVoices=[];
-let duaPlaySeq=0;
 let speechRunSeq=0;
-const AUDIO_VERSION="20261009-3";
-function loadSpeechVoices(){speechVoices=window.speechSynthesis?window.speechSynthesis.getVoices():[];return speechVoices}
-if("speechSynthesis" in window){loadSpeechVoices();speechSynthesis.onvoiceschanged=loadSpeechVoices}
+
+function loadSpeechVoices(){
+  speechVoices=window.speechSynthesis?window.speechSynthesis.getVoices():[];
+  return speechVoices;
+}
+if("speechSynthesis" in window){
+  loadSpeechVoices();
+  window.speechSynthesis.onvoiceschanged=loadSpeechVoices;
+}
+
 function stopDuaAudio(){
-  duaPlaySeq++;
   speechRunSeq++;
   if(window.__duaAudio){
-    try{window.__duaAudio.pause();window.__duaAudio.removeAttribute("src");window.__duaAudio.load()}catch(e){}
+    try{
+      window.__duaAudio.pause();
+      window.__duaAudio.removeAttribute("src");
+      window.__duaAudio.load();
+    }catch(e){}
+    window.__duaAudio=null;
   }
-  if("speechSynthesis" in window){try{window.speechSynthesis.cancel()}catch(e){}}
+  if("speechSynthesis" in window){
+    try{window.speechSynthesis.cancel()}catch(e){}
+  }
 }
-function nativeVoice(text,lang,label){
-  if(!("speechSynthesis" in window)||!String(text||"").trim())return false;
+
+function findSpeechVoice(lang){
+  if(!("speechSynthesis" in window))return null;
+  const wanted=String(lang||"").toLowerCase();
+  const voices=window.speechSynthesis.getVoices?window.speechSynthesis.getVoices():[];
+  return voices.find(v=>String(v.lang||"").toLowerCase()===wanted)
+      || voices.find(v=>String(v.lang||"").toLowerCase().startsWith(wanted.split("-")[0]+"-"))
+      || null;
+}
+
+function nativeVoice(text,lang,label,fallbackText=""){
+  if(!("speechSynthesis" in window))return false;
+
+  const synth=window.speechSynthesis;
+  const run=++speechRunSeq;
   try{
-    const synth=window.speechSynthesis;
-    const run=++speechRunSeq;
     synth.cancel();
-    const u=new SpeechSynthesisUtterance(String(text));
-    u.lang=lang||"en-IN";
-    u.rate=.90;
+
+    let chosenText=String(text||"").trim();
+    let chosenLang=String(lang||"en-IN");
+    let voice=findSpeechVoice(chosenLang);
+
+    // Windows/Chrome often has no Arabic/Urdu/Malayalam voice.
+    // Keep playback inside the original click handler and fall back to
+    // phonetic/English text so the button still produces sound immediately.
+    if(!voice && fallbackText){
+      chosenText=String(fallbackText||"").trim();
+      chosenLang="en-IN";
+      voice=findSpeechVoice(chosenLang)||findSpeechVoice("en-US")||findSpeechVoice("en-GB");
+    }
+
+    if(!chosenText)return false;
+
+    const u=new SpeechSynthesisUtterance(chosenText);
+    u.lang=chosenLang;
+    u.rate=.88;
     u.pitch=1;
-    const wanted=String(lang||"").toLowerCase();
-    const voices=synth.getVoices?synth.getVoices():[];
-    const exact=voices.find(v=>String(v.lang||"").toLowerCase()===wanted);
-    const base=voices.find(v=>String(v.lang||"").toLowerCase().startsWith(wanted.split("-")[0]+"-"));
-    if(exact||base)u.voice=exact||base;
+    if(voice)u.voice=voice;
+
     u.onstart=()=>{if(run===speechRunSeq)showToast("🔊 "+label+" is playing…")};
     u.onend=()=>{if(run===speechRunSeq)showToast("✓ Audio complete")};
-    u.onerror=()=>{if(run===speechRunSeq)showToast("Your device could not start the voice. Please try again.")};
+    u.onerror=()=>{if(run===speechRunSeq)showToast("Audio could not start. Please check your browser sound.");};
+
     synth.speak(u);
     return true;
-  }catch(e){return false}
+  }catch(e){
+    return false;
+  }
 }
-function audioUrl(file){
-  const sep=String(file).includes("?")?"&":"?";
-  return String(file)+sep+"v="+AUDIO_VERSION;
-}
-function playDuaAudio(file,onFail,ttsText,ttsLang,ttsLabel){
+
+function playDuaAudio(file,onFail,ttsText,ttsLang,ttsLabel,fallbackText=""){
   stopDuaAudio();
-  const seq=duaPlaySeq;
-  const base="https://itsmsjwork-ux.github.io/Qarz-Amanah/";
-  const sources=[audioUrl(file),audioUrl(base+file)].filter((v,i,a)=>a.indexOf(v)===i);
-  let idx=0,playing=false,finished=false;
-  const audio=new Audio();
-  window.__duaAudio=audio;
-  audio.preload="auto";
-  audio.playsInline=true;
-  audio.volume=1;
-  const fallback=()=>{
-    if(seq!==duaPlaySeq||finished)return;
-    finished=true;
-    if(!nativeVoice(ttsText,ttsLang,ttsLabel))onFail();
-  };
-  const next=()=>{
-    if(seq!==duaPlaySeq||finished)return;
-    if(idx>=sources.length){fallback();return}
-    const src=sources[idx++];
-    audio.onerror=()=>{
-      if(seq!==duaPlaySeq||finished)return;
-      playing=false;
-      try{audio.pause();audio.currentTime=0}catch(e){}
-      next();
-    };
-    audio.onplaying=()=>{
-      if(seq!==duaPlaySeq){try{audio.pause()}catch(e){};return}
-      if(finished)return;
-      playing=true;
-      finished=true;
-      showToast("🔊 "+ttsLabel+" is playing…");
-    };
-    try{
-      audio.src=src;
-      const p=audio.play();
-      if(p)p.catch(()=>{
-        if(seq!==duaPlaySeq||playing||finished)return;
-        playing=false;
-        try{audio.pause();audio.currentTime=0}catch(e){}
-        next();
-      });
-    }catch(e){
-      if(seq!==duaPlaySeq||playing||finished)return;
-      next();
-    }
-  };
-  audio.onended=()=>{if(seq===duaPlaySeq)showToast("✓ Audio complete")};
-  next();
+
+  // The repository does not contain MP3 assets, so do not make a failed
+  // network request first. Start speech synchronously from the button click
+  // so Chrome keeps the user's audio activation.
+  const ok=nativeVoice(ttsText,ttsLang,ttsLabel,fallbackText);
+  if(!ok){
+    showToast("Audio is not supported by this browser/device.");
+    if(typeof onFail==="function")onFail();
+  }
+  return ok;
 }
+
 function speak(i){
-  const text=D[i]?.[1]||"";
-  showToast("🔊 Starting Dua audio…");
-  playDuaAudio("audio/dua"+(i+1)+".mp3",()=>showToast("Audio could not start on this device."),text,"ar-SA","Dua audio");
+  const d=D[i];
+  if(!d)return;
+  const arabic=d[1]||"";
+  const transliteration=d[5]||d[2]||"";
+  playDuaAudio(
+    "",
+    ()=>{},
+    arabic,
+    "ar-SA",
+    "Dua audio",
+    transliteration
+  );
 }
+
 function speakMeaning(i){
+  const d=D[i];
+  if(!d)return;
   const text=duaMeaning(i);
-  const lang=langDef().locale;
-  const file="audio/"+(currentLang==="en"?"":currentLang+"/")+"dua"+(i+1)+"-meaning.mp3";
-  showToast("🔊 Starting translation audio…");
-  playDuaAudio(file,()=>showToast("Translation audio could not start on this device."),text,lang,"Translation audio");
+  const lang=(langDef().locale||"en-IN");
+  const englishFallback=d[2]||"";
+  playDuaAudio(
+    "",
+    ()=>{},
+    text,
+    lang,
+    "Translation audio",
+    englishFallback
+  );
 }
 
 
