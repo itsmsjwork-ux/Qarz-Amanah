@@ -53,6 +53,26 @@ jobs:
 
           asyncio.run(make_audio())
           PY
+      - name: Verify Dua audio assets
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          required = [
+              "dua1.mp3","dua2.mp3","dua3.mp3","dua4.mp3",
+              "dua1-meaning.mp3","dua2-meaning.mp3","dua3-meaning.mp3","dua4-meaning.mp3",
+          ]
+          audio_dir=Path("audio")
+          missing=[]
+          for name in required:
+              p=audio_dir/name
+              if not p.exists() or p.stat().st_size < 1024:
+                  missing.append(f"{name} (missing or too small)")
+          print("Generated audio files:")
+          for p in sorted(audio_dir.glob("*.mp3")):
+              print(f" - {p} {p.stat().st_size} bytes")
+          if missing:
+              raise SystemExit("Audio verification failed: " + ", ".join(missing))
+          PY
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
