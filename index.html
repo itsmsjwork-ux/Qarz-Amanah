@@ -1394,7 +1394,7 @@ box-shadow:0 24px 65px rgba(0,0,0,.24),inset 0 0 55px rgba(243,193,94,.025);over
       <div class="qa-nextRight">
         <div class="qa-countdownLabel">IN</div>
         <strong id="qaNextCountdown">--:--:--</strong>
-        <button type="button" class="mini qa-locationBtn" id="qaUseLocation">📍 Change location</button>
+        <button type="button" class="mini qa-locationBtn" id="qaUseLocation" onclick="qaUseBrowserLocation();return false" onpointerup="qaUseBrowserLocation();return false">📍 Change location</button>
       </div>
     </div>
 
@@ -2827,16 +2827,29 @@ async function qaFetchPrayerTimes(lat=qaPrayerState.location.lat,lng=qaPrayerSta
   }finally{clearTimeout(timeout)}
 }
 function qaUseBrowserLocation(){
-  if(!navigator.geolocation){qaSetError("Location is not supported. Showing Payyanur timings.");return}
-  qaSetError("Requesting your location…");
+  const btn=document.getElementById("qaUseLocation");
+  if(btn){btn.disabled=true;btn.textContent="📍 Locating…"}
+  qaSetError("");
+  if(!navigator.geolocation){
+    qaSetError("This browser does not provide location. Payyanur timings are still shown.");
+    if(btn){btn.disabled=false;btn.textContent="📍 Change location"}
+    return;
+  }
   navigator.geolocation.getCurrentPosition(
     pos=>{
       const lat=Number(pos.coords.latitude.toFixed(5)),lng=Number(pos.coords.longitude.toFixed(5));
-      qaFetchPrayerTimes(lat,lng,"Your location");
+      qaFetchPrayerTimes(lat,lng,"📍 Your location").finally(()=>{
+        if(btn){btn.disabled=false;btn.textContent="📍 Change location"}
+      });
     },
-    ()=>qaSetError("Location permission was not granted. Showing Payyanur timings."),
-    {enableHighAccuracy:false,timeout:8000,maximumAge:300000}
-  )
+    err=>{
+      console.warn("Location permission/error",err);
+      qaSetError("Location permission was not granted. Payyanur timings remain active.");
+      if(btn){btn.disabled=false;btn.textContent="📍 Change location"}
+    },
+    {enableHighAccuracy:false,timeout:10000,maximumAge:300000}
+  );
+  return false;
 }
 function qaInitPrayer(){
   if(window.__qaPrayerBooted)return;
