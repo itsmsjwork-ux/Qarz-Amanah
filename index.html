@@ -1073,6 +1073,43 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
 .qa-audioLabel{font-size:10px;font-weight:900;color:#f3cf78;letter-spacing:.2px}
 .qa-audioBox audio{display:block;width:100%;height:42px;pointer-events:auto!important;position:relative;z-index:252}
 @media(max-width:700px){.qa-audio-native{display:grid;grid-template-columns:1fr}.qa-audioBox{min-width:0}.qa-audioBox audio{height:44px}}
+</style><style id="qa-prayer-time-ui">
+.qa-prayerCard{margin-top:16px;border:1px solid rgba(243,193,94,.24);border-radius:22px;background:linear-gradient(145deg,rgba(7,27,45,.97),rgba(11,25,48,.90));box-shadow:0 18px 50px rgba(0,0,0,.22),inset 0 0 45px rgba(243,193,94,.025);overflow:hidden}
+.qa-prayerHead{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:17px 19px;border-bottom:1px solid rgba(255,255,255,.07)}
+.qa-prayerKicker{font-size:9px;letter-spacing:1.6px;color:#e3c26d;font-weight:900}
+.qa-prayerTitle{font-family:Georgia,serif;font-size:20px;margin-top:4px;color:#f7f9ff}
+.qa-prayerMeta{display:flex;gap:7px;align-items:center;margin-top:5px;color:#8da2bc;font-size:9px;flex-wrap:wrap}
+.qa-dot,.qa-footSep{color:#d9b35a}
+.qa-clockBox{text-align:right;min-width:150px;padding:9px 12px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(243,193,94,.13)}
+.qa-clock{font-size:24px;font-weight:900;letter-spacing:1px;color:#f9f2dd;font-variant-numeric:tabular-nums}
+.qa-clockZone{font-size:8px;color:#8297b2;margin-top:3px}
+.qa-nextPrayer{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 14px;background:linear-gradient(90deg,rgba(243,193,94,.10),rgba(33,210,154,.06));border-bottom:1px solid rgba(255,255,255,.06)}
+.qa-nextPrayer>div:first-child{display:flex;align-items:center;gap:10px}
+.qa-nextIcon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:rgba(243,193,94,.14);color:#f6d57c;font-size:17px}
+.qa-nextPrayer small{display:block;font-size:8px;letter-spacing:1.2px;color:#9caec3}
+.qa-nextPrayer strong{display:block;font-size:13px;margin-top:2px;color:#fff2cd}
+.qa-nextRight{display:flex;align-items:center;gap:10px}
+.qa-nextRight>strong{font-size:18px;color:#79edc5;font-variant-numeric:tabular-nums}
+.qa-locationBtn{white-space:nowrap}
+.qa-prayerGrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;padding:12px}
+.qa-prayerItem{padding:11px 7px;border:1px solid rgba(255,255,255,.075);border-radius:14px;background:rgba(255,255,255,.025);text-align:center;transition:.18s ease}
+.qa-prayerItem.current{border-color:rgba(243,193,94,.52);background:rgba(243,193,94,.09);box-shadow:0 8px 24px rgba(243,193,94,.08);transform:translateY(-1px)}
+.qa-prayerName{font-size:9px;font-weight:900;color:#a8b8cd;letter-spacing:.3px}
+.qa-prayerItem.current .qa-prayerName{color:#f4cf76}
+.qa-prayerTime{font-size:16px;font-weight:900;margin-top:5px;color:#f7fbff;font-variant-numeric:tabular-nums}
+.qa-prayerItem small{display:block;font-size:7px;margin-top:4px;color:#7489a4}
+.qa-prayerLoading{grid-column:1/-1;padding:13px;text-align:center;color:#8297b2;font-size:10px}
+.qa-prayerFoot{display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 12px 12px;color:#758aa4;font-size:8px;border-top:1px solid rgba(255,255,255,.05)}
+.qa-prayerError{margin:0 12px 12px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,120,145,.22);background:rgba(255,120,145,.07);color:#ffb5c1;font-size:9px}
+@media(max-width:1000px){.qa-prayerGrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.qa-prayerHead{align-items:flex-start;flex-direction:column}.qa-clockBox{width:100%;text-align:left}.qa-clock{font-size:22px}.qa-nextPrayer{align-items:flex-start;flex-direction:column}.qa-nextRight{width:100%;justify-content:space-between}.qa-prayerGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.qa-prayerTime{font-size:17px}}
+@media(max-width:380px){.qa-prayerGrid{grid-template-columns:1fr 1fr}.qa-prayerFoot{justify-content:flex-start}.qa-nextRight{align-items:flex-start;flex-direction:column}}
+:root[data-theme="light"] .qa-prayerCard{background:linear-gradient(145deg,rgba(255,255,255,.93),rgba(242,248,245,.96));border-color:rgba(194,141,38,.22);box-shadow:0 18px 45px rgba(36,66,58,.08)}
+:root[data-theme="light"] .qa-prayerTitle,:root[data-theme="light"] .qa-clock{color:#17372f}
+:root[data-theme="light"] .qa-prayerMeta,:root[data-theme="light"] .qa-clockZone,:root[data-theme="light"] .qa-prayerName,:root[data-theme="light"] .qa-prayerItem small,:root[data-theme="light"] .qa-prayerFoot{color:#748680}
+:root[data-theme="light"] .qa-prayerItem{background:rgba(28,91,72,.035);border-color:rgba(28,66,57,.09)}
+:root[data-theme="light"] .qa-prayerItem.current{background:rgba(199,138,34,.10);border-color:rgba(199,138,34,.38)}
+:root[data-theme="light"] .qa-prayerTime{color:#1f3d35}
 </style></head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
@@ -1172,6 +1209,29 @@ button,.btn,.mini,input,select,textarea{max-width:100%}
       <div class="heroTotal luxuryTotal"><small>Total Outstanding</small><strong id="hero">₹0</strong><span>Principal only</span></div>
     </div>
   </div>
+
+  <section class="qa-prayerCard" id="prayerCard" aria-label="Prayer times and current time">
+    <div class="qa-prayerHead">
+      <div>
+        <div class="qa-prayerKicker">🕌 PRAYER & TIME</div>
+        <div class="qa-prayerTitle">Daily Prayer Times</div>
+        <div class="qa-prayerMeta"><span id="qaClockDate">Loading date…</span><span class="qa-dot">•</span><span id="qaPrayerLocation">Kochi • Kerala</span></div>
+      </div>
+      <div class="qa-clockBox">
+        <div class="qa-clock" id="qaClock">--:--:--</div>
+        <div class="qa-clockZone">India Standard Time</div>
+      </div>
+    </div>
+    <div class="qa-nextPrayer">
+      <div><span class="qa-nextIcon">☾</span><div><small>NEXT PRAYER</small><strong id="qaNextName">Loading…</strong></div></div>
+      <div class="qa-nextRight"><strong id="qaNextCountdown">--:--:--</strong><button type="button" class="mini qa-locationBtn" id="qaUseLocation">📍 Use my location</button></div>
+    </div>
+    <div class="qa-prayerGrid" id="qaPrayerGrid">
+      <div class="qa-prayerLoading">Loading today's prayer times…</div>
+    </div>
+    <div class="qa-prayerFoot"><span id="qaHijri">Hijri date loading…</span><span class="qa-footSep">•</span><span>Karachi method • Hanafi Asr</span><span class="qa-footSep">•</span><span id="qaFridayNote"></span></div>
+    <div class="qa-prayerError" id="qaPrayerError" hidden></div>
+  </section>
 
   <div class="stats primaryStats">
     <div class="stat"><div class="labelx">I Will Receive</div><strong id="recv">₹0</strong><small id="recvPeople">0 people</small></div>
@@ -2527,9 +2587,27 @@ function speakMeaning(i){
 
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail();closePersonHistory()}});
 render();
+qaInitPrayer();
 setTimeout(()=>{if(session){checkReminders(false);renderReminderPage();}},1200);
 setInterval(()=>{if(session){checkReminders(false);renderReminderPage();}},60*60*1000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&session){checkReminders(false);renderReminderPage()}});
+let qaPrayerState={timings:null,location:{lat:10.0,lng:76.3,label:"Kochi • Kerala"},hijri:"",dateKey:"",loaded:false};
+const QA_PRAYERS=[["Fajr","Fajr","🌅"],["Sunrise","Sunrise","☀️"],["Dhuhr","Dhuhr","☀️"],["Asr","Asr","🌤️"],["Maghrib","Maghrib","🌇"],["Isha","Isha","🌙"]];
+
+function qaPad(n){return String(n).padStart(2,"0")}
+function qaDateKey(d=new Date()){return qaPad(d.getDate())+"-"+qaPad(d.getMonth()+1)+"-"+d.getFullYear()}
+function qaTimePart(v){return String(v||"").replace(/\s*\(.+?\)\s*$/,"").trim().slice(0,5)}
+function qaFormatClock(d=new Date()){return d.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true,timeZone:"Asia/Kolkata"})}
+function qaFormatDate(d=new Date()){return d.toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"Asia/Kolkata"})}
+function qaParseTodayTime(hm,addDay=0){const p=qaTimePart(hm).split(":").map(Number);if(p.length<2||p.some(Number.isNaN))return null;const d=new Date();d.setHours(p[0],p[1],0,0);if(addDay)d.setDate(d.getDate()+addDay);return d}
+function qaSetError(msg){const el=document.getElementById("qaPrayerError");if(!el)return;el.hidden=!msg;el.textContent=msg||""}
+function qaRenderClock(){const c=document.getElementById("qaClock"),d=document.getElementById("qaClockDate");if(c)c.textContent=qaFormatClock();if(d)d.textContent=qaFormatDate()}
+function qaRenderPrayerGrid(){const el=document.getElementById("qaPrayerGrid");if(!el||!qaPrayerState.timings)return;el.innerHTML=QA_PRAYERS.map(([key,label,icon])=>'<div class="qa-prayerItem" data-prayer="'+key+'"><div class="qa-prayerName">'+icon+" "+label+'</div><div class="qa-prayerTime">'+(qaTimePart(qaPrayerState.timings[key])||"--:--")+'</div><small>IST</small></div>').join("");qaHighlightNext(new Date())}
+function qaHighlightNext(now=new Date()){if(!qaPrayerState.timings)return;let next=null,nextDt=null;for(const [key,label] of QA_PRAYERS){if(key==="Sunrise")continue;const dt=qaParseTodayTime(qaPrayerState.timings[key]);if(dt&&dt>now){next={key,label};nextDt=dt;break}}if(!next){next={key:"Fajr",label:"Fajr (tomorrow)"};nextDt=qaParseTodayTime(qaPrayerState.timings.Fajr,1)}document.querySelectorAll(".qa-prayerItem").forEach(x=>x.classList.toggle("current",x.dataset.prayer===next.key&&next.label.indexOf("tomorrow")<0));const n=document.getElementById("qaNextName"),cd=document.getElementById("qaNextCountdown");if(n)n.textContent=next.label;if(cd&&nextDt){const sec=Math.max(0,Math.floor((nextDt-now)/1000)),h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;cd.textContent=qaPad(h)+":"+qaPad(m)+":"+qaPad(s)}}
+async function qaFetchPrayerTimes(lat=qaPrayerState.location.lat,lng=qaPrayerState.location.lng,label=qaPrayerState.location.label){const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),10000);try{const qs=new URLSearchParams({latitude:String(lat),longitude:String(lng),method:"1",school:"1",timezonestring:"Asia/Kolkata"}),res=await fetch("https://api.aladhan.com/v1/timings/"+qaDateKey()+"?"+qs.toString(),{headers:{Accept:"application/json"},signal:controller.signal,cache:"no-store"});if(!res.ok)throw new Error("Prayer API "+res.status);const json=await res.json();if(!json||json.code!==200||!json.data||!json.data.timings)throw new Error("Prayer timings unavailable");qaPrayerState.timings=json.data.timings;qaPrayerState.hijri=(json.data.date&&json.data.date.hijri)?(json.data.date.hijri.date+" "+json.data.date.hijri.month.en+" "+json.data.date.hijri.year+" AH"):"";qaPrayerState.location={lat,lng,label};qaPrayerState.dateKey=qaDateKey();qaPrayerState.loaded=true;const loc=document.getElementById("qaPrayerLocation"),h=document.getElementById("qaHijri"),fr=document.getElementById("qaFridayNote");if(loc)loc.textContent=label;if(h)h.textContent=qaPrayerState.hijri||"Hijri date unavailable";if(fr)fr.textContent=new Date().getDay()===5?"Jumu'ah: follow your local mosque time":"";qaSetError("");qaRenderPrayerGrid()}catch(e){console.error("Prayer times failed",e);qaSetError("Prayer times could not load right now. The live clock is still working.")}finally{clearTimeout(timeout)}}
+function qaUseBrowserLocation(){if(!navigator.geolocation){qaSetError("Location is not supported. Showing Kochi • Kerala timings.");return}qaSetError("Requesting your location…");navigator.geolocation.getCurrentPosition(pos=>{const lat=Number(pos.coords.latitude.toFixed(5)),lng=Number(pos.coords.longitude.toFixed(5));qaFetchPrayerTimes(lat,lng,"Your location")},()=>qaSetError("Location permission was not granted. Showing Kochi • Kerala timings."),{enableHighAccuracy:false,timeout:8000,maximumAge:300000})}
+function qaInitPrayer(){if(window.__qaPrayerBooted)return;window.__qaPrayerBooted=true;qaRenderClock();setInterval(qaRenderClock,1000);setInterval(()=>qaHighlightNext(new Date()),1000);const btn=document.getElementById("qaUseLocation");if(btn)btn.addEventListener("click",qaUseBrowserLocation);qaFetchPrayerTimes();setInterval(()=>{const key=qaDateKey();if(key!==qaPrayerState.dateKey)qaFetchPrayerTimes()},60000)}
+
 applyLanguage();
 const qaLanguageObserver=new MutationObserver(()=>{
  clearTimeout(window.__qaLangTimer);
