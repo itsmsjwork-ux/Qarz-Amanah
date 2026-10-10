@@ -1830,6 +1830,13 @@ function normalizePhone(value){
 function validUsername(v){return /^[A-Za-z0-9._-]{3,30}$/.test(String(v||"").trim())}
 function authBody(el){document.getElementById("authBody").innerHTML=el}
 
+function authMessage(message,type=""){
+  const el=document.getElementById("authMsg");
+  if(!el)return;
+  el.className="authMsg"+(type?" "+type:"");
+  el.textContent=String(message||"");
+}
+
 function setAuthMode(mode,message="",type=""){
   authMode=mode;
   if(mode!=="recovery")recoveryStep=1;
@@ -1878,9 +1885,32 @@ async function submitAuth(){
     if(password.length<6)return authMessage("Password must be at least 6 characters.","error");
     const btn=document.getElementById("authSubmit");btn.disabled=true;btn.textContent="Signing in…";
     try{
+      // First check whether the username/account exists so users get a clear,
+      // actionable message instead of a generic credential error.
+      try{
+        const checkRes=await fetch(authGatewayUrl(),{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({action:"check_username",username})
+        });
+        const check=await checkRes.json();
+        if(checkRes.ok&&check.available===true){
+          throw new Error("__ACCOUNT_NOT_FOUND__");
+        }
+      }catch(checkErr){
+        if(checkErr&&checkErr.message==="__ACCOUNT_NOT_FOUND__")throw checkErr;
+        console.warn("Username availability check failed; continuing with login.",checkErr);
+      }
+
       const res=await fetch(authGatewayUrl(),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"login",username,password})});
       const out=await res.json();
-      if(!res.ok)throw new Error(out.error||"Invalid username or password.");
+      if(!res.ok){
+        const raw=String(out?.error||"").toLowerCase();
+        if(res.status===401||res.status===403||raw.includes("password")||raw.includes("credential")||raw.includes("invalid")){
+          throw new Error("__WRONG_PASSWORD__");
+        }
+        throw new Error(out.error||"Login failed. Please try again.");
+      }
       if(!out.session)throw new Error("Login session was not returned. Please try again.");
       currentUsername=username;
       session=out.session;
@@ -1906,7 +1936,16 @@ async function submitAuth(){
 
       handleSession(out.session).catch(e=>console.error("Post-login setup failed",e));
       showToast("Signed in successfully.");
-    }catch(e){authMessage(e.message||"Login failed.","error")}finally{if(btn){btn.disabled=false;btn.textContent="Login to Qarz Amanah"}}
+    }catch(e){
+      if(e.message==="__ACCOUNT_NOT_FOUND__"){
+        authMessage("Account not found. Please create an account first.","error");
+        setTimeout(()=>{if(authMode==="login")setAuthMode("signup")},900);
+      }else if(e.message==="__WRONG_PASSWORD__"){
+        authMessage("Incorrect password. Please enter your password again.","error");
+      }else{
+        authMessage(e.message||"Login failed. Please try again.","error");
+      }
+    }finally{if(btn){btn.disabled=false;btn.textContent="Login to Qarz Amanah"}}
     return;
   }
 
