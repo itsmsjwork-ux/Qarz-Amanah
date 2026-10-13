@@ -2625,7 +2625,7 @@ function recentPeopleRows(items){
    const direction=x.records.some(d=>d.direction==="recv")&&x.records.some(d=>d.direction==="owed")?"Mixed":x.records.some(d=>d.direction==="recv")?"Receive":"Return";
    const status=x.outstanding===0?'<span class="tag green">Settled</span>':x.overdue?'<span class="tag pink">'+x.overdue+' overdue</span>':'<span class="tag gold">Pending</span>';
    const historyIndex=data.findIndex(d=>(d.person||"").trim().toLowerCase()===x.name.trim().toLowerCase());
-   return '<tr><td><b>'+esc(x.name)+'</b><div class="muted">'+esc(direction)+'</div></td><td>'+x.records.length+'</td><td><b>'+fmt(x.outstanding)+'</b></td><td>'+status+'</td><td><div class="actions"><button type="button" class="mini qaHistoryBtn" data-history-index="'+historyIndex+'">View History</button><button type="button" class="mini gold" onclick="event.stopPropagation();openModal(null,\''+esc(x.name).replace(/'/g,"\\'")+'\')">＋ Add</button></div></td></tr>';
+   return '<tr><td><b>'+esc(x.name)+'</b><div class="muted">'+esc(direction)+'</div></td><td>'+x.records.length+'</td><td><b>'+fmt(x.outstanding)+'</b></td><td>'+status+'</td><td><div class="actions"><button type="button" class="mini qaHistoryBtn" data-history-index="'+historyIndex+'" onclick="event.preventDefault();event.stopPropagation();openPersonHistorySafe(this.getAttribute('data-history-index'))">View History</button><button type="button" class="mini gold" onclick="event.stopPropagation();openModal(null,\''+esc(x.name).replace(/'/g,"\\'")+'\')">＋ Add</button></div></td></tr>';
  }).join("")+
  '</tbody></table>';
 }
