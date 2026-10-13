@@ -1388,6 +1388,9 @@ button.amanahTodayItem{cursor:pointer}
   .amanahTodayHead{flex-direction:column}
   .amanahTodayHead .btn{width:100%}
 }
+</style><style id="qa-history-button-fix">
+.personHistoryBox .modalBody{touch-action:auto!important}
+.actions .mini{position:relative;z-index:5;pointer-events:auto!important;cursor:pointer}
 </style></head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
@@ -2616,7 +2619,7 @@ function recentPeopleRows(items){
  items.map(x=>{
    const direction=x.records.some(d=>d.direction==="recv")&&x.records.some(d=>d.direction==="owed")?"Mixed":x.records.some(d=>d.direction==="recv")?"Receive":"Return";
    const status=x.outstanding===0?'<span class="tag green">Settled</span>':x.overdue?'<span class="tag pink">'+x.overdue+' overdue</span>':'<span class="tag gold">Pending</span>';
-   return '<tr><td><b>'+esc(x.name)+'</b><div class="muted">'+esc(direction)+'</div></td><td>'+x.records.length+'</td><td><b>'+fmt(x.outstanding)+'</b></td><td>'+status+'</td><td><div class="actions"><button class="mini" onclick="showPerson(\''+esc(x.name).replace(/'/g,"\\'")+'\')">View History</button><button class="mini gold" onclick="event.stopPropagation();openModal(null,\''+esc(x.name).replace(/'/g,"\\'")+'\')">＋ Add</button></div></td></tr>';
+   return '<tr><td><b>'+esc(x.name)+'</b><div class="muted">'+esc(direction)+'</div></td><td>'+x.records.length+'</td><td><b>'+fmt(x.outstanding)+'</b></td><td>'+status+'</td><td><div class="actions"><button type="button" class="mini" data-history-person="'+encodeURIComponent(x.name)+'" onclick="event.stopPropagation();openPersonHistorySafe(this.dataset.historyPerson)">View History</button><button type="button" class="mini gold" onclick="event.stopPropagation();openModal(null,\''+esc(x.name).replace(/'/g,"\\'")+'\')">＋ Add</button></div></td></tr>';
  }).join("")+
  '</tbody></table>';
 }
@@ -2768,6 +2771,11 @@ function renderPeoplePage(){
    return '<div class="personCard" onclick="showPerson(\''+esc(x.name).replace(/'/g,"\\'")+'\')"><div class="personTop"><div class="bigAvatar">'+esc(x.name[0].toUpperCase())+'</div><div class="grow"><h3>'+esc(x.name)+'</h3><div class="muted">'+x.records.length+' record'+(x.records.length===1?"":"s")+' • '+direction+'</div></div></div><div class="metrics"><div class="metric"><small>Outstanding</small><strong>'+fmt(out)+'</strong></div><div class="metric"><small>Repaid</small><strong>'+fmt(x.paid)+'</strong></div></div><div class="progress"><span style="width:'+pct+'%"></span></div><div class="personFoot"><span>'+pct+'% repaid</span><div style="display:flex;align-items:center;gap:6px">'+status+'<button class="mini gold" onclick="event.stopPropagation();openModal(null,\''+esc(x.name).replace(/'/g,"\\'")+'\')">＋ Add Qarz</button></div></div></div>';
  }).join(""):'<div class="empty" style="grid-column:1/-1">No people found.</div>';
 }let currentPersonHistory="";
+function openPersonHistorySafe(encodedName){
+ const name=decodeURIComponent(String(encodedName||""));
+ if(!name)return;
+ showPerson(name);
+}
 function showPerson(name){
  currentPersonHistory=name;
  const person=peopleMap()[name.trim().toLowerCase()];
