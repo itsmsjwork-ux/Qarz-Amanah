@@ -1393,6 +1393,9 @@ button.amanahTodayItem{cursor:pointer}
 .actions .mini{position:relative;z-index:5;pointer-events:auto!important;cursor:pointer}
 </style><style id="qa-history-delegation-fix">
 .actions [data-history-person]{position:relative;z-index:20!important;pointer-events:auto!important;cursor:pointer!important;touch-action:manipulation!important}
+</style><style id="qa-history-final-fix">
+.qaHistoryBtn{position:relative!important;z-index:999!important;pointer-events:auto!important;touch-action:manipulation!important}
+#personHistoryModal.show{display:flex!important}
 </style></head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
@@ -2621,7 +2624,8 @@ function recentPeopleRows(items){
  items.map(x=>{
    const direction=x.records.some(d=>d.direction==="recv")&&x.records.some(d=>d.direction==="owed")?"Mixed":x.records.some(d=>d.direction==="recv")?"Receive":"Return";
    const status=x.outstanding===0?'<span class="tag green">Settled</span>':x.overdue?'<span class="tag pink">'+x.overdue+' overdue</span>':'<span class="tag gold">Pending</span>';
-   return '<tr><td><b>'+esc(x.name)+'</b><div class="muted">'+esc(direction)+'</div></td><td>'+x.records.length+'</td><td><b>'+fmt(x.outstanding)+'</b></td><td>'+status+'</td><td><div class="actions"><button type="button" class="mini" data-history-person="'+encodeURIComponent(x.name)+'" onclick="event.stopPropagation();openPersonHistorySafe(this.dataset.historyPerson)">View History</button><button type="button" class="mini gold" onclick="event.stopPropagation();openModal(null,\''+esc(x.name).replace(/'/g,"\\'")+'\')">＋ Add</button></div></td></tr>';
+   const historyIndex=data.findIndex(d=>(d.person||"").trim().toLowerCase()===x.name.trim().toLowerCase());
+   return '<tr><td><b>'+esc(x.name)+'</b><div class="muted">'+esc(direction)+'</div></td><td>'+x.records.length+'</td><td><b>'+fmt(x.outstanding)+'</b></td><td>'+status+'</td><td><div class="actions"><button type="button" class="mini qaHistoryBtn" data-history-index="'+historyIndex+'">View History</button><button type="button" class="mini gold" onclick="event.stopPropagation();openModal(null,\''+esc(x.name).replace(/'/g,"\\'")+'\')">＋ Add</button></div></td></tr>';
  }).join("")+
  '</tbody></table>';
 }
@@ -2773,26 +2777,27 @@ function renderPeoplePage(){
    return '<div class="personCard" onclick="showPerson(\''+esc(x.name).replace(/'/g,"\\'")+'\')"><div class="personTop"><div class="bigAvatar">'+esc(x.name[0].toUpperCase())+'</div><div class="grow"><h3>'+esc(x.name)+'</h3><div class="muted">'+x.records.length+' record'+(x.records.length===1?"":"s")+' • '+direction+'</div></div></div><div class="metrics"><div class="metric"><small>Outstanding</small><strong>'+fmt(out)+'</strong></div><div class="metric"><small>Repaid</small><strong>'+fmt(x.paid)+'</strong></div></div><div class="progress"><span style="width:'+pct+'%"></span></div><div class="personFoot"><span>'+pct+'% repaid</span><div style="display:flex;align-items:center;gap:6px">'+status+'<button class="mini gold" onclick="event.stopPropagation();openModal(null,\''+esc(x.name).replace(/'/g,"\\'")+'\')">＋ Add Qarz</button></div></div></div>';
  }).join(""):'<div class="empty" style="grid-column:1/-1">No people found.</div>';
 }let currentPersonHistory="";
-function openPersonHistorySafe(encodedName){
- const name=decodeURIComponent(String(encodedName||""));
- if(!name)return;
- showPerson(name);
+function openPersonHistorySafe(index){
+ const i=Number(index);
+ const record=data[i];
+ if(!record){console.warn("History record not found",index);return}
+ const key=(record.person||"").trim().toLowerCase();
+ const person=peopleMap()[key];
+ if(!person){console.warn("History person not found",key);return}
+ currentPersonHistory=person.name;
+ const title=document.getElementById("personHistoryTitle"),stats=document.getElementById("personHistoryStats"),body=document.getElementById("personHistoryBody"),modal=document.getElementById("personHistoryModal");
+ if(!title||!stats||!body||!modal){console.error("History modal elements missing");return}
+ title.textContent=person.name+" — Qarz History";
+ stats.innerHTML='<div class="metric"><small>Total Qarz</small><strong>'+fmt(person.original)+'</strong></div><div class="metric"><small>Total Repaid</small><strong>'+fmt(person.paid)+'</strong></div><div class="metric"><small>Outstanding</small><strong>'+fmt(person.recv+person.owed)+'</strong></div>';
+ const records=person.records.slice().sort((a,b)=>(a.createdAt-b.createdAt)||(a.id||"").localeCompare(b.id||""));
+ body.innerHTML=records.map(d=>{
+   const no=String(personRecordNumber(d)).padStart(3,"0");
+   return '<div class="personHistoryRow"><div><div class="personHistoryTop"><b>Qarz #'+no+'</b><span class="tag '+(d.direction==="recv"?"green":"pink")+'">'+(d.direction==="recv"?"I will receive":"I will return")+'</span></div><div class="muted">'+esc(d.purpose||"Other")+' • '+esc(d.date||"")+(d.due?' • Expected '+esc(d.due):' • No fixed repayment date')+'</div><div class="personHistoryReason">'+esc(d.note||"—")+'</div></div><div class="personHistoryAmount"><b>'+fmt(d.principal)+'</b><small>Remaining '+fmt(bal(d))+'</small><button type="button" class="mini" onclick="openDetail(\''+d.id+'\')">View</button></div></div>';
+ }).join("");
+ modal.classList.add("show");
+ modal.style.display="flex";
+ modal.setAttribute("aria-hidden","false");
 }
-
-document.addEventListener("click",function(e){
- const btn=e.target.closest&&e.target.closest("[data-history-person]");
- if(!btn)return;
- e.preventDefault();
- e.stopPropagation();
- const raw=btn.getAttribute("data-history-person")||"";
- let name=raw;
- try{name=decodeURIComponent(raw)}catch(err){}
- try{showPerson(name)}catch(err){
-   console.error("View History failed",err);
-   const personName=btn.closest("tr")?.querySelector("td b")?.textContent?.trim();
-   if(personName)showPerson(personName);
- }
-},true);
 function showPerson(name){
  currentPersonHistory=name;
  const person=peopleMap()[name.trim().toLowerCase()];
