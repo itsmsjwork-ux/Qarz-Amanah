@@ -1361,6 +1361,33 @@ box-shadow:0 24px 65px rgba(0,0,0,.24),inset 0 0 55px rgba(243,193,94,.025);over
   .side{height:56px!important;min-height:56px!important;max-height:56px!important}
   .main{height:calc(100dvh - 56px)!important}
 }
+</style><style id="qa-amanah-today">
+.amanahToday{margin:16px 0 18px;padding:18px 19px;border:1px solid rgba(239,188,88,.18);border-radius:20px;background:
+radial-gradient(circle at 92% 18%,rgba(239,188,88,.08),transparent 24%),
+linear-gradient(145deg,rgba(11,30,52,.92),rgba(7,21,37,.92));
+box-shadow:0 18px 45px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.025)}
+.amanahTodayHead{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.amanahTodayHead h3{margin:3px 0 2px;font:700 21px Georgia,serif}
+.amanahTodayHead small{color:#8fa4bc;font-size:10px}
+.amanahTodayGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:14px}
+.amanahTodayItem{display:flex;align-items:center;gap:10px;min-width:0;padding:11px 12px;border:1px solid rgba(255,255,255,.07);border-radius:15px;background:rgba(255,255,255,.025);color:#eef4ff;text-align:left}
+button.amanahTodayItem{cursor:pointer}
+.amanahTodayItem:hover{border-color:rgba(239,188,88,.26);transform:translateY(-1px)}
+.amanahIcon{width:31px;height:31px;flex:0 0 31px;border-radius:10px;display:grid;place-items:center;border:1px solid rgba(239,188,88,.16);background:rgba(239,188,88,.07);color:#f1c76c;font-weight:900}
+.amanahTodayItem b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.amanahTodayItem small{display:block;margin-top:2px;color:#8398b0;font-size:9px}
+.amanahOverdue .amanahIcon{color:#ff8da2;border-color:rgba(255,120,145,.2);background:rgba(255,120,145,.07)}
+@media(max-width:900px){
+  .amanahToday{padding:15px 14px}
+  .amanahTodayHead{align-items:flex-start}
+  .amanahTodayHead h3{font-size:18px}
+  .amanahTodayHead .btn{white-space:nowrap}
+  .amanahTodayGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+  .amanahTodayHead{flex-direction:column}
+  .amanahTodayHead .btn{width:100%}
+}
 </style></head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
@@ -1526,6 +1553,31 @@ box-shadow:0 24px 65px rgba(0,0,0,.24),inset 0 0 55px rgba(243,193,94,.025);over
     <div class="secondaryStat overdueStat"><div><small>OVERDUE</small><b id="overdueCount">0</b></div><span id="overdueAmount">₹0 outstanding</span></div>
     <div class="secondaryStat recordsStat"><div><small>TOTAL RECORDS</small><b id="totalRec">0</b></div><span>Qarz records</span></div>
   </div>
+
+  <section class="card amanahToday" id="amanahToday" aria-label="Amanah Today">
+    <div class="amanahTodayHead">
+      <div>
+        <div class="kicker">AMĀNAH TODAY</div>
+        <h3>Today at a glance</h3>
+        <small id="amanahTodayMessage">Keep every Qarz clear and on time.</small>
+      </div>
+      <button type="button" class="btn ghost" onclick="page('reminders')">View reminders →</button>
+    </div>
+    <div class="amanahTodayGrid">
+      <button type="button" class="amanahTodayItem amanahDue" onclick="page('reminders')">
+        <span class="amanahIcon">◷</span><span><b id="amanahDueCount">0</b><small>Due today</small></span>
+      </button>
+      <button type="button" class="amanahTodayItem amanahOverdue" onclick="page('reminders')">
+        <span class="amanahIcon">!</span><span><b id="amanahOverdueCount">0</b><small>Overdue</small></span>
+      </button>
+      <div class="amanahTodayItem">
+        <span class="amanahIcon">₹</span><span><b id="amanahOutstanding">₹0</b><small>Outstanding</small></span>
+      </div>
+      <div class="amanahTodayItem">
+        <span class="amanahIcon">✓</span><span><b id="amanahPaidToday">₹0</b><small>Repaid today</small></span>
+      </div>
+    </div>
+  </section>
 
   <div class="grid2 dashboardMainGrid">
     <div class="card dashboardPanel recentPanel">
@@ -2502,6 +2554,27 @@ function rows(ds,compact=false){
  ds.map(d=>'<tr><td><b>'+esc(d.person)+'</b><div class="muted">Qarz #'+String(personRecordNumber(d)).padStart(3,"0")+' • '+esc(d.purpose||"Other")+' • '+esc(d.date||"")+(d.due?' • Due '+esc(d.due):"")+'</div></td><td><span class="tag '+(d.direction==="recv"?"green":"pink")+'">'+(d.direction==="recv"?"Receive":"Return")+'</span></td><td>'+fmt(d.principal)+'</td><td>'+fmt(paid(d))+'</td><td><b>'+fmt(bal(d))+'</b></td><td>'+statusTag(d)+'</td><td><div class="actions"><button class="mini" onclick="openDetail(\''+d.id+'\')">View</button>'+(bal(d)?'<button class="mini soft" onclick="quickPayment(\''+d.id+'\')">＋ Repay</button>':"")+'</div></td></tr>').join("")+
  '</tbody></table>';
 }
+function renderAmanahToday(){
+ const today=isoToday();
+ let dueToday=0,overdueCount=0,outstanding=0,repaidToday=0;
+ data.forEach(d=>{
+   const b=bal(d);
+   outstanding+=b;
+   if(b&&d.due===today)dueToday++;
+   if(b&&dueInfo(d).state==="overdue")overdueCount++;
+   d.repayments.forEach(p=>{if(p.date===today)repaidToday+=Number(p.amount)||0});
+ });
+ const dc=document.getElementById("amanahDueCount"),oc=document.getElementById("amanahOverdueCount"),
+       os=document.getElementById("amanahOutstanding"),pt=document.getElementById("amanahPaidToday"),
+       msg=document.getElementById("amanahTodayMessage");
+ if(dc)dc.textContent=dueToday;
+ if(oc)oc.textContent=overdueCount;
+ if(os)os.textContent=fmt(outstanding);
+ if(pt)pt.textContent=fmt(repaidToday);
+ if(msg)msg.textContent=dueToday||overdueCount
+   ? (dueToday+" due today"+(overdueCount?" · "+overdueCount+" overdue":""))
+   : "No urgent Qarz today. Keep every Amanah clear and on time.";
+}
 function render(){
  let recv=0,owed=0,allPaid=0,open=0,recvPeople=0,owedPeople=0,overdue=0,overdueAmount=0,principalTotal=0;
  data.forEach(d=>{const b=bal(d),p=paid(d);allPaid+=p;principalTotal+=Number(d.principal)||0;if(b){open++;if(d.direction==="recv"){recv+=b;recvPeople++}else{owed+=b;owedPeople++}if(dueInfo(d).state==="overdue"){overdue++;overdueAmount+=b}}});
@@ -2516,6 +2589,7 @@ function render(){
  document.getElementById("recvPeople").textContent=recvPeople+" people";
  document.getElementById("owedPeople").textContent=owedPeople+" people";
  document.getElementById("overdueSmall").textContent=overdue?overdue+" overdue":"To be settled";
+ renderAmanahToday();
  const latestPeople=recentPeopleSummary();
  document.getElementById("recent").innerHTML=recentPeopleRows(latestPeople);
  document.getElementById("featured").innerHTML=duaHTML(D[0],0);
