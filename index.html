@@ -1391,6 +1391,8 @@ button.amanahTodayItem{cursor:pointer}
 </style><style id="qa-history-button-fix">
 .personHistoryBox .modalBody{touch-action:auto!important}
 .actions .mini{position:relative;z-index:5;pointer-events:auto!important;cursor:pointer}
+</style><style id="qa-history-delegation-fix">
+.actions [data-history-person]{position:relative;z-index:20!important;pointer-events:auto!important;cursor:pointer!important;touch-action:manipulation!important}
 </style></head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
@@ -2776,6 +2778,21 @@ function openPersonHistorySafe(encodedName){
  if(!name)return;
  showPerson(name);
 }
+
+document.addEventListener("click",function(e){
+ const btn=e.target.closest&&e.target.closest("[data-history-person]");
+ if(!btn)return;
+ e.preventDefault();
+ e.stopPropagation();
+ const raw=btn.getAttribute("data-history-person")||"";
+ let name=raw;
+ try{name=decodeURIComponent(raw)}catch(err){}
+ try{showPerson(name)}catch(err){
+   console.error("View History failed",err);
+   const personName=btn.closest("tr")?.querySelector("td b")?.textContent?.trim();
+   if(personName)showPerson(personName);
+ }
+},true);
 function showPerson(name){
  currentPersonHistory=name;
  const person=peopleMap()[name.trim().toLowerCase()];
