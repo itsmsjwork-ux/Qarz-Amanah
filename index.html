@@ -2522,18 +2522,47 @@ async function handleSession(next){
     userHasSignedIn=false;
     return;
   }
+
+  // A successful authentication must always open the app. Profile, avatar,
+  // language, and cloud loading are secondary setup steps and must not block login.
   authBooted=true;
   userHasSignedIn=true;
   loggingOut=false;
   screen.classList.add("hidden");
-  const profile=await ensureProfile(session.user);
-  restoreUserLanguage();
-  applyLanguage();
-  const displayName=profile.displayName||currentUsername||"Signed in";
+
+  let profile={displayName:"",avatarPath:""};
+  try{
+    profile=await ensureProfile(session.user);
+  }catch(e){
+    console.error("Profile setup failed after login",e);
+  }
+
+  try{
+    restoreUserLanguage();
+    applyLanguage();
+  }catch(e){
+    console.warn("Language restore failed",e);
+  }
+
+  const displayName=profile.displayName||session.user.user_metadata?.display_name||currentUsername||"Signed in";
   document.getElementById("accountEmail").textContent=displayName;
   document.getElementById("welcomeName").textContent=displayName ? ", "+displayName : "";
-  await setAvatarUI(profile.avatarPath,displayName,currentUsername);
-  if(lastLoadedUserId!==session.user.id){try{await loadCloud(session.user)}catch(e){console.error(e);authMessage("Could not load cloud records. Your local data is still available.","error")}}
+
+  try{
+    await setAvatarUI(profile.avatarPath,displayName,currentUsername);
+  }catch(e){
+    console.warn("Avatar setup failed after login",e);
+  }
+
+  if(lastLoadedUserId!==session.user.id){
+    try{
+      await loadCloud(session.user);
+    }catch(e){
+      console.error("Cloud load failed after login",e);
+      render();
+      authMessage("Signed in, but cloud records could not be loaded. Your saved device records are still available.","error");
+    }
+  }
 }
 setAuthMode("login");
 if(supabaseClient){
