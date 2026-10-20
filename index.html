@@ -3015,14 +3015,15 @@ function speakMeaning(i){
 }
 
 
+let qaPrayerState={timings:null,location:{lat:null,lng:null,label:"📍 Detecting your location…",exact:false},hijri:"",dateKey:"",loaded:false};
+const QA_PRAYERS=[["Fajr","Fajr","🌅"],["Sunrise","Sunrise","☀️"],["Dhuhr","Dhuhr","☀️"],["Asr","Asr","🌤️"],["Maghrib","Maghrib","🌇"],["Isha","Isha","🌙"]];
+
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail();closePersonHistory()}});
 render();
 qaInitPrayer();
 setTimeout(()=>{if(session){checkReminders(false);renderReminderPage();}},1200);
 setInterval(()=>{if(session){checkReminders(false);renderReminderPage();}},60*60*1000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&session){checkReminders(false);renderReminderPage()}});
-let qaPrayerState={timings:null,location:{lat:null,lng:null,label:"📍 Detecting your location…",exact:false},hijri:"",dateKey:"",loaded:false};
-const QA_PRAYERS=[["Fajr","Fajr","🌅"],["Sunrise","Sunrise","☀️"],["Dhuhr","Dhuhr","☀️"],["Asr","Asr","🌤️"],["Maghrib","Maghrib","🌇"],["Isha","Isha","🌙"]];
 
 function qaPad(n){return String(n).padStart(2,"0")}
 function qaDateKey(d=new Date()){return qaPad(d.getDate())+"-"+qaPad(d.getMonth()+1)+"-"+d.getFullYear()}
