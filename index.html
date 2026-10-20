@@ -1396,6 +1396,14 @@ button.amanahTodayItem{cursor:pointer}
 </style><style id="qa-history-final-fix">
 .qaHistoryBtn{position:relative!important;z-index:999!important;pointer-events:auto!important;touch-action:manipulation!important}
 #personHistoryModal.show{display:flex!important}
+</style><style id="qa-net-qarz">
+.netTag{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;font-size:9px;font-weight:900;letter-spacing:.15px}
+.netTag.receive{color:#79edc5;background:rgba(33,210,154,.12);border:1px solid rgba(33,210,154,.16)}
+.netTag.return{color:#ffb1bf;background:rgba(255,120,145,.10);border:1px solid rgba(255,120,145,.15)}
+.netTag.settled{color:#f5d27b;background:rgba(239,188,88,.10);border:1px solid rgba(239,188,88,.14)}
+.netHero{margin:12px 0 2px}.netMini{margin-top:4px;color:#f2cc6c;font-size:9px;font-weight:800}
+.netRow{margin-top:5px}.netMetric strong{font-size:12px}
+@media(max-width:600px){.netHero{margin-top:10px}.netMetric strong{font-size:11px}}
 </style></head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
@@ -2558,8 +2566,13 @@ function personRecordNumber(d){
 }
 function rows(ds,compact=false){
  if(!ds.length)return '<div class="empty">No Qarz records yet.</div>';
+ const pm=peopleMap();
  return '<table><thead><tr><th>Person</th><th>Type</th><th>Original</th><th>Paid</th><th>Remaining</th><th>Status</th><th></th></tr></thead><tbody>'+
- ds.map(d=>'<tr><td><b>'+esc(d.person)+'</b><div class="muted">Qarz #'+String(personRecordNumber(d)).padStart(3,"0")+' • '+esc(d.purpose||"Other")+' • '+esc(d.date||"")+(d.due?' • Due '+esc(d.due):"")+'</div></td><td><span class="tag '+(d.direction==="recv"?"green":"pink")+'">'+(d.direction==="recv"?"Receive":"Return")+'</span></td><td>'+fmt(d.principal)+'</td><td>'+fmt(paid(d))+'</td><td><b>'+fmt(bal(d))+'</b></td><td>'+statusTag(d)+'</td><td><div class="actions"><button class="mini" onclick="openDetail(\''+d.id+'\')">View</button>'+(bal(d)?'<button class="mini soft" onclick="quickPayment(\''+d.id+'\')">＋ Repay</button>':"")+'</div></td></tr>').join("")+
+ ds.map(d=>{
+   const px=pm[(d.person||"").trim().toLowerCase()];
+   const net=px?'<div class="netRow">'+personNetLabel(px)+'</div>':"";
+   return '<tr><td><b>'+esc(d.person)+'</b><div class="muted">Qarz #'+String(personRecordNumber(d)).padStart(3,"0")+' • '+esc(d.purpose||"Other")+' • '+esc(d.date||"")+(d.due?' • Due '+esc(d.due):"")+'</div>'+net+'</td><td><span class="tag '+(d.direction==="recv"?"green":"pink")+'">'+(d.direction==="recv"?"Receive":"Return")+'</span></td><td>'+fmt(d.principal)+'</td><td>'+fmt(paid(d))+'</td><td><b>'+fmt(bal(d))+'</b></td><td>'+statusTag(d)+'</td><td><div class="actions"><button class="mini" onclick="openDetail(\''+d.id+'\')">View</button>'+(bal(d)?'<button class="mini soft" onclick="quickPayment(\''+d.id+'\')">＋ Repay</button>':"")+'</div></td></tr>';
+ }).join("")+
  '</tbody></table>';
 }
 function renderAmanahToday(){
@@ -2761,9 +2774,22 @@ function peopleMap(){
  });
  return map;
 }
+function personNet(x){
+ const net=(Number(x.recv)||0)-(Number(x.owed)||0);
+ return {amount:Math.abs(net),direction:net>0?"recv":net<0?"owed":"settled"};
+}
+function personNetLabel(x){
+ const n=personNet(x);
+ if(n.direction==="settled")return '<span class="netTag settled">Net settled</span>';
+ return '<span class="netTag '+(n.direction==="recv"?"receive":"return")+'">Net '+fmt(n.amount)+' '+(n.direction==="recv"?"Receive":"Return")+'</span>';
+}
+function personNetPlain(x){
+ const n=personNet(x);
+ return n.direction==="settled"?"Net settled":"Net "+fmt(n.amount)+" "+(n.direction==="recv"?"Receive":"Return");
+}
 function renderPeopleSummary(){
  const arr=Object.values(peopleMap()).filter(x=>x.open).sort((a,b)=>(b.recv+b.owed)-(a.recv+a.owed)).slice(0,5),el=document.getElementById("peopleSummary");
- el.innerHTML=arr.length?'<div class="people">'+arr.map(x=>'<div class="person" onclick="showPerson(\''+esc(x.name).replace(/'/g,"\\'")+'\')"><div class="pavatar">'+esc(x.name[0].toUpperCase())+'</div><div class="grow"><b>'+esc(x.name)+'</b><small>'+(x.recv?fmt(x.recv)+" receive":"")+(x.recv&&x.owed?" • ":"")+(x.owed?fmt(x.owed)+" return":"")+'</small></div></div>').join("")+'</div>':'<div class="empty">No people yet.</div>';
+ el.innerHTML=arr.length?'<div class="people">'+arr.map(x=>'<div class="person" onclick="showPerson(\''+esc(x.name).replace(/'/g,"\\'")+'\')"><div class="pavatar">'+esc(x.name[0].toUpperCase())+'</div><div class="grow"><b>'+esc(x.name)+'</b><small>'+(x.recv?fmt(x.recv)+" receive":"")+(x.recv&&x.owed?" • ":"")+(x.owed?fmt(x.owed)+" return":"")+'</small><div class="netMini">'+personNetPlain(x)+'</div></div></div>').join("")+'</div>':'<div class="empty">No people yet.</div>';
 }
 function renderPeoplePage(){
  const q=(document.getElementById("peopleSearch")?.value||"").toLowerCase().trim();
@@ -2774,7 +2800,7 @@ function renderPeoplePage(){
    const out=x.recv+x.owed;
    const direction=x.recv&&x.owed?"Mixed":x.recv?"Receive":"Return";
    const status=x.open?'<span class="tag '+(x.overdue?"pink":"gold")+'">'+(x.overdue?x.overdue+" overdue":x.open+" open")+'</span>':'<span class="tag green">Settled</span>';
-   return '<div class="personCard" onclick="showPerson(\''+esc(x.name).replace(/'/g,"\\'")+'\')"><div class="personTop"><div class="bigAvatar">'+esc(x.name[0].toUpperCase())+'</div><div class="grow"><h3>'+esc(x.name)+'</h3><div class="muted">'+x.records.length+' record'+(x.records.length===1?"":"s")+' • '+direction+'</div></div></div><div class="metrics"><div class="metric"><small>Outstanding</small><strong>'+fmt(out)+'</strong></div><div class="metric"><small>Repaid</small><strong>'+fmt(x.paid)+'</strong></div></div><div class="progress"><span style="width:'+pct+'%"></span></div><div class="personFoot"><span>'+pct+'% repaid</span><div style="display:flex;align-items:center;gap:6px">'+status+'<button class="mini gold" onclick="event.stopPropagation();openModal(null,\''+esc(x.name).replace(/'/g,"\\'")+'\')">＋ Add Qarz</button></div></div></div>';
+   return '<div class="personCard" onclick="showPerson(\''+esc(x.name).replace(/'/g,"\\'")+'\')"><div class="personTop"><div class="bigAvatar">'+esc(x.name[0].toUpperCase())+'</div><div class="grow"><h3>'+esc(x.name)+'</h3><div class="muted">'+x.records.length+' record'+(x.records.length===1?"":"s")+' • '+direction+'</div></div></div><div class="netHero">'+personNetLabel(x)+'</div><div class="metrics"><div class="metric"><small>Receive</small><strong>'+fmt(x.recv)+'</strong></div><div class="metric"><small>Return</small><strong>'+fmt(x.owed)+'</strong></div></div><div class="progress"><span style="width:'+pct+'%"></span></div><div class="personFoot"><span>'+pct+'% repaid</span><div style="display:flex;align-items:center;gap:6px">'+status+'<button class="mini gold" onclick="event.stopPropagation();openModal(null,\''+esc(x.name).replace(/'/g,"\\'")+'\')">＋ Add Qarz</button></div></div></div>';
  }).join(""):'<div class="empty" style="grid-column:1/-1">No people found.</div>';
 }let currentPersonHistory="";
 function openPersonHistorySafe(index){
@@ -2788,7 +2814,7 @@ function openPersonHistorySafe(index){
  const title=document.getElementById("personHistoryTitle"),stats=document.getElementById("personHistoryStats"),body=document.getElementById("personHistoryBody"),modal=document.getElementById("personHistoryModal");
  if(!title||!stats||!body||!modal){console.error("History modal elements missing");return}
  title.textContent=person.name+" — Qarz History";
- stats.innerHTML='<div class="metric"><small>Total Qarz</small><strong>'+fmt(person.original)+'</strong></div><div class="metric"><small>Total Repaid</small><strong>'+fmt(person.paid)+'</strong></div><div class="metric"><small>Outstanding</small><strong>'+fmt(person.recv+person.owed)+'</strong></div>';
+ stats.innerHTML='<div class="metric"><small>Total Qarz</small><strong>'+fmt(person.original)+'</strong></div><div class="metric"><small>Total Repaid</small><strong>'+fmt(person.paid)+'</strong></div><div class="metric"><small>Outstanding</small><strong>'+fmt(person.recv+person.owed)+'</strong></div><div class="metric netMetric"><small>NET POSITION</small><strong>'+personNetPlain(person)+'</strong></div>';
  const records=person.records.slice().sort((a,b)=>(a.createdAt-b.createdAt)||(a.id||"").localeCompare(b.id||""));
  body.innerHTML=records.map(d=>{
    const no=String(personRecordNumber(d)).padStart(3,"0");
