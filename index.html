@@ -2611,6 +2611,10 @@ function personRecordNumber(d){
  const records=data.filter(x=>(x.person||"").trim().toLowerCase()===(d.person||"").trim().toLowerCase()).sort((a,b)=>(a.createdAt-b.createdAt)||(a.id||"").localeCompare(b.id||""));
  return Math.max(1,records.findIndex(x=>x.id===d.id)+1);
 }
+function openRecordFromButton(btn){const id=btn?.dataset?.recordId;if(id)openDetail(id)}
+function openRepayFromButton(btn){const id=btn?.dataset?.recordId;if(id)quickPayment(id)}
+function showPersonFromButton(btn){const name=btn?.dataset?.person||"";if(name)showPerson(name)}
+function addRecordForPersonFromButton(btn){const name=btn?.dataset?.person||"";if(name)openModal(null,name)}
 function personBalanceExplain(x){
  const n=personNet(x);
  if(n.direction==="settled")return '<div class="balanceExplain settled"><b>Current balance: settled</b><small>No amount remains.</small></div>';
@@ -2628,7 +2632,7 @@ function rows(ds,compact=false){
      seen[key]=true;
      body+='<tr class="personGroupRow"><td colspan="7"><div class="personGroup"><div><b>'+esc(px?.name||d.person)+'</b><span>'+visibleCounts[key]+' record'+(visibleCounts[key]===1?"":"s")+' shown</span></div><div class="personGroupNet">'+(px?personBalanceExplain(px):"")+'</div></div></td></tr>';
    }
-   body+='<tr><td><b>Record #'+String(personRecordNumber(d)).padStart(3,"0")+'</b><div class="muted">'+esc(d.purpose||"Other")+' • '+esc(d.date||"")+(d.due?' • Due '+esc(d.due):"")+'</div></td><td><span class="tag '+(d.direction==="recv"?"green":"pink")+'">'+(d.direction==="recv"?"Receive":"Return")+'</span></td><td>'+fmt(d.principal)+'</td><td>'+fmt(paid(d))+'</td><td><b>'+fmt(bal(d))+'</b></td><td>'+statusTag(d)+'</td><td><div class="actions"><button class="mini" onclick="openDetail(''+d.id+'')">View</button>'+(bal(d)?'<button class="mini soft" onclick="quickPayment(''+d.id+'')">＋ Repay</button>':"")+'</div></td></tr>';
+   body+='<tr><td><b>Record #'+String(personRecordNumber(d)).padStart(3,"0")+'</b><div class="muted">'+esc(d.purpose||"Other")+' • '+esc(d.date||"")+(d.due?' • Due '+esc(d.due):"")+'</div></td><td><span class="tag '+(d.direction==="recv"?"green":"pink")+'">'+(d.direction==="recv"?"Receive":"Return")+'</span></td><td>'+fmt(d.principal)+'</td><td>'+fmt(paid(d))+'</td><td><b>'+fmt(bal(d))+'</b></td><td>'+statusTag(d)+'</td><td><div class="actions"><button class="mini" data-record-id="'+esc(d.id)+'" onclick="openRecordFromButton(this)">View</button>'+(bal(d)?'<button class="mini soft" data-record-id="'+esc(d.id)+'" onclick="openRepayFromButton(this)">＋ Repay</button>':"")+'</div></td></tr>';
  });
  return '<table id="qa-person-grouped-records"><thead><tr><th>Record</th><th>Type</th><th>Amount</th><th>Paid</th><th>Remaining</th><th>Status</th><th></th></tr></thead><tbody>'+body+'</tbody></table>';
 }
@@ -2866,7 +2870,7 @@ function personNetPlain(x){
 }
 function renderPeopleSummary(){
  const arr=Object.values(peopleMap()).filter(x=>x.open).sort((a,b)=>(b.recv+b.owed)-(a.recv+a.owed)).slice(0,5),el=document.getElementById("peopleSummary");
- el.innerHTML=arr.length?'<div class="people">'+arr.map(x=>'<div class="person" onclick="showPerson(''+esc(x.name).replace(/'/g,"\'")+'')"><div class="pavatar">'+esc(x.name[0].toUpperCase())+'</div><div class="grow"><b>'+esc(x.name)+'</b><small>'+personNetPlain(x)+'</small><div class="muted">'+x.records.length+' Qarz record'+(x.records.length===1?"":"s")+'</div></div></div>').join("")+'</div>':'<div class="empty">No people yet.</div>';
+ el.innerHTML=arr.length?'<div class="people">'+arr.map(x=>'<div class="person" data-person="'+esc(x.name)+'" onclick="showPersonFromButton(this)"><div class="pavatar">'+esc(x.name[0].toUpperCase())+'</div><div class="grow"><b>'+esc(x.name)+'</b><small>'+personNetPlain(x)+'</small><div class="muted">'+x.records.length+' Qarz record'+(x.records.length===1?"":"s")+'</div></div></div>').join("")+'</div>':'<div class="empty">No people yet.</div>';
 }
 function renderPeoplePage(){
  const q=(document.getElementById("peopleSearch")?.value||"").toLowerCase().trim();
@@ -2876,7 +2880,7 @@ function renderPeoplePage(){
    const n=personNet(x);
    const status=x.open?'<span class="tag '+(x.overdue?"pink":"gold")+'">'+(x.overdue?x.overdue+" overdue":x.open+" open")+'</span>':'<span class="tag green">Settled</span>';
    const split=(x.recv&&x.owed)?'<div class="balanceSplit">'+fmt(x.recv)+' receive − '+fmt(x.owed)+' return</div>':'';
-   return '<div class="personCard" onclick="showPerson(''+esc(x.name).replace(/'/g,"\'")+'')"><div class="personTop"><div class="bigAvatar">'+esc(x.name[0].toUpperCase())+'</div><div class="grow"><h3>'+esc(x.name)+'</h3><div class="muted">'+x.records.length+' Qarz record'+(x.records.length===1?"":"s")+'</div></div></div><div class="balanceCard '+(n.direction==="recv"?"receive":n.direction==="owed"?"return":"settled")+'"><small>Current balance</small><strong>'+fmt(n.amount)+'</strong><span>'+ (n.direction==="recv"?"You will receive":n.direction==="owed"?"You will return":"Settled") +'</span></div>'+split+'<div class="personFoot"><span>Click to see all records</span><div style="display:flex;align-items:center;gap:6px">'+status+'<button class="mini gold" onclick="event.stopPropagation();openModal(null,''+esc(x.name).replace(/'/g,"\'")+'')">＋ Add Record</button></div></div></div>';
+   return '<div class="personCard" data-person="'+esc(x.name)+'" onclick="showPersonFromButton(this)"><div class="personTop"><div class="bigAvatar">'+esc(x.name[0].toUpperCase())+'</div><div class="grow"><h3>'+esc(x.name)+'</h3><div class="muted">'+x.records.length+' Qarz record'+(x.records.length===1?"":"s")+'</div></div></div><div class="balanceCard '+(n.direction==="recv"?"receive":n.direction==="owed"?"return":"settled")+'"><small>Current balance</small><strong>'+fmt(n.amount)+'</strong><span>'+(n.direction==="recv"?"You will receive":n.direction==="owed"?"You will return":"Settled")+'</span></div>'+split+'<div class="personFoot"><span>Click to see all records</span><div style="display:flex;align-items:center;gap:6px">'+status+'<button class="mini gold" data-person="'+esc(x.name)+'" onclick="event.stopPropagation();addRecordForPersonFromButton(this)">＋ Add Record</button></div></div></div>';
  }).join(""):'<div class="empty" style="grid-column:1/-1">No people found.</div>';
 }
 let currentPersonHistory="";
@@ -2895,7 +2899,7 @@ function openPersonHistorySafe(index){
  const records=person.records.slice().sort((a,b)=>(a.createdAt-b.createdAt)||(a.id||"").localeCompare(b.id||""));
  body.innerHTML=records.map(d=>{
    const no=String(personRecordNumber(d)).padStart(3,"0");
-   return '<div class="personHistoryRow"><div><div class="personHistoryTop"><b>Record #'+no+'</b><span class="tag '+(d.direction==="recv"?"green":"pink")+'">'+(d.direction==="recv"?"I will receive":"I will return")+'</span></div><div class="muted">'+esc(d.purpose||"Other")+' • '+esc(d.date||"")+(d.due?' • Expected '+esc(d.due):' • No fixed repayment date')+'</div><div class="personHistoryReason">'+esc(d.note||"—")+'</div></div><div class="personHistoryAmount"><b>'+fmt(d.principal)+'</b><small>Remaining '+fmt(bal(d))+'</small><button type="button" class="mini" onclick="openDetail(''+d.id+'')">View</button></div></div>';
+   return '<div class="personHistoryRow"><div><div class="personHistoryTop"><b>Record #'+no+'</b><span class="tag '+(d.direction==="recv"?"green":"pink")+'">'+(d.direction==="recv"?"I will receive":"I will return")+'</span></div><div class="muted">'+esc(d.purpose||"Other")+' • '+esc(d.date||"")+(d.due?' • Expected '+esc(d.due):' • No fixed repayment date')+'</div><div class="personHistoryReason">'+esc(d.note||"—")+'</div></div><div class="personHistoryAmount"><b>'+fmt(d.principal)+'</b><small>Remaining '+fmt(bal(d))+'</small><button type="button" class="mini" data-record-id="'+esc(d.id)+'" onclick="openRecordFromButton(this)">View</button></div></div>';
  }).join("");
  modal.classList.add("show");
  modal.style.display="flex";
