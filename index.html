@@ -1404,6 +1404,8 @@ button.amanahTodayItem{cursor:pointer}
 .netHero{margin:12px 0 2px}.netMini{margin-top:4px;color:#f2cc6c;font-size:9px;font-weight:800}
 .netRow{margin-top:5px}.netMetric strong{font-size:12px}
 @media(max-width:600px){.netHero{margin-top:10px}.netMetric strong{font-size:11px}}
+</style><style id="qa-net-dashboard-fix">
+.netNote{color:#8297b2;font-size:9px;margin-top:3px}
 </style></head>
 <body>
 <div class="bg"></div><div class="sky"></div><div class="mosque"></div><div class="moon"></div>
@@ -1500,7 +1502,7 @@ button.amanahTodayItem{cursor:pointer}
         <p>Keep track of your loans and return every amānah on time. Principal and repayments only — no interest, APR, late-interest or compounding.</p>
         <div class="heroQuote"><span>﷽</span><div><b>“Indeed, Allah commands you to return trusts to their rightful owners.”</b><small>Qur'an 4:58</small></div></div>
       </div>
-      <div class="heroTotal luxuryTotal"><small>Total Outstanding</small><strong id="hero">₹0</strong><span>Principal only</span></div>
+      <div class="heroTotal luxuryTotal"><small>Net Outstanding</small><strong id="hero">₹0</strong><span>After same-person offset</span></div>
     </div>
   </div>
 
@@ -2575,12 +2577,30 @@ function rows(ds,compact=false){
  }).join("")+
  '</tbody></table>';
 }
+function netQarzSummary(){
+ const map={};
+ data.forEach(d=>{
+   const key=(d.person||"").trim().toLowerCase();
+   if(!key)return;
+   const b=bal(d);
+   if(!map[key])map[key]={recv:0,owed:0,peopleName:(d.person||"").trim()};
+   if(d.direction==="recv")map[key].recv+=b; else map[key].owed+=b;
+ });
+ let receive=0,returnAmt=0,receivePeople=0,returnPeople=0,netOutstanding=0;
+ Object.values(map).forEach(x=>{
+   const net=x.recv-x.owed;
+   if(net>0){receive+=net;receivePeople++}
+   else if(net<0){returnAmt+=Math.abs(net);returnPeople++}
+   netOutstanding+=Math.abs(net);
+ });
+ return {map,receive,returnAmt,receivePeople,returnPeople,netOutstanding};
+}
 function renderAmanahToday(){
+ const s=netQarzSummary();
  const today=isoToday();
- let dueToday=0,overdueCount=0,outstanding=0,repaidToday=0;
+ let dueToday=0,overdueCount=0,repaidToday=0;
  data.forEach(d=>{
    const b=bal(d);
-   outstanding+=b;
    if(b&&d.due===today)dueToday++;
    if(b&&dueInfo(d).state==="overdue")overdueCount++;
    d.repayments.forEach(p=>{if(p.date===today)repaidToday+=Number(p.amount)||0});
@@ -2590,21 +2610,23 @@ function renderAmanahToday(){
        msg=document.getElementById("amanahTodayMessage");
  if(dc)dc.textContent=dueToday;
  if(oc)oc.textContent=overdueCount;
- if(os)os.textContent=fmt(outstanding);
+ if(os)os.textContent=fmt(s.netOutstanding);
  if(pt)pt.textContent=fmt(repaidToday);
  if(msg)msg.textContent=dueToday||overdueCount
    ? (dueToday+" due today"+(overdueCount?" · "+overdueCount+" overdue":""))
    : "No urgent Qarz today. Keep every Amanah clear and on time.";
 }
 function render(){
- let recv=0,owed=0,allPaid=0,open=0,recvPeople=0,owedPeople=0,overdue=0,overdueAmount=0,principalTotal=0;
- data.forEach(d=>{const b=bal(d),p=paid(d);allPaid+=p;principalTotal+=Number(d.principal)||0;if(b){open++;if(d.direction==="recv"){recv+=b;recvPeople++}else{owed+=b;owedPeople++}if(dueInfo(d).state==="overdue"){overdue++;overdueAmount+=b}}});
- document.getElementById("hero").textContent=fmt(recv+owed);
+ const net=netQarzSummary();
+ let recv=net.receive,owed=net.returnAmt,allPaid=0,open=0,recvPeople=net.receivePeople,owedPeople=net.returnPeople,overdue=0,overdueAmount=0,principalTotal=0;
+ data.forEach(d=>{const b=bal(d),p=paid(d);allPaid+=p;principalTotal+=Number(d.principal)||0;if(b){open++;if(dueInfo(d).state==="overdue"){overdue++;}}});
+ const totalNetOutstanding=net.netOutstanding;
+ document.getElementById("hero").textContent=fmt(totalNetOutstanding);
  document.getElementById("recv").textContent=fmt(recv);
  document.getElementById("owed").textContent=fmt(owed);
  document.getElementById("repaidTotal").textContent=fmt(allPaid);
  document.getElementById("overdueCount").textContent=overdue;
- document.getElementById("overdueAmount").textContent=fmt(overdueAmount)+" outstanding";
+ document.getElementById("overdueAmount").textContent=fmt(totalNetOutstanding)+" net outstanding";
  document.getElementById("totalRec").textContent=data.length;
  document.getElementById("active").textContent=open;
  document.getElementById("recvPeople").textContent=recvPeople+" people";
