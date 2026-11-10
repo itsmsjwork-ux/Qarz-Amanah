@@ -9,6 +9,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="application-name" content="Qarz Amanah">
 <link rel="icon" type="image/webp" href="assets/qarz-amanah-emblem.webp">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="./icons/qarz-amanah-icon.svg">
+<link rel="apple-touch-icon" href="./icons/qarz-amanah-icon.svg">
 <title>Qarz Amanah — Trust • Record • Return</title>
 <style>
 :root{--bg:#071326;--glass:rgba(13,31,55,.76);--glass2:rgba(20,46,78,.72);--line:rgba(206,226,255,.16);--text:#f4f7ff;--muted:#a9bad2;--blue:#617cff;--blue2:#7d5ce8;--green:#21d29a;--gold:#efbc58;--pink:#ff7891;--shadow:0 24px 70px rgba(0,0,0,.34)}
@@ -3131,5 +3134,47 @@ qaLanguageObserver.observe(document.body,{subtree:true,childList:true,characterD
 }
 .personHistoryBox{width:min(820px,100%)}.personHistoryStats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.personHistoryStats .metric{background:rgba(255,255,255,.045);border:1px solid var(--line)}.personHistoryList{display:grid;gap:9px}.personHistoryRow{display:grid;grid-template-columns:1fr auto;gap:14px;padding:13px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.035)}.personHistoryTop{display:flex;align-items:center;gap:8px}.personHistoryReason{margin-top:8px;color:#c4d1e1;font-size:11px;line-height:1.5}.personHistoryAmount{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:5px}.personHistoryAmount b{font-size:14px}.personHistoryAmount small{color:#8297b2;font-size:9px}@media(max-width:700px){.personHistoryStats{grid-template-columns:1fr 1fr}.personHistoryRow{grid-template-columns:1fr}.personHistoryAmount{text-align:left;align-items:flex-start}}
 </style>
+<script>
+/* Qarz Amanah PWA: install prompt and safe app-shell caching. */
+(function(){
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("./service-worker.js", {scope:"./"})
+        .catch(function(error){ console.warn("Qarz Amanah offline support unavailable:", error); });
+    });
+  }
+  var installPrompt = null;
+  function setupInstallButton(){
+    var host = document.querySelector(".topRight");
+    if (!host || document.getElementById("qaInstallApp")) return;
+    var button = document.createElement("button");
+    button.id = "qaInstallApp";
+    button.type = "button";
+    button.className = "btn gold";
+    button.textContent = "⬇ Install App";
+    button.style.display = "none";
+    button.style.whiteSpace = "nowrap";
+    button.addEventListener("click", async function(){
+      if (!installPrompt) return;
+      installPrompt.prompt();
+      try { await installPrompt.userChoice; } catch (_) {}
+      installPrompt = null;
+      button.style.display = "none";
+    });
+    host.insertBefore(button, host.firstChild);
+    window.addEventListener("beforeinstallprompt", function(event){
+      event.preventDefault();
+      installPrompt = event;
+      button.style.display = "inline-flex";
+    });
+    window.addEventListener("appinstalled", function(){
+      installPrompt = null;
+      button.style.display = "none";
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", setupInstallButton);
+  else setupInstallButton();
+})();
+</script>
 </body>
 </html>
