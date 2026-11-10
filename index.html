@@ -1486,59 +1486,7 @@ button.amanahTodayItem{cursor:pointer}
     </div>
   </div>
 
-  <section class="qa-prayerCard" id="prayerCard" aria-label="Prayer times and current time">
-    <div class="qa-timeTop">
-      <div class="qa-timeBrand">
-        <div class="qa-prayerKicker">🕌 DAILY IBADAH CENTER</div>
-        <div class="qa-prayerTitle">Prayer & Time</div>
-        <div class="qa-prayerMeta">
-          <span id="qaPrayerLocation">📍 Detecting your location…</span>
-          <span class="qa-dot">•</span>
-          <span id="qaClockDate">Today</span>
-        </div>
-      </div>
-      <div class="qa-dateStack">
-        <div class="qa-dateCard">
-          <small>HIJRI DATE</small>
-          <strong id="qaHijri">—</strong>
-        </div>
-        <div class="qa-dateCard qa-clockDateCard">
-          <small id="qaClockZone">LOCAL TIME</small>
-          <strong id="qaClock">--:--:--</strong>
-        </div>
-      </div>
-    </div>
-
-    <div class="qa-nextPrayer">
-      <div class="qa-nextMain">
-        <div class="qa-nextIcon">☾</div>
-        <div>
-          <small>NEXT PRAYER</small>
-          <strong id="qaNextName">Loading…</strong>
-          <span id="qaNextHint">Stay ready • Pray on time</span>
-        </div>
-      </div>
-      <div class="qa-nextRight">
-        <div class="qa-countdownLabel">IN</div>
-        <strong id="qaNextCountdown">--:--:--</strong>
-        <button type="button" class="mini qa-locationBtn" id="qaUseLocation" onclick="qaUseBrowserLocation();return false">📍 Use my location</button>
-      </div>
-    </div>
-
-    <div class="qa-prayerSectionHead">
-      <div><b>Today’s Schedule</b><span>Prayer windows for your selected location</span></div>
-      <div class="qa-live"><i></i> LIVE</div>
-    </div>
-    <div class="qa-prayerGrid" id="qaPrayerGrid">
-      <div class="qa-prayerLoading">Preparing today’s prayer schedule…</div>
-    </div>
-
-    <div class="qa-prayerFoot">
-      <span>University of Islamic Sciences, Karachi</span><span class="qa-footSep">•</span><span>Asr: Standard</span>
-      <span class="qa-footSep">•</span><span id="qaFridayNote"></span>
-    </div>
-    <div class="qa-prayerError" id="qaPrayerError" hidden></div>
-  </section>
+  
 
   <div class="stats primaryStats">
     <div class="stat"><div class="labelx">I Will Receive</div><strong id="recv">₹0</strong><small id="recvPeople">0 people</small></div>
@@ -3093,7 +3041,6 @@ const QA_PRAYERS=[["Fajr","Fajr","🌅"],["Sunrise","Sunrise","☀️"],["Dhuhr"
 
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeDetail();closePersonHistory()}});
 render();
-qaInitPrayer();
 setTimeout(()=>{if(session){checkReminders(false);renderReminderPage();}},1200);
 setInterval(()=>{if(session){checkReminders(false);renderReminderPage();}},60*60*1000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&session){checkReminders(false);renderReminderPage()}});
