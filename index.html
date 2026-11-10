@@ -517,8 +517,8 @@ body{background:#040d1c;color:var(--text);overflow-x:hidden}
 .primaryStats .stat:nth-child(4){background:linear-gradient(145deg,rgba(103,54,18,.72),rgba(52,25,10,.92));border-color:rgba(236,154,62,.32)}.primaryStats .stat:nth-child(4):before{content:"◷";background:linear-gradient(145deg,#f29b2f,#cb5b17);box-shadow:0 8px 20px rgba(238,142,36,.22)}
 .primaryStats .labelx{color:#d8e4f2;font-size:10px;text-transform:none}.primaryStats strong{font-size:23px;margin-top:7px}.primaryStats small{color:#90a6c0}
 .secondaryStats{display:flex;gap:10px;margin-top:10px}.secondaryStat{flex:1;display:flex;justify-content:space-between;align-items:center;padding:10px 13px;border-radius:13px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}.secondaryStat small{display:block;color:#8298b3;font-size:8px;letter-spacing:1px}.secondaryStat b{font-size:15px}.secondaryStat span{color:#7f94ad;font-size:9px}.overdueStat b{color:#ff9eaa}.recordsStat b{color:#8bb7ff}
-.dashboardMainGrid{grid-template-columns:1.38fr .62fr;gap:14px;margin-top:14px}.dashboardLowerGrid{gap:14px}.dashboardPanel{background:linear-gradient(145deg,rgba(6,19,35,.96),rgba(8,22,41,.86));border-color:rgba(243,193,94,.18);box-shadow:0 18px 45px rgba(0,0,0,.23)}
-.dashboardPanel .head{border-bottom-color:rgba(255,255,255,.08)}.dashboardPanel .head b{font-size:14px}.quickBolt{color:#f4c960;font-size:18px}.quick{grid-template-columns:1fr 1fr;gap:9px}.quickTile{display:flex!important;align-items:center;gap:8px;justify-content:flex-start;min-height:70px;text-align:left!important;padding:12px 13px!important;border-radius:15px!important;border-color:rgba(255,255,255,.10)!important}.quickTile>span{display:flex;flex-direction:column;gap:2px;flex:1}.quickTile small{margin:0!important;color:#99acc4!important;font-size:8px!important;font-weight:500}.quickGreen{background:linear-gradient(145deg,rgba(21,136,103,.28),rgba(6,58,49,.76))!important}.quickBlue{background:linear-gradient(145deg,rgba(26,92,174,.30),rgba(8,37,82,.78))!important}.quickPurple{background:linear-gradient(145deg,rgba(121,48,191,.32),rgba(49,19,90,.80))!important}.quickOrange{background:linear-gradient(145deg,rgba(171,83,25,.34),rgba(80,31,12,.82))!important}
+.dashboardMainGrid{grid-template-columns:1.38fr .62fr;gap:14px;margin-top:14px}.dashboardLowerGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.dashboardPanel{background:linear-gradient(145deg,rgba(6,19,35,.96),rgba(8,22,41,.86));border-color:rgba(243,193,94,.18);box-shadow:0 18px 45px rgba(0,0,0,.23)}
+.dashboardPanel .head{border-bottom-color:rgba(255,255,255,.08)}.dashboardPanel .head b{font-size:14px}.quickBolt{color:#f4c960;font-size:18px}.quick{grid-template-columns:1fr;gap:9px}.quickTile{display:flex!important;align-items:center;gap:8px;justify-content:flex-start;min-height:70px;text-align:left!important;padding:12px 13px!important;border-radius:15px!important;border-color:rgba(255,255,255,.10)!important}.quickTile>span{display:flex;flex-direction:column;gap:2px;flex:1}.quickTile small{margin:0!important;color:#99acc4!important;font-size:8px!important;font-weight:500}.quickGreen{background:linear-gradient(145deg,rgba(21,136,103,.28),rgba(6,58,49,.76))!important}.quickBlue{background:linear-gradient(145deg,rgba(26,92,174,.30),rgba(8,37,82,.78))!important}.quickPurple{background:linear-gradient(145deg,rgba(121,48,191,.32),rgba(49,19,90,.80))!important}.quickOrange{background:linear-gradient(145deg,rgba(171,83,25,.34),rgba(80,31,12,.82))!important}
 .trustStrip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}.trustStrip>div{padding:13px 14px;border-radius:15px;border:1px solid rgba(255,255,255,.08);background:rgba(5,18,33,.84)}.trustStrip>div:nth-child(1){border-color:rgba(31,212,158,.28)}.trustStrip>div:nth-child(2){border-color:rgba(64,136,255,.28)}.trustStrip>div:nth-child(3){border-color:rgba(159,84,255,.28)}.trustStrip>div:nth-child(4){border-color:rgba(242,147,53,.28)}.trustStrip b{font-size:11px;display:block;color:#eef4ff}.trustStrip small{display:block;margin-top:4px;color:#8096b0;font-size:8px;line-height:1.45}
 .card{box-shadow:0 18px 45px rgba(0,0,0,.22)}.tag{border:1px solid rgba(255,255,255,.10)}
 .dua{border-color:rgba(243,193,94,.18);background:linear-gradient(145deg,rgba(12,38,53,.84),rgba(18,29,54,.90))}
@@ -1361,33 +1361,6 @@ box-shadow:0 24px 65px rgba(0,0,0,.24),inset 0 0 55px rgba(243,193,94,.025);over
   .side{height:56px!important;min-height:56px!important;max-height:56px!important}
   .main{height:calc(100dvh - 56px)!important}
 }
-</style><style id="qa-amanah-today">
-.amanahToday{margin:16px 0 18px;padding:18px 19px;border:1px solid rgba(239,188,88,.18);border-radius:20px;background:
-radial-gradient(circle at 92% 18%,rgba(239,188,88,.08),transparent 24%),
-linear-gradient(145deg,rgba(11,30,52,.92),rgba(7,21,37,.92));
-box-shadow:0 18px 45px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.025)}
-.amanahTodayHead{display:flex;align-items:center;justify-content:space-between;gap:14px}
-.amanahTodayHead h3{margin:3px 0 2px;font:700 21px Georgia,serif}
-.amanahTodayHead small{color:#8fa4bc;font-size:10px}
-.amanahTodayGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:14px}
-.amanahTodayItem{display:flex;align-items:center;gap:10px;min-width:0;padding:11px 12px;border:1px solid rgba(255,255,255,.07);border-radius:15px;background:rgba(255,255,255,.025);color:#eef4ff;text-align:left}
-button.amanahTodayItem{cursor:pointer}
-.amanahTodayItem:hover{border-color:rgba(239,188,88,.26);transform:translateY(-1px)}
-.amanahIcon{width:31px;height:31px;flex:0 0 31px;border-radius:10px;display:grid;place-items:center;border:1px solid rgba(239,188,88,.16);background:rgba(239,188,88,.07);color:#f1c76c;font-weight:900}
-.amanahTodayItem b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.amanahTodayItem small{display:block;margin-top:2px;color:#8398b0;font-size:9px}
-.amanahOverdue .amanahIcon{color:#ff8da2;border-color:rgba(255,120,145,.2);background:rgba(255,120,145,.07)}
-@media(max-width:900px){
-  .amanahToday{padding:15px 14px}
-  .amanahTodayHead{align-items:flex-start}
-  .amanahTodayHead h3{font-size:18px}
-  .amanahTodayHead .btn{white-space:nowrap}
-  .amanahTodayGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:560px){
-  .amanahTodayHead{flex-direction:column}
-  .amanahTodayHead .btn{width:100%}
-}
 </style><style id="qa-history-button-fix">
 .personHistoryBox .modalBody{touch-action:auto!important}
 .actions .mini{position:relative;z-index:5;pointer-events:auto!important;cursor:pointer}
@@ -1500,32 +1473,7 @@ button.amanahTodayItem{cursor:pointer}
     <div class="secondaryStat recordsStat"><div><small>TOTAL RECORDS</small><b id="totalRec">0</b></div><span>Qarz records</span></div>
   </div>
 
-  <section class="card amanahToday" id="amanahToday" aria-label="Amanah Today">
-    <div class="amanahTodayHead">
-      <div>
-        <div class="kicker">AMĀNAH TODAY</div>
-        <h3>Today at a glance</h3>
-        <small id="amanahTodayMessage">Keep every Qarz clear and on time.</small>
-      </div>
-      <button type="button" class="btn ghost" onclick="page('reminders')">View reminders →</button>
-    </div>
-    <div class="amanahTodayGrid">
-      <button type="button" class="amanahTodayItem amanahDue" onclick="page('reminders')">
-        <span class="amanahIcon">◷</span><span><b id="amanahDueCount">0</b><small>Due today</small></span>
-      </button>
-      <button type="button" class="amanahTodayItem amanahOverdue" onclick="page('reminders')">
-        <span class="amanahIcon">!</span><span><b id="amanahOverdueCount">0</b><small>Overdue</small></span>
-      </button>
-      <div class="amanahTodayItem">
-        <span class="amanahIcon">₹</span><span><b id="amanahOutstanding">₹0</b><small>Outstanding</small></span>
-      </div>
-      <div class="amanahTodayItem">
-        <span class="amanahIcon">✓</span><span><b id="amanahPaidToday">₹0</b><small>Repaid today</small></span>
-      </div>
-    </div>
-  </section>
 
-  <div class="grid2 dashboardMainGrid">
     <div class="card dashboardPanel recentPanel">
       <div class="head"><div><b>Recent Records</b><small>Latest qarz activity</small></div><button class="btn ghost" onclick="page('records')">View All →</button></div>
       <div class="body" id="recent"></div>
@@ -1534,9 +1482,8 @@ button.amanahTodayItem{cursor:pointer}
       <div class="head"><div><b>Quick Actions</b><small>Manage your records easily</small></div><span class="quickBolt">⚡</span></div>
       <div class="body quick">
         <button class="btn quickTile quickGreen" onclick="openModal()">＋ <span><b>Add Record</b><small>New qarz entry</small></span> →</button>
-        <button class="btn quickTile quickBlue" onclick="page('people')">♟ <span><b>Add Person</b><small>Manage people</small></span> →</button>
+        <button class="btn quickTile quickBlue" onclick="page('people')">♟ <span><b>Manage People</b><small>View contacts and balances</small></span> →</button>
         <button class="btn quickTile quickPurple" onclick="page('reports')">▥ <span><b>View Reports</b><small>See detailed reports</small></span> →</button>
-        <button class="btn quickTile quickOrange" onclick="page('reminders')">🔔 <span><b>Reminders</b><small>Set reminders</small></span> →</button>
       </div>
     </div>
   </div>
@@ -1544,7 +1491,7 @@ button.amanahTodayItem{cursor:pointer}
   <div class="grid3 dashboardLowerGrid">
     <div class="card dashboardPanel"><div class="head"><div><b>Due Reminders</b><small>Upcoming and overdue returns</small></div><span class="noteGood" id="reminderCount">0 upcoming</span></div><div class="body" id="reminders"></div></div>
     <div class="card dashboardPanel"><div class="head"><div><b>People Summary</b><small>Your active contacts</small></div><button class="btn ghost" onclick="page('people')">View All →</button></div><div class="body" id="peopleSummary"></div></div>
-    <div class="card dashboardPanel"><div class="head"><div><b>Featured Duā</b><small>Daily reminder</small></div><button class="btn ghost" onclick="page('duas')">Library →</button></div><div class="body" id="featured"></div></div>
+    
   </div>
 
 </section>
@@ -2574,28 +2521,7 @@ function netQarzSummary(){
  });
  return {map,receive,returnAmt,receivePeople,returnPeople,netOutstanding};
 }
-function renderAmanahToday(){
- const s=netQarzSummary();
- const today=isoToday();
- let dueToday=0,overdueCount=0,repaidToday=0;
- data.forEach(d=>{
-   const b=bal(d);
-   if(b&&d.due===today)dueToday++;
-   if(b&&dueInfo(d).state==="overdue")overdueCount++;
-   d.repayments.forEach(p=>{if(p.date===today)repaidToday+=Number(p.amount)||0});
- });
- const dc=document.getElementById("amanahDueCount"),oc=document.getElementById("amanahOverdueCount"),
-       os=document.getElementById("amanahOutstanding"),pt=document.getElementById("amanahPaidToday"),
-       msg=document.getElementById("amanahTodayMessage");
- if(dc)dc.textContent=dueToday;
- if(oc)oc.textContent=overdueCount;
- if(os)os.textContent=fmt(s.netOutstanding);
- if(pt)pt.textContent=fmt(repaidToday);
- if(msg)msg.textContent=dueToday||overdueCount
-   ? (dueToday+" due today"+(overdueCount?" · "+overdueCount+" overdue":""))
-   : "No urgent Qarz today. Keep every Amanah clear and on time.";
-}
-function render(){
+
  const net=netQarzSummary();
  let recv=net.receive,owed=net.returnAmt,allPaid=0,open=0,recvPeople=net.receivePeople,owedPeople=net.returnPeople,overdue=0,overdueAmount=0,principalTotal=0;
  data.forEach(d=>{const b=bal(d),p=paid(d);allPaid+=p;principalTotal+=Number(d.principal)||0;if(b){open++;if(dueInfo(d).state==="overdue"){overdue++;}}});
@@ -2611,10 +2537,8 @@ function render(){
  document.getElementById("recvPeople").textContent=recvPeople+" people";
  document.getElementById("owedPeople").textContent=owedPeople+" people";
  document.getElementById("overdueSmall").textContent=overdue?overdue+" overdue":"To be settled";
- renderAmanahToday();
  const latestPeople=recentPeopleSummary();
  document.getElementById("recent").innerHTML=recentPeopleRows(latestPeople);
- document.getElementById("featured").innerHTML=duaHTML(D[0],0);
  document.getElementById("recordBody").innerHTML=rows(data.slice().sort((a,b)=>b.createdAt-a.createdAt));
  renderReminders();renderPeopleSummary();renderPeoplePage();renderReports();renderReminderPage();
  document.getElementById("duaBody").innerHTML=D.map((x,i)=>duaHTML(x,i)).join("");
@@ -2789,7 +2713,7 @@ function personNetPlain(x){
  return n.direction==="settled"?"Current balance: Settled":"Current balance: "+fmt(n.amount)+" "+(n.direction==="recv"?"Receive":"Return");
 }
 function renderPeopleSummary(){
- const arr=Object.values(peopleMap()).filter(x=>x.open).sort((a,b)=>(b.recv+b.owed)-(a.recv+a.owed)).slice(0,5),el=document.getElementById("peopleSummary");
+ const arr=Object.values(peopleMap()).filter(x=>x.open).sort((a,b)=>(b.recv+b.owed)-(a.recv+a.owed)).slice(0,3),el=document.getElementById("peopleSummary");
  el.innerHTML=arr.length?'<div class="people">'+arr.map(x=>'<div class="person" data-person="'+esc(x.name)+'" onclick="showPersonFromButton(this)"><div class="pavatar">'+esc(x.name[0].toUpperCase())+'</div><div class="grow"><b>'+esc(x.name)+'</b><small>'+personNetPlain(x)+'</small><div class="muted">'+x.records.length+' Qarz record'+(x.records.length===1?"":"s")+'</div></div></div>').join("")+'</div>':'<div class="empty">No people yet.</div>';
 }
 function renderPeoplePage(){
