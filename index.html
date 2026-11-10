@@ -2540,6 +2540,7 @@ function netQarzSummary(){
  return {map,receive,returnAmt,receivePeople,returnPeople,netOutstanding};
 }
 
+function render(){
  const net=netQarzSummary();
  let recv=net.receive,owed=net.returnAmt,allPaid=0,open=0,recvPeople=net.receivePeople,owedPeople=net.returnPeople,overdue=0,overdueAmount=0,principalTotal=0;
  data.forEach(d=>{const b=bal(d),p=paid(d);allPaid+=p;principalTotal+=Number(d.principal)||0;if(b){open++;if(dueInfo(d).state==="overdue"){overdue++;}}});
