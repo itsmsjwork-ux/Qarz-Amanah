@@ -2433,7 +2433,23 @@ async function handleSession(next){
 }
 setAuthMode("login");
 if(supabaseClient){
-  (async()=>{try{const {data}=await supabaseClient.auth.getSession();authBooted=true;await handleSession(data.session)}catch(e){console.error("Auth boot failed",e);authBooted=true;}})();
+  (async()=>{
+    try{
+      const {data}=await supabaseClient.auth.getSession();
+      // A user may complete login while the initial persisted-session lookup
+      // is still pending. Never let that older null result show the login
+      // screen again after a newer login has already established a session.
+      if(session||userHasSignedIn){
+        authBooted=true;
+        return;
+      }
+      authBooted=true;
+      await handleSession(data.session);
+    }catch(e){
+      console.error("Auth boot failed",e);
+      authBooted=true;
+    }
+  })();
   supabaseClient.auth.onAuthStateChange((event,next)=>{
     if(!authBooted && event==="INITIAL_SESSION")return;
     setTimeout(()=>handleSession(next),0);
