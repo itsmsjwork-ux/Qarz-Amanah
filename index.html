@@ -1664,6 +1664,8 @@ const SUPABASE_PUBLISHABLE_KEY="sb_publishable_CAciRzgWpbmGfkegaWgmSQ_njrEEYeo";
 const SITE_URL="https://itsmsjwork-ux.github.io/Qarz-Amanah/";
 const supabaseClient=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
 const KEY="qarz_amanah_public_v2";
+// Keep offline records isolated per authenticated account. Unsigned use gets a separate guest bucket.
+function storageKey(userId=session?.user?.id){return KEY+"_"+(userId||"guest");}
 const THEME_KEY="qarz_amanah_theme";
 
 const LANG_KEY="qarz_amanah_language";
@@ -1861,7 +1863,7 @@ function toggleTheme(){
   applyTheme(next);
 }
 applyTheme(localStorage.getItem(THEME_KEY)||"dark");
-let data=JSON.parse(localStorage.getItem(KEY)||"[]");
+let data=[]; // Never render a shared, cross-account local cache before authentication.
 let editId=null,currentDetailId=null;
 let session=null,authMode="login",cloudSyncing=false,lastLoadedUserId=null,authBooted=false,userHasSignedIn=false,loggingOut=false,currentUsername="",pendingPhone="",recoveryStep=1;
 const fmt=n=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:2}).format(Number(n)||0);const esc=s=>String(s??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[m]));
@@ -2145,7 +2147,7 @@ async function logout(){
  try{
    const {error}=await supabaseClient.auth.signOut();
    if(error)throw error;
-   session=null;lastLoadedUserId=null;currentUsername="";pendingPhone="";data=[];localStorage.removeItem(KEY);
+   session=null;lastLoadedUserId=null;currentUsername="";pendingPhone="";data=[];
 render();
    document.getElementById("accountEmail").textContent="Not signed in";
    document.getElementById("avatar").classList.remove("hasPhoto");document.getElementById("avatarText").textContent="QA";document.getElementById("avatarImg").removeAttribute("src");document.getElementById("welcomeName").textContent="";
@@ -2347,13 +2349,16 @@ async function loadCloud(user){
     supabaseClient.from("repayments").select("*").order("repayment_date",{ascending:false})
   ]);
   if(re)throw re;if(pe)throw pe;
+  // Ignore late responses if the active account changed while the request was in flight.
+  if(!session||session.user.id!==user.id)return;
   const cloud=cloudToLocal(records,repayments);
-  const local=JSON.parse(localStorage.getItem(KEY)||"[]").map(ensureRecord);
+  // Only read this account's private local cache; never offer another account's data for import.
+  const local=JSON.parse(localStorage.getItem(storageKey(user.id))||"[]").map(ensureRecord);
   if(!cloud.length&&local.length){
-    const ok=confirm("We found "+local.length+" Qarz record(s) saved on this device. Import them into your new account?");
+    const ok=confirm("We found "+local.length+" Qarz record(s) saved for this account on this device. Import them into this account?");
     if(ok){data=local;await syncAllToCloud(true);return}
   }
-  data=cloud;localStorage.setItem(KEY,JSON.stringify(data));lastLoadedUserId=user.id;render();
+  data=cloud;localStorage.setItem(storageKey(user.id),JSON.stringify(data));lastLoadedUserId=user.id;render();
 }
 async function syncAllToCloud(force=false){
   if(cloudSyncing)return;
@@ -2376,7 +2381,8 @@ async function syncAllToCloud(force=false){
     const {error:de}=await supabaseClient.from("repayments").delete().eq("user_id",uid);if(de)throw de;
     const payments=data.flatMap(d=>d.repayments.map(p=>({id:p.id||rid(),qarz_id:d.id,user_id:uid,amount:Number(p.amount),repayment_date:p.date||isoToday(),note:p.note||null})));
     if(payments.length){const {error}=await supabaseClient.from("repayments").insert(payments);if(error)throw error}
-    localStorage.setItem(KEY,JSON.stringify(data));lastLoadedUserId=uid;
+    if(session?.user?.id!==uid) return;
+    localStorage.setItem(storageKey(uid),JSON.stringify(data));lastLoadedUserId=uid;
   }catch(e){console.error("Qarz Amanah cloud sync failed",e);authMessage("Saved on this device, but cloud sync failed. Please try again.","error")}
   finally{cloudSyncing=false}
 }
@@ -2471,7 +2477,7 @@ function dueInfo(d){
  return {state:days<0?"overdue":days===0?"today":"upcoming",days};
 }
 async function save(){
-  localStorage.setItem(KEY,JSON.stringify(data));
+  localStorage.setItem(storageKey(),JSON.stringify(data));
   render();
   if(!session){
     const {data:authData}=await supabaseClient.auth.getSession();
@@ -2806,7 +2812,7 @@ async function submitQarz(){
  }else{
    data.push({id:rid(),createdAt:Date.now(),direction:document.getElementById("direction").value,person:personName,personPhone:document.getElementById("personPhone").value.trim(),principal:amount,date:document.getElementById("date").value||isoToday(),due:document.getElementById("due").value,purpose,note:reason,repayments:[]});
  }
- closeModal();render();localStorage.setItem(KEY,JSON.stringify(data));
+ closeModal();render();localStorage.setItem(storageKey(),JSON.stringify(data));
  await syncAllToCloud();
 }
 document.getElementById("form").addEventListener("submit",e=>e.preventDefault());
