@@ -2451,7 +2451,9 @@ if(supabaseClient){
     }
   })();
   supabaseClient.auth.onAuthStateChange((event,next)=>{
-    if(!authBooted && event==="INITIAL_SESSION")return;
+    // Ignore a late INITIAL_SESSION event if a newer manual login already
+    // established a session; it must not bring the login overlay back.
+    if(event==="INITIAL_SESSION" && (!authBooted || session || userHasSignedIn))return;
     setTimeout(()=>handleSession(next),0);
   });
 }else{
